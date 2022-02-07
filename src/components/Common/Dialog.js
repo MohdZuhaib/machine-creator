@@ -64,7 +64,7 @@ const CustomDailog = ({ open, handleClose }) => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      url: "",
+      url: [{ link: "" }],
       description: "",
       steps: [{ title: "", description: "" }],
     },
@@ -115,7 +115,7 @@ const CustomDailog = ({ open, handleClose }) => {
                 size="small"
                 variant="contained"
                 type="submit"
-                // disabled={activeStep === maxSteps - 1}
+              // disabled={activeStep === maxSteps - 1}
               >
                 {activeStep === maxSteps - 1 ? "ADD" : "NEXT"}
               </Button>
