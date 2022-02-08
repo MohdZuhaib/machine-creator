@@ -18,7 +18,7 @@ import { createMachine } from "../../utils/helper/createMachine";
 import { useFormik } from "formik";
 //import CircularProgress from "@mui/material/CircularProgress";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(() => ({
   dialog: {
     width: "20vw",
     borderRadius: 22,
@@ -38,15 +38,15 @@ const useStyles = makeStyles({
     color: "#ffff",
   },
   root: {
-    "MuiOutlinedInput-input": {
+    
       color: "#ffff",
-    },
+   
   },
   formMargin: {
     marginTop: "11px !important",
     marginBottom: "5px !important",
   },
-});
+}));
 
 const CustomDailog = ({ open, handleClose }) => {
   const classes = useStyles();
@@ -115,7 +115,7 @@ const CustomDailog = ({ open, handleClose }) => {
                 size="small"
                 variant="contained"
                 type="submit"
-              // disabled={activeStep === maxSteps - 1}
+                // disabled={activeStep === maxSteps - 1}
               >
                 {activeStep === maxSteps - 1 ? "ADD" : "NEXT"}
               </Button>

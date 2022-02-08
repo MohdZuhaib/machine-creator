@@ -9,14 +9,15 @@ import ApiConfig from "../../config/ApiConfig";
 import CircularProgress from "@mui/material/CircularProgress";
 import Axios from "axios";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
-    backgroundColor: "#0D0D20",
+    backgroundColor: theme.palette.secondary.main,
     minHeight: "100vh",
   },
-});
+}));
 
-const Homepage = () => {
+
+const Homepage = (theme) => {
   const [open, setOpen] = useState(false);
   const [machines, setMachines] = useState([]);
   const [isLoading, setisLoading] = useState(true);
@@ -41,6 +42,7 @@ const Homepage = () => {
   };
   useEffect(() => {
     getAllMachines();
+    console.log("Theme", theme);
   }, [open]);
 
   return (

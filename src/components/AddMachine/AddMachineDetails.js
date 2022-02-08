@@ -35,11 +35,13 @@ export const AddMachineDetails = ({ classes, formik }) => {
       size="small"
       fullWidth
       name="name"
+      sx={{color:'#ffff'}}
       className={classes.input}
       InputProps={{
         classes: {
           notchedOutline: classes.notchedOutline,
           root: classes.root,
+          
         },
       }}
       value={formik.values.name}
@@ -78,6 +80,7 @@ export const AddMachineDetails = ({ classes, formik }) => {
           size="small"
           fullWidth
           name="link"
+          sx={{color:'#ffff'}}
           onChange={(e) => fetchUrl(e, formik, index)}
           className={classes.input}
           InputProps={{
