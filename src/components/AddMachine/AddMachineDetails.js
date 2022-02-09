@@ -35,9 +35,8 @@ export const AddMachineDetails = ({ classes, formik }) => {
       size="small"
       fullWidth
       name="name"
-      sx={{color:'#ffff'}}
-      className={classes.input}
       InputProps={{
+        className: classes.input,
         classes: {
           notchedOutline: classes.notchedOutline,
           root: classes.root,

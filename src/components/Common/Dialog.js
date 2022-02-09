@@ -31,6 +31,7 @@ const useStyles = makeStyles(() => ({
   input: {
     marginTop: "5px",
     marginBottom: "15px",
+    color:'#ffff'
   },
   notchedOutline: {
     borderWidth: "1px",

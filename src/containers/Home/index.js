@@ -7,6 +7,7 @@ import FlashOnIcon from "@mui/icons-material/FlashOn";
 import "./index.css";
 import ApiConfig from "../../config/ApiConfig";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Link } from "react-router-dom";
 import Axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -15,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100vh",
   },
 }));
-
 
 const Homepage = (theme) => {
   const [open, setOpen] = useState(false);
@@ -63,7 +63,17 @@ const Homepage = (theme) => {
       >
         Add
       </Button>
-      s
+      <Link to="/profile">
+        {" "}
+        <Button
+          variant="contained"
+          style={{ marginBottom: "20px" }}
+          onClick={handleClickOpen}
+        >
+          PROFILE
+        </Button>
+      </Link>
+
       <Grid container spacing={4}>
         {isLoading ? (
           <CircularProgress

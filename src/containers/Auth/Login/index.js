@@ -1,6 +1,25 @@
 import { Typography, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
+import { Link } from "react-router-dom";
+import { makeStyles } from "@mui/styles";
+import axios from "axios";
+import ApiConfig from "../../../config/ApiConfig";
+import "./index.css";
 import * as yup from "yup";
+
+const useStyles = makeStyles(() => ({
+  formLabel: {
+    marginBottom: "5px",
+  },
+  formWrapper: {
+    marginTop: "10px",
+  },
+  notchedOutline: {
+    borderWidth: "1px",
+    borderColor: "rgba(25, 118, 210, 0.5) !important",
+    color: "#ffff",
+  },
+}));
 
 const validationSchema = yup.object({
   email: yup
@@ -13,7 +32,13 @@ const validationSchema = yup.object({
     .required("Password is required"),
 });
 
+const submitForm = (values) => {
+  const response = axios.put(ApiConfig.auth.login, { values });
+  console.log("API res", response);
+};
+
 const Login = () => {
+  const classes = useStyles();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -21,14 +46,17 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      submitForm(values);
       alert(JSON.stringify(values, null, 2));
     },
   });
   return (
     <div>
       <Typography variant="h3">Login</Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <Typography variant="h6">Email</Typography>
+      <form onSubmit={formik.handleSubmit} className={classes.formWrapper}>
+        <Typography variant="h6" className={classes.formLabel}>
+          Email
+        </Typography>
         <TextField
           fullWidth
           id="email"
@@ -40,7 +68,10 @@ const Login = () => {
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
         />
-        <Typography variant="h6">Password</Typography>
+        <Typography variant="h6" className={classes.formLabel}>
+          Password
+        </Typography>
+
         <TextField
           fullWidth
           id="password"
@@ -53,16 +84,22 @@ const Login = () => {
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
-        <Button
-          color="primary"
-          variant="contained"
-          fullWidth
-          type="submit"
-          sx={{ marginTop: "10px" }}
-        >
-          Submit
-        </Button>
+        <Link to="/dashboard">
+          {" "}
+          <Button
+            color="primary"
+            variant="contained"
+            fullWidth
+            type="submit"
+            sx={{ marginTop: "10px" }}
+          >
+            Submit
+          </Button>
+        </Link>
       </form>
+      <Typography varioant="h6" sx={{ marginTop: "10px", textAlign: "center" }}>
+        Don`t have an account? <Link to="/Signup">Signup</Link>{" "}
+      </Typography>
     </div>
   );
 };

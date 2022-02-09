@@ -14,12 +14,35 @@ const LoginLayout = () => (
           flexDirection="column"
           pl={10}
         >
-          <Typography display="block" variant="h3" >
+          <Typography
+            display="block"
+            variant="h3"
+            sx={{ letterSpacing: "0.15em" }}
+          >
             Welcome to{" "}
           </Typography>
-          <Typography component="h1" variant="h2" >
-            CyberStorm
-          </Typography>
+          <Box display="flex">
+            {" "}
+            <Typography
+              component="h1"
+              variant="h2"
+              sx={{ fontSize: "6rem", letterSpacing: "0.15em" }}
+            >
+              Cyber
+            </Typography>
+            <Typography
+              component="h1"
+              variant="h2"
+              sx={{
+                fontSize: "6rem",
+                letterSpacing: "0.15em",
+                marginLeft: "35px",
+                fontWeight: "200 !important",
+              }}
+            >
+              Storm
+            </Typography>
+          </Box>
         </Box>
         <Box className="auth-left-bottom" />
       </Grid>

@@ -2,6 +2,8 @@ import { Navigate, useRoutes } from "react-router-dom";
 import LoginLayout from "./common/Layout/Login";
 import Login from "./containers/Auth/Login";
 import Signup from "./containers/Auth/Signup";
+import DetailView from "./containers/DetailView";
+import Profile from "./containers/Profile";
 import Homepage from "./containers/Home";
 
 const Router = () => {
@@ -26,12 +28,17 @@ const Router = () => {
     },
     {
       path: "/dashboard",
-      element:  <Homepage /> 
+      element: <Homepage />,
     },
-    // {
-    //   path: "/dashboard",
-    //   element: isAuth ? <Homepage /> : <Navigate to="/auth/login" />,
-    // },
+    {
+      path: "/detail-view",
+      element: <DetailView />,
+    },
+    {
+      path: "/profile",
+      element: <Profile />,
+    },
+  
 
     { path: "*", element: <Navigate to="/404" replace /> },
   ]);
