@@ -1,4 +1,4 @@
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { Typography, Box, Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { makeStyles } from "@mui/styles";
@@ -24,74 +24,98 @@ const useStyles = makeStyles(() => ({
 
 const submitForm = async (values) => {
   console.log(values);
-  const response =await  axios.put(ApiConfig.auth.updateProfile,  values ,{
-    headers:{
-      "Authorization":`Bearer ${localStorage.getItem("token")}`
-   },
+  const response = await axios.put(ApiConfig.auth.updateProfile, values, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
   });
 
   console.log("API res-new token", response.data.data.token);
-  localStorage.setItem("token",response.data.data.token);
-
+  localStorage.setItem("token", response.data.data.token);
 };
 
 const validationSchema = yup.object({
   firstName: yup
     .string("Enter your First Name")
     .required("First Name is required"),
-  email: yup
-    .string("Enter your email")
-    .email("Enter a valid email")
-    .required("Email is required"),
-  password: yup
-    .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
+  lastName: yup
+    .string("Enter your Last Name")
+    .required("Last Name is required"),
 });
 const Profile = () => {
   const classes = useStyles();
+  const token = localStorage.getItem("token");
+  const temp = jwtDecode(token);
   const [isEdit, setEdit] = useState(false);
-  const [user,setUser]=useState("");
+  const [image, setImage] = useState("");
+  let user = "";
+  if (token) {
+    user = temp;
+  }
+  console.log("user", user);
+  const [formData, setformData] = useState({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    avatar: '',
+  });
+  console.log("image", image);
 
-  useEffect(()=>{
-
-    const token=localStorage.getItem("token");
-    if(token){
-     const temp=jwtDecode(token);
-      console.log("current user",user);
-      setUser(temp);
-    }
-
-
-  },[]);
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
+      firstName: user.firstName,
+      lastName: user.lastName,
+      avatar: image,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       submitForm(values);
     },
   });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.firstName == "" || formData.lastName == "") {
+      alert("enter all values");
+    } else submitForm(formData);
+  };
+  const handleChange = (e) => {
+    setformData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const edit = () => {
     setEdit(!isEdit);
   };
+  const uploadImage = (e) => {
+    if (e.target.files[0]) {
+      let img = e.target.files[0];
+      setformData({ ...formData, avatar: URL.createObjectURL(img) });
+    }
+  };
+
   return (
     <Box>
       <Typography vcariant="h2">My Profile</Typography>
       <Grid container>
         <Grid item md={6}>
-        <img src={`http://localhost:8000${user.avatar}`} alt="userimg" style={{height:"100px",width:"100px"}}></img>
+          {isEdit ? (
+            <input
+              id="contained-button-file"
+              multiple
+              type="file"
+              onChange={(e) => uploadImage(e)}
+              sx={{ backgroundColor: "pink" }}
+            />
+          ) : null}
+          <img
+            src={`http://localhost:8000${user.avatar}`}
+            alt="userimg"
+            style={{ height: "100px", width: "100px" }}
+          />
         </Grid>
         <Grid item>
           <Button variant="contained" onClick={edit}>
             EDIT
           </Button>
-          <form onSubmit={formik.handleSubmit} className={classes.formWrapper}>
+          <form onSubmit={handleSubmit} className={classes.formWrapper}>
             <Typography variant="h5" className={classes.formLabel}>
               First Name
             </Typography>
@@ -102,15 +126,17 @@ const Profile = () => {
                 name="firstName"
                 label="firstName"
                 className="form-input"
-                value={formik.values.firstName}
-                onChange={formik.handleChange}
+                value={formData.firstName}
+                onChange={handleChange}
                 error={
                   formik.touched.firstName && Boolean(formik.errors.firstName)
                 }
                 helperText={formik.touched.firstName && formik.errors.firstName}
               />
             ) : (
-              <Typography variant="body1">{user?user.firstName:"first name"}</Typography>
+              <Typography variant="body1">
+                {user ? user.firstName : "first name"}
+              </Typography>
             )}
             <Typography variant="h5" className={classes.formLabel}>
               Last Name
@@ -122,52 +148,13 @@ const Profile = () => {
                 name="lastName"
                 label="lastName"
                 className="form-input"
-                value={formik.values.lastName}
-                onChange={formik.handleChange}
+                value={formData.lastName}
+                onChange={handleChange}
               />
             ) : (
-              <Typography variant="body1">{user?user.lastName:"last name"}</Typography>
-            )}
-
-            <Typography variant="h5" className={classes.formLabel}>
-              Email
-            </Typography>
-            {isEdit ? (
-              <TextField
-                fullWidth
-                id="email"
-                name="email"
-                label="Email"
-                className="form-input"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-            ) : (
-              <Typography variant="body1">Email</Typography>
-            )}
-
-            <Typography variant="h5" className={classes.formLabel}>
-              Password
-            </Typography>
-            {isEdit ? (
-              <TextField
-                fullWidth
-                id="password"
-                name="password"
-                label="Password"
-                type="password"
-                className="form-input"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.password && Boolean(formik.errors.password)
-                }
-                helperText={formik.touched.password && formik.errors.password}
-              />
-            ) : (
-              <Typography variant="body1">password</Typography>
+              <Typography variant="body1">
+                {user ? user.lastName : "last name"}
+              </Typography>
             )}
 
             {isEdit ? (
