@@ -31,12 +31,12 @@ const useStyles = makeStyles(() => ({
   input: {
     marginTop: "5px",
     marginBottom: "15px",
-    color:'#ffff'
+    color:'#ffff!important'
   },
   notchedOutline: {
     borderWidth: "1px",
     borderColor: "rgba(25, 118, 210, 0.5) !important",
-    color: "#ffff",
+    color: "#ffff !important",
   },
   root: {
     

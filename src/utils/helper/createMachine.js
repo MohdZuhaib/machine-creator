@@ -2,7 +2,6 @@ import Axios from "axios";
 import ApiConfig from "../../config/ApiConfig";
 
 export const createMachine = async (values, handleClose, setActiveStep) => {
-  console.log("values fetched", values);
   try {
     const response = await Axios.post(ApiConfig.machines.createMachine, {
       machineName: values.name,
