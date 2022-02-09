@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { Typography, Box, Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { makeStyles } from "@mui/styles";
@@ -6,6 +6,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import ApiConfig from "../../config/ApiConfig";
+import jwtDecode from "jwt-decode";
 
 const useStyles = makeStyles(() => ({
   formLabel: {
@@ -21,9 +22,17 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const submitForm = (values) => {
-  const response = axios.put(ApiConfig.auth.updateProfile, { values });
-  console.log("API res", response);
+const submitForm = async (values) => {
+  console.log(values);
+  const response =await  axios.put(ApiConfig.auth.updateProfile,  values ,{
+    headers:{
+      "Authorization":`Bearer ${localStorage.getItem("token")}`
+   },
+  });
+
+  console.log("API res-new token", response.data.data.token);
+  localStorage.setItem("token",response.data.data.token);
+
 };
 
 const validationSchema = yup.object({
@@ -42,6 +51,19 @@ const validationSchema = yup.object({
 const Profile = () => {
   const classes = useStyles();
   const [isEdit, setEdit] = useState(false);
+  const [user,setUser]=useState("");
+
+  useEffect(()=>{
+
+    const token=localStorage.getItem("token");
+    if(token){
+     const temp=jwtDecode(token);
+      console.log("current user",user);
+      setUser(temp);
+    }
+
+
+  },[]);
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -63,7 +85,7 @@ const Profile = () => {
       <Typography vcariant="h2">My Profile</Typography>
       <Grid container>
         <Grid item md={6}>
-          <img src="img" alt="profile-pic" />
+        <img src={`http://localhost:8000${user.avatar}`} alt="userimg" style={{height:"100px",width:"100px"}}></img>
         </Grid>
         <Grid item>
           <Button variant="contained" onClick={edit}>
@@ -88,7 +110,7 @@ const Profile = () => {
                 helperText={formik.touched.firstName && formik.errors.firstName}
               />
             ) : (
-              <Typography variant="body1">First Name</Typography>
+              <Typography variant="body1">{user?user.firstName:"first name"}</Typography>
             )}
             <Typography variant="h5" className={classes.formLabel}>
               Last Name
@@ -104,7 +126,7 @@ const Profile = () => {
                 onChange={formik.handleChange}
               />
             ) : (
-              <Typography variant="body1">Last Name</Typography>
+              <Typography variant="body1">{user?user.lastName:"last name"}</Typography>
             )}
 
             <Typography variant="h5" className={classes.formLabel}>

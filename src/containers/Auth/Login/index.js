@@ -28,13 +28,14 @@ const validationSchema = yup.object({
     .required("Email is required"),
   password: yup
     .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
+    .min(3, "Password should be of minimum 8 characters length")
     .required("Password is required"),
 });
 
-const submitForm = (values) => {
-  const response = axios.put(ApiConfig.auth.login, { values });
-  console.log("API res", response);
+const submitForm = async  (values) => {
+  const response = await axios.post(ApiConfig.auth.login,  values );
+  console.log("API res", response.data.data.token);
+  localStorage.setItem("token",response.data.data.token)
 };
 
 const Login = () => {
@@ -84,7 +85,6 @@ const Login = () => {
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
-        <Link to="/dashboard">
           {" "}
           <Button
             color="primary"
@@ -95,7 +95,6 @@ const Login = () => {
           >
             Submit
           </Button>
-        </Link>
       </form>
       <Typography varioant="h6" sx={{ marginTop: "10px", textAlign: "center" }}>
         Don`t have an account? <Link to="/Signup">Signup</Link>{" "}
