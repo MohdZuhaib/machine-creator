@@ -1,8 +1,31 @@
 import { useState } from "react";
 import { Typography, TextField, Box, Button } from "@mui/material";
 
-export const AddMachineDetails = ({ classes, formik }) => (
-  <>
+
+const fetchUrl = (e, formik, index) => {
+
+  (formik.values.url[index] = {
+    ...formik.values.url[index],
+    [e.target.name]: e.target.value,
+  });
+
+}
+
+const fetchSteps = (e, formik, index) =>
+(formik.values.steps[index] = {
+  ...formik.values.steps[index],
+  [e.target.name]: e.target.value,
+});
+
+
+export const AddMachineDetails = ({ classes, formik }) => {
+  const [links, setLinks] = useState([]);
+
+  const deleteLinks = () => {
+    links.pop();
+    setLinks([...links]);
+  };
+  return <>
     <Typography variant="h5" className={classes.formMargin}>
       {" "}
       Name
@@ -12,11 +35,12 @@ export const AddMachineDetails = ({ classes, formik }) => (
       size="small"
       fullWidth
       name="name"
-      className={classes.input}
       InputProps={{
+        className: classes.input,
         classes: {
           notchedOutline: classes.notchedOutline,
           root: classes.root,
+          
         },
       }}
       value={formik.values.name}
@@ -24,7 +48,7 @@ export const AddMachineDetails = ({ classes, formik }) => (
       error={formik.touched.name && Boolean(formik.errors.name)}
       helperText={formik.touched.name && formik.errors.name}
     />
-    <Typography variant="h5" className={classes.formMargin}>
+    {/* <Typography variant="h5" className={classes.formMargin}>
       {" "}
       URL
     </Typography>
@@ -33,17 +57,52 @@ export const AddMachineDetails = ({ classes, formik }) => (
       size="small"
       fullWidth
       name="url"
+      onChange={(e) => fetchStepsField(e, formik, index)}
       className={classes.input}
       InputProps={{
         classes: {
           notchedOutline: classes.notchedOutline,
         },
       }}
-      value={formik.values.url}
-      onChange={formik.handleChange}
+      value={fetchMultiFields}
       error={formik.touched.url && Boolean(formik.errors.url)}
       helperText={formik.touched.url && formik.errors.url}
-    />
+    /> */}
+    {links.map((link, index) => (
+      <Box key={index} py={2}>
+        <Typography variant="h5">{index}</Typography>
+        <Typography variant="h5" className={classes.formMargin}>
+          URL{link}
+        </Typography>
+        <TextField
+          variant="outlined"
+          size="small"
+          fullWidth
+          name="link"
+          sx={{color:'#ffff'}}
+          onChange={(e) => fetchUrl(e, formik, index)}
+          className={classes.input}
+          InputProps={{
+            classes: {
+              notchedOutline: classes.notchedOutline,
+            },
+          }}
+          error={formik.touched.url && Boolean(formik.errors.url)}
+          helperText={formik.touched.url && formik.errors.url}
+        />
+
+        {index > 0 && index === links.length - 1 ? (
+          <Button onClick={deleteLinks}>remove</Button>
+        ) : null}
+      </Box>
+    ))}
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={() => setLinks([...links, `Link ${links.length + 1}`])}
+    >
+      ADD
+    </Button>
     <Typography variant="h5" className={classes.formMargin}>
       {" "}
       Description
@@ -66,13 +125,9 @@ export const AddMachineDetails = ({ classes, formik }) => (
       helperText={formik.touched.description && formik.errors.description}
     />
   </>
-);
+}
 
-const fetchStepsField = (e, formik, index) =>
-  (formik.values.steps[index] = {
-    ...formik.values.steps[index],
-    [e.target.name]: e.target.value,
-  });
+
 
 export const AddMachineSteps = ({ classes, formik }) => {
   const [steps, setSteps] = useState([]);
@@ -100,7 +155,7 @@ export const AddMachineSteps = ({ classes, formik }) => {
               },
             }}
             name="title"
-            onChange={(e) => fetchStepsField(e, formik, index)}
+            onChange={(e) => fetchSteps(e, formik, index)}
           />
           <Typography sx={{ marginTop: "10px", marginBottom: "5px" }}>
             Desc
@@ -117,7 +172,7 @@ export const AddMachineSteps = ({ classes, formik }) => {
               },
             }}
             name="description"
-            onChange={(e) => fetchStepsField(e, formik, index)}
+            onChange={(e) => fetchSteps(e, formik, index)}
           />
           {index > 0 && index === steps.length - 1 ? (
             <Button onClick={deleteStep}>remove</Button>

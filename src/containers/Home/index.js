@@ -7,16 +7,17 @@ import FlashOnIcon from "@mui/icons-material/FlashOn";
 import "./index.css";
 import ApiConfig from "../../config/ApiConfig";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Link } from "react-router-dom";
 import Axios from "axios";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
-    backgroundColor: "#0D0D20",
+    backgroundColor: theme.palette.secondary.main,
     minHeight: "100vh",
   },
-});
+}));
 
-const Homepage = () => {
+const Homepage = (theme) => {
   const [open, setOpen] = useState(false);
   const [machines, setMachines] = useState([]);
   const [isLoading, setisLoading] = useState(true);
@@ -41,6 +42,7 @@ const Homepage = () => {
   };
   useEffect(() => {
     getAllMachines();
+    console.log("Theme", theme);
   }, [open]);
 
   return (
@@ -61,7 +63,17 @@ const Homepage = () => {
       >
         Add
       </Button>
-      s
+      <Link to="/profile">
+        {" "}
+        <Button
+          variant="contained"
+          style={{ marginBottom: "20px" }}
+          onClick={handleClickOpen}
+        >
+          PROFILE
+        </Button>
+      </Link>
+
       <Grid container spacing={4}>
         {isLoading ? (
           <CircularProgress

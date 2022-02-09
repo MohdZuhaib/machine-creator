@@ -1,16 +1,16 @@
-import Homepage from "./containers/Home";
-import DetailView from "./containers/Detail-view";
-import { Routes, Route } from "react-router-dom";
+import Router from "./routes";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 function App() {
   const theme = createTheme({
-    components: {
-      MuiOutlinedInput: {
-        styleOverrides: {
-          root: { color: "#ffff" },
-        },
+    palette: {
+      secondary: {
+        main: "#0D0D20",
+        light: "#171727",
+        contrastText: "#ffff",
       },
+    },
+    components: {
       MuiFormHelperText: {
         styleOverrides: {
           root: {
@@ -39,20 +39,11 @@ function App() {
         },
       },
     },
-
-    palette: {
-      secondary: {
-        main: "#0D0D20",
-      },
-    },
   });
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/detail-view" element={<DetailView />} />
-        </Routes>
+        <Router />
       </div>
     </ThemeProvider>
   );
