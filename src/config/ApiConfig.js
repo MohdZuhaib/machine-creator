@@ -4,7 +4,7 @@ const ApiConfig = {
   auth:{
     login:`${url}/auth/login`,
     signup:`${url}/auth/signup`,
-    updateProfile:`${url}/auth/updateProfile`,
+    updateProfile:`${url}/user/updateUser`,
   },
   machines: {
     getAllMachines:`${url}/machine/getAllMachines`,
