@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -54,7 +54,12 @@ const DetailView = (props) => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+   
 
+    useEffect(() => {
+      console.log("urls", url);
+     
+    }, []);
   return (
     <Box className={classes.container}>
       <Box p={2} pl={3}>
@@ -122,12 +127,14 @@ const DetailView = (props) => {
             />
           </Grid>
           <Grid item xs={12} md={8} className={classes.lab}>
-            <iframe
-              src={url}
-              title="Virtual lab"
-              width="100%"
-              height="100%"
-            ></iframe>
+            {url.map((obj) => (
+              <iframe
+                src={obj.link}
+                title="Virtual lab"
+                width="100%"
+                height="100%"
+              ></iframe>
+            ))}
           </Grid>
         </Grid>
       </Box>

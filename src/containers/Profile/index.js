@@ -22,17 +22,24 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const submitForm = async (values) => {
-  console.log(values);
-  const response = await axios.put(ApiConfig.auth.updateProfile, values, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
+// fetch(ApiConfig.auth.updateProfile, {
+//   method: "PUT",
+//   headers: {
+//     Accept: "*/*",
+//     Authorization: `Bearer ${localStorage.getItem("token")}`,
+//   },
 
-  console.log("API res-new token", response.data.data.token);
-  localStorage.setItem("token", response.data.data.token);
-};
+// body: values,
+//   body: {
+//     avatar:values.avatar,
+//     firstName:values.firstName,
+//     lastName:values.lastName,
+//   },
+// }).then((response) => console.log("Image uploaded too", response));
+
+// console.log("API res-new token", response.data.data.token);
+// localStorage.setItem("token", response.data.data.token);
+// };
 
 const validationSchema = yup.object({
   firstName: yup
@@ -56,7 +63,7 @@ const Profile = () => {
   const [formData, setformData] = useState({
     firstName: user.firstName,
     lastName: user.lastName,
-    avatar: '',
+    avatar: "",
   });
   console.log("image", image);
 
@@ -64,19 +71,67 @@ const Profile = () => {
     initialValues: {
       firstName: user.firstName,
       lastName: user.lastName,
-      avatar: image,
+      avatar: image.data,
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      submitForm(values);
-    },
+    // onSubmit: (values) => {
+    //   submitForm(values);
+    // },
   });
-  const handleSubmit = (e) => {
+
+  const submitForm = async (values) => {
+    console.log(values);
+    const token = localStorage.getItem("token");
+    const response = await axios.put(ApiConfig.auth.updateProfile, values, {
+      headers: {
+        Accept: "*/*",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("New response", response);
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("form data", formData);
     if (formData.firstName == "" || formData.lastName == "") {
       alert("enter all values");
-    } else submitForm(formData);
+    } else {
+      console.log("formData avatar", formData.avatar);
+      // formData.append("myFile", formData.avatar, formData.avatar.name);
+      const response = await axios.put(
+        ApiConfig.auth.updateProfile,
+        {
+          firstName: formData.firstName,
+          avatar: formData.avatar.name,
+          file:formData.avatar
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("APi response", response);
+
+      // axios.post('my-domain.com/file-upload', formData)
+    }
+
+    // submitForm(formData);
   };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (formData.firstName == "" || formData.lastName == "") {
+  //     alert("enter all values");
+  //   } else {
+  //     // var data = new FormData();
+  //     // data.append("avatar", formData.avatar);
+  //     // data.append("firstName", formData.firstName);
+  //     // data.append("lastName", formData.lastName);
+  //     // console.log("new form data", data);
+  //     submitForm(formData);
+  //   }
+  // };
   const handleChange = (e) => {
     setformData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -85,10 +140,10 @@ const Profile = () => {
     setEdit(!isEdit);
   };
   const uploadImage = (e) => {
-    if (e.target.files[0]) {
-      let img = e.target.files[0];
-      setformData({ ...formData, avatar: URL.createObjectURL(img) });
-    }
+    const img = e.target.files[0];
+
+    console.log("image file", img);
+    setformData({ ...formData, avatar: img });
   };
 
   return (
@@ -99,10 +154,9 @@ const Profile = () => {
           {isEdit ? (
             <input
               id="contained-button-file"
-              multiple
               type="file"
-              onChange={(e) => uploadImage(e)}
-              sx={{ backgroundColor: "pink" }}
+              name="file"
+              onChange={uploadImage}
             />
           ) : null}
           <img

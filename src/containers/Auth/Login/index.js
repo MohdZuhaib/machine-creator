@@ -1,6 +1,6 @@
 import { Typography, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
 import ApiConfig from "../../../config/ApiConfig";
@@ -32,13 +32,19 @@ const validationSchema = yup.object({
     .required("Password is required"),
 });
 
-const submitForm = async  (values) => {
-  const response = await axios.post(ApiConfig.auth.login,  values );
-  console.log("API res", response.data.data.token);
-  localStorage.setItem("token",response.data.data.token)
+const submitForm = async (values, navigate) => {
+  try {
+    const response = await axios.post(ApiConfig.auth.login, values);
+    console.log("API res", response.data.data.token);
+    navigate("/dashboard");
+    localStorage.setItem("token", response.data.data.token);
+  } catch (err) {
+    console.log("error", err);
+  }
 };
 
 const Login = () => {
+  const naviate = useNavigate();
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
@@ -47,10 +53,11 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      submitForm(values);
+      submitForm(values, naviate);
       alert(JSON.stringify(values, null, 2));
     },
   });
+
   return (
     <div>
       <Typography variant="h3">Login</Typography>
@@ -72,7 +79,6 @@ const Login = () => {
         <Typography variant="h6" className={classes.formLabel}>
           Password
         </Typography>
-
         <TextField
           fullWidth
           id="password"
@@ -84,17 +90,16 @@ const Login = () => {
           onChange={formik.handleChange}
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
-        />
-          {" "}
-          <Button
-            color="primary"
-            variant="contained"
-            fullWidth
-            type="submit"
-            sx={{ marginTop: "10px" }}
-          >
-            Submit
-          </Button>
+        />{" "}
+        <Button
+          color="primary"
+          variant="contained"
+          fullWidth
+          type="submit"
+          sx={{ marginTop: "10px" }}
+        >
+          Submit
+        </Button>
       </form>
       <Typography varioant="h6" sx={{ marginTop: "10px", textAlign: "center" }}>
         Don`t have an account? <Link to="/Signup">Signup</Link>{" "}

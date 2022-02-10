@@ -42,7 +42,7 @@ const Homepage = (theme) => {
   };
   useEffect(() => {
     getAllMachines();
-    console.log("Theme", theme);
+   
   }, [open]);
 
   return (
