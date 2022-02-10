@@ -36,8 +36,9 @@ const submitForm = async (values, navigate) => {
   try {
     const response = await axios.post(ApiConfig.auth.login, values);
     console.log("API res", response.data.data.token);
-    navigate("/dashboard");
     localStorage.setItem("token", response.data.data.token);
+    navigate("/dashboard");
+    
   } catch (err) {
     console.log("error", err);
   }

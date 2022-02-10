@@ -36,11 +36,13 @@ const validationSchema = yup.object({
 });
 
 const submitForm = (values) => {
-  const response = axios.put(ApiConfig.auth.signup, { values });
+  console.log("API res kdjnvjxdxk");
+  const response = axios.post(ApiConfig.auth.signup, { values });
   console.log("API res", response);
 };
 
 const SignUp = () => {
+  console.log("my dsga")
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
@@ -58,7 +60,7 @@ const SignUp = () => {
   return (
     <div>
       <Typography variant="h3">Sign Up</Typography>
-      <form onSubmit={formik.handleSubmit} className={classes.formWrapper}>
+      <form onSubmit={formik.onSubmit} className={classes.formWrapper}>
         <Typography variant="h6" className={classes.formLabel}>
           First Name
         </Typography>
@@ -123,6 +125,7 @@ const SignUp = () => {
             fullWidth
             type="submit"
             sx={{ marginTop: "10px" }}
+            onClick={(e)=>submitForm(formik.values)}
           >
             Submit
           </Button>

@@ -93,21 +93,24 @@ const Profile = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("form data", formData);
+    const token = localStorage.getItem("token")
+    console.log("form data", formData,token);
     if (formData.firstName == "" || formData.lastName == "") {
       alert("enter all values");
     } else {
       console.log("formData avatar", formData.avatar);
       // formData.append("myFile", formData.avatar, formData.avatar.name);
+      var data=new FormData();
+      data.append('avatar',formData.avatar);
+      data.append('firstName',formData.firstName);
+      data.append('lastName',formData.lastName);
+  
       const response = await axios.put(
         ApiConfig.auth.updateProfile,
-        {
-          firstName: formData.firstName,
-          avatar: formData.avatar.name,
-          file:formData.avatar
-        },
+data,
         {
           headers: {
+            Accept: '*/*',
             Authorization: `Bearer ${token}`,
           },
         }
@@ -155,8 +158,9 @@ const Profile = () => {
             <input
               id="contained-button-file"
               type="file"
-              name="file"
+              // name="file"
               onChange={uploadImage}
+              // onChange={(e)=>this.changeHandle('image',e.target.files[0])}
             />
           ) : null}
           <img
@@ -218,6 +222,7 @@ const Profile = () => {
                 fullWidth
                 type="submit"
                 sx={{ marginTop: "10px" }}
+                onClick={handleSubmit}
               >
                 Submit
               </Button>

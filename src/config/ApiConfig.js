@@ -3,7 +3,7 @@ const url = "http://localhost:8000";
 const ApiConfig = {
   auth:{
     login:`${url}/auth/login`,
-    signup:`${url}/auth/signup`,
+    signup:`${url}/auth/register`,
     updateProfile:`${url}/user/updateUser`,
   },
   machines: {
