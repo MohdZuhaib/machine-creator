@@ -98,22 +98,19 @@ const Profile = () => {
       alert("enter all values");
     } else {
       console.log("formData avatar", formData.avatar);
-      // formData.append("myFile", formData.avatar, formData.avatar.name);
-      const response = await axios.put(
-        ApiConfig.auth.updateProfile,
-        {
-          firstName: formData.firstName,
-          avatar: formData.avatar.name,
-          file:formData.avatar
+      var data = new FormData();
+      data.append("avatar", formData.avatar);
+      data.append("firstName", formData.firstName);
+      data.append("lastName", formData.lastName);
+      console.log("new form data", data);
+      const response = await axios.put(ApiConfig.auth.updateProfile, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("APi response", response);
-
+      });
+      console.log("Update user response", response);
+      const updatedToken = response.data.data.token;
+      localStorage.setItem("token", updatedToken);
       // axios.post('my-domain.com/file-upload', formData)
     }
 

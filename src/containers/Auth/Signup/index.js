@@ -31,13 +31,13 @@ const validationSchema = yup.object({
     .required("Email is required"),
   password: yup
     .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
     .required("Password is required"),
 });
 
 const submitForm = (values) => {
-  const response = axios.put(ApiConfig.auth.signup, { values });
+  const response = axios.post(ApiConfig.auth.signup, { values });
   console.log("API res", response);
+
 };
 
 const SignUp = () => {
@@ -52,7 +52,6 @@ const SignUp = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       submitForm(values);
-      alert(JSON.stringify(values, null, 2));
     },
   });
   return (
@@ -102,7 +101,6 @@ const SignUp = () => {
         <Typography variant="h6" className={classes.formLabel}>
           Password
         </Typography>
-
         <TextField
           fullWidth
           id="password"
@@ -114,19 +112,16 @@ const SignUp = () => {
           onChange={formik.handleChange}
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
-        />
-        <Link to="/dashboard">
-          {" "}
-          <Button
-            color="primary"
-            variant="contained"
-            fullWidth
-            type="submit"
-            sx={{ marginTop: "10px" }}
-          >
-            Submit
-          </Button>
-        </Link>
+        />{" "}
+        <Button
+          color="primary"
+          variant="contained"
+          fullWidth
+          type="submit"
+          sx={{ marginTop: "10px" }}
+        >
+          Submit
+        </Button>
       </form>
       <Typography varioant="h6" sx={{ marginTop: "10px", textAlign: "center" }}>
         Already have an account? <Link to="/">Sign In</Link>{" "}
