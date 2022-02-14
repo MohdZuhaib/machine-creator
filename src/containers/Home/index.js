@@ -46,7 +46,7 @@ const Homepage = (theme) => {
   }, [open]);
 
   return (
-    <Box p={3} className={classes.container}>
+    <Box p={8} className={classes.container}>
       <Box textAlign="center" mb={4}>
         {" "}
         <Typography variant="h3" sx={{ color: "#ffff" }}>

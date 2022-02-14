@@ -114,6 +114,7 @@ data,
             Accept: '*/*',
             Authorization: `Bearer ${token}`,
           },
+
         }
       );
       console.log("APi response", response);
@@ -161,7 +162,7 @@ data,
             <input
               id="contained-button-file"
               type="file"
-              // name="file"
+              name="file"
               onChange={uploadImage}
               // onChange={(e)=>this.changeHandle('image',e.target.files[0])}
             />

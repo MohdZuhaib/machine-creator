@@ -54,8 +54,7 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      submitForm(values, naviate);
-      alert(JSON.stringify(values, null, 2));
+      submitForm(values, naviate);     
     },
   });
 
