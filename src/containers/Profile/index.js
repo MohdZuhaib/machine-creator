@@ -50,6 +50,7 @@ const validationSchema = yup.object({
     .required("Last Name is required"),
 });
 const Profile = () => {
+  const[profile,setProfile]=useState(false);
   const classes = useStyles();
   const token = localStorage.getItem("token");
   const temp = jwtDecode(token);
@@ -116,6 +117,8 @@ data,
         }
       );
       console.log("APi response", response);
+      localStorage.setItem("token",response.data.data.token);
+      setProfile(!profile);
 
       // axios.post('my-domain.com/file-upload', formData)
     }
