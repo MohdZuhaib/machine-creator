@@ -41,6 +41,7 @@ const submitForm = (values) => {
 };
 
 const SignUp = () => {
+  console.log("my dsga")
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
@@ -57,7 +58,7 @@ const SignUp = () => {
   return (
     <div>
       <Typography variant="h3">Sign Up</Typography>
-      <form onSubmit={formik.handleSubmit} className={classes.formWrapper}>
+      <form onSubmit={formik.onSubmit} className={classes.formWrapper}>
         <Typography variant="h6" className={classes.formLabel}>
           First Name
         </Typography>
