@@ -50,16 +50,21 @@ const validationSchema = yup.object({
     .string("Enter your Last Name")
     .required("Last Name is required"),
 });
+
 const Profile = () => {
   const classes = useStyles();
-  const token = localStorage.getItem("token");
-  const temp = jwtDecode(token);
+  const tempToken = localStorage.getItem("token");
+  // const temp = jwtDecode(tempToken);
+  const [token, setToken] = useState(tempToken);
+
   const [isEdit, setEdit] = useState(false);
   const [image, setImage] = useState("");
+
   let user = "";
   if (token) {
-    user = temp;
+    user = jwtDecode(token);
   }
+
   console.log("user", user);
   const [formData, setformData] = useState({
     firstName: user.firstName,
@@ -92,6 +97,9 @@ const Profile = () => {
 
   //   console.log("New response", response);
   // };
+  useEffect(() => {
+    // Update the document title using the browser API
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("form data", formData);
@@ -109,9 +117,11 @@ const Profile = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Update user response", response);
+      console.log("Update user response", response.data.data.token);
       const updatedToken = response.data.data.token;
       localStorage.setItem("token", updatedToken);
+      setToken(updatedToken);
+
       // axios.post('my-domain.com/file-upload', formData)
     }
 
@@ -150,7 +160,7 @@ const Profile = () => {
         <Grid item md={4}>
           <Typography
             variant="h4"
-            color='white'
+            color="white"
             sx={{ marginTop: "15px", marginLeft: "20px" }}
           >
             My Profile
