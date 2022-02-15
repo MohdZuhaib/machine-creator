@@ -22,9 +22,9 @@ const Homepage = (theme) => {
   const [open, setOpen] = useState(false);
   const [machines, setMachines] = useState([]);
   const [isLoading, setisLoading] = useState(true);
-  const localToken = localStorage.getItem("token");
-  const token = jwtDecode(localToken);
-  console.log("Token", token);
+  // const localToken = localStorage.getItem("token");
+  // const token = jwtDecode(localToken);
+  // console.log("Token", token);
   const classes = useStyles();
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,7 +69,7 @@ const Homepage = (theme) => {
         to={{
           pathname: "/profile",
         }}
-        state={{ token: token }}
+        // state={{ token: token }}
       >
         {" "}
         <Button variant="contained" style={{ marginBottom: "20px" }}>

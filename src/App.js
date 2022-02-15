@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import jwtDecode from "jwt-decode";
 
 function App() {
-  useEffect(()=>{
-    let user=jwtDecode(localStorage.getItem("token"));
-    console.log("booom user",user);
+  // useEffect(()=>{
+  //   let user=jwtDecode(localStorage.getItem("token"));
+  //   console.log("booom user",user);
 
-  },[])
+  // },[])
   const theme = createTheme({
     palette: {
       secondary: {

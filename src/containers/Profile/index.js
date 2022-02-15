@@ -3,7 +3,7 @@ import { Typography, Box, Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import * as yup from "yup";
 import ApiConfig from "../../config/ApiConfig";
 import { toast, ToastContainer } from "react-toastify";
@@ -48,25 +48,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-// fetch(ApiConfig.auth.updateProfile, {
-//   method: "PUT",
-//   headers: {
-//     Accept: "*/*",
-//     Authorization: `Bearer ${localStorage.getItem("token")}`,
-//   },
-
-// body: values,
-//   body: {
-//     avatar:values.avatar,
-//     firstName:values.firstName,
-//     lastName:values.lastName,
-//   },
-// }).then((response) => console.log("Image uploaded too", response));
-
-// console.log("API res-new token", response.data.data.token);
-// localStorage.setItem("token", response.data.data.token);
-// };
-
 const validationSchema = yup.object({
   firstName: yup
     .string("Enter your First Name")
@@ -77,26 +58,22 @@ const validationSchema = yup.object({
 });
 
 const Profile = () => {
-  const location = useLocation();
-  const token = location.state.token;
+  // const location = useLocation();
+  const token = jwtDecode(localStorage.getItem("token"));
   const classes = useStyles();
-  console.log("profile component is rendering");
-
-  const [isEdit, setEdit] = useState(false);
-  // const [profile, setProfile] = useState(false);
-  const [image, setImage] = useState("");
-  const [user, setUser] = useState({});
-  const [userToken, setUserToken] = useState(localStorage.getItem("token"));
   const [formData, setformData] = useState({
     firstName: "",
     lastName: "",
     avatar: "",
   });
+  const [isEdit, setEdit] = useState(false);
+  const [image, setImage] = useState("");
+  const [user, setUser] = useState({});
+  const userToken = localStorage.getItem("token");
   useEffect(async () => {
     const response = await axios.post(
       `${ApiConfig.user.getCurrentUser}/${token._id}`
     );
-    console.log("response=", response);
     setUser(response.data.data);
     setformData({
       ...formData,
@@ -105,7 +82,6 @@ const Profile = () => {
       avatar: user?.lastName,
     });
   }, [isEdit]);
-  console.log("image", image);
 
   const formik = useFormik({
     initialValues: {
@@ -114,33 +90,14 @@ const Profile = () => {
       avatar: image.data,
     },
     validationSchema: validationSchema,
-    // onSubmit: (values) => {
-    //   submitForm(values);
-    // },
   });
-
-  // const submitForm = async (values) => {
-  //   console.log(values);
-  //   const token = localStorage.getItem("token");
-  //   const response = await axios.put(ApiConfig.auth.updateProfile, values, {
-  //     headers: {
-  //       Accept: "*/*",
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   console.log("New response", response);
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
-    console.log("initial token", token);
+
     if (formData.firstName == "" || formData.lastName == "") {
       toast.error("Enter all values");
     } else {
-      console.log("formData avatar", formData.avatar);
-      // formData.append("myFile", formData.avatar, formData.avatar.name);
       var data = new FormData();
       data.append("avatar", formData.avatar);
       data.append("firstName", formData.firstName);
@@ -149,34 +106,15 @@ const Profile = () => {
       const response = await axios.put(ApiConfig.auth.updateProfile, data, {
         headers: {
           Accept: "*/*",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userToken}`,
         },
       });
-      console.log("APi-response new token", response.data.data.user);
       localStorage.setItem("token", response.data.data.token);
       toast.success("Profile updated successfully");
       setEdit(false);
-
-      // setTokenData(response.data.data.token);
-
-      // axios.post('my-domain.com/file-upload', formData)
     }
-
-    // submitForm(formData);
   };
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (formData.firstName == "" || formData.lastName == "") {
-  //     alert("enter all values");
-  //   } else {
-  //     // var data = new FormData();
-  //     // data.append("avatar", formData.avatar);
-  //     // data.append("firstName", formData.firstName);
-  //     // data.append("lastName", formData.lastName);
-  //     // console.log("new form data", data);
-  //     submitForm(formData);
-  //   }
-  // };
+
   const handleChange = (e) => {
     setformData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -208,7 +146,6 @@ const Profile = () => {
               type="file"
               name="file"
               onChange={uploadImage}
-              // onChange={(e)=>this.changeHandle('image',e.target.files[0])}
             />
           ) : null}
           <img
