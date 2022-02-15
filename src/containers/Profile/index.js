@@ -3,7 +3,6 @@ import { Typography, Box, Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import "./index.css";
 import * as yup from "yup";
 import ApiConfig from "../../config/ApiConfig";
@@ -23,25 +22,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-// fetch(ApiConfig.auth.updateProfile, {
-//   method: "PUT",
-//   headers: {
-//     Accept: "*/*",
-//     Authorization: `Bearer ${localStorage.getItem("token")}`,
-//   },
-
-// body: values,
-//   body: {
-//     avatar:values.avatar,
-//     firstName:values.firstName,
-//     lastName:values.lastName,
-//   },
-// }).then((response) => console.log("Image uploaded too", response));
-
-// console.log("API res-new token", response.data.data.token);
-// localStorage.setItem("token", response.data.data.token);
-// };
-
 const validationSchema = yup.object({
   firstName: yup
     .string("Enter your First Name")
@@ -58,25 +38,19 @@ const Profile = () => {
     avatar: "",
   });
 
-  const location = useLocation();
-  const token = location.state.token;
+  const token = jwtDecode(localStorage.getItem("token"));
   const classes = useStyles();
-  console.log("profile component is rendering");
 
   const [isEdit, setEdit] = useState(false);
-  // const [profile, setProfile] = useState(false);
   const [image, setImage] = useState("");
   const [user, setUser] = useState({});
-  const [userToken, setUserToken] = useState(localStorage.getItem("token"));
 
   useEffect(async () => {
     const response = await axios.post(
       `${ApiConfig.user.getCurrentUser}/${token._id}`
     );
-    console.log("response=", response);
     setUser(response.data.data);
   }, [isEdit]);
-  console.log("image", image);
 
   const formik = useFormik({
     initialValues: {
@@ -85,35 +59,14 @@ const Profile = () => {
       avatar: image.data,
     },
     validationSchema: validationSchema,
-    // onSubmit: (values) => {
-    //   submitForm(values);
-    // },
   });
 
-  // const submitForm = async (values) => {
-  //   console.log(values);
-  //   const token = localStorage.getItem("token");
-  //   const response = await axios.put(ApiConfig.auth.updateProfile, values, {
-  //     headers: {
-  //       Accept: "*/*",
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   console.log("New response", response);
-  // };
-  useEffect(() => {
-    // Update the document title using the browser API
-  });
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    console.log("initial token", token);
     if (formData.firstName == "" || formData.lastName == "") {
       alert("enter all values");
     } else {
-      console.log("formData avatar", formData.avatar);
-      // formData.append("myFile", formData.avatar, formData.avatar.name);
       var data = new FormData();
       data.append("avatar", formData.avatar);
       data.append("firstName", formData.firstName);
@@ -125,30 +78,11 @@ const Profile = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("APi-response new token", response.data.data.user);
       localStorage.setItem("token", response.data.data.token);
       setEdit(false);
-
-      // setTokenData(response.data.data.token);
-
-      // axios.post('my-domain.com/file-upload', formData)
     }
-
-    // submitForm(formData);
   };
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (formData.firstName == "" || formData.lastName == "") {
-  //     alert("enter all values");
-  //   } else {
-  //     // var data = new FormData();
-  //     // data.append("avatar", formData.avatar);
-  //     // data.append("firstName", formData.firstName);
-  //     // data.append("lastName", formData.lastName);
-  //     // console.log("new form data", data);
-  //     submitForm(formData);
-  //   }
-  // };
+
   const handleChange = (e) => {
     setformData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -180,7 +114,6 @@ const Profile = () => {
               type="file"
               name="file"
               onChange={uploadImage}
-              // onChange={(e)=>this.changeHandle('image',e.target.files[0])}
             />
           ) : null}
           <img
@@ -251,7 +184,6 @@ const Profile = () => {
                   Submit
                 </Button>
               ) : null}
-              <h1>{user.firstName}</h1>
             </form>
           </Box>
         </Grid>
