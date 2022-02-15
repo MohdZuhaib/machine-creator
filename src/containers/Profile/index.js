@@ -50,6 +50,7 @@ const validationSchema = yup.object({
     .string("Enter your Last Name")
     .required("Last Name is required"),
 });
+
 const Profile = () => {
   const [formData, setformData] = useState({
     firstName: "",
@@ -101,6 +102,9 @@ const Profile = () => {
 
   //   console.log("New response", response);
   // };
+  useEffect(() => {
+    // Update the document title using the browser API
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -121,7 +125,7 @@ const Profile = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("APi-response new token", response.data.data.token);
+      console.log("APi-response new token", response.data.data.user);
       localStorage.setItem("token", response.data.data.token);
       setEdit(false);
 
@@ -242,6 +246,7 @@ const Profile = () => {
                   fullWidth
                   type="submit"
                   sx={{ marginTop: "10px" }}
+                  onClick={handleSubmit}
                 >
                   Submit
                 </Button>
