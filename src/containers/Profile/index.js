@@ -6,11 +6,13 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import * as yup from "yup";
 import ApiConfig from "../../config/ApiConfig";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import jwtDecode from "jwt-decode";
 
 const useStyles = makeStyles(() => ({
   mainContainer: {
-    height: "100vh",
+    minHeight: "100vh",
   },
   formLabel: {
     marginBottom: "5px !important",
@@ -35,7 +37,7 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#f3f3f3",
   },
   profileLeft: {
-    backgroundColor: "#6e6ecf",
+    backgroundColor: "#3e3e3e",
     position: "relative",
   },
   profileRight: {
@@ -86,7 +88,7 @@ const Profile = () => {
   const [user, setUser] = useState({});
   const [userToken, setUserToken] = useState(localStorage.getItem("token"));
   const [formData, setformData] = useState({
-    firstName: user?.firstName,
+    firstName: "",
     lastName: "",
     avatar: "",
   });
@@ -135,7 +137,7 @@ const Profile = () => {
     const token = localStorage.getItem("token");
     console.log("initial token", token);
     if (formData.firstName == "" || formData.lastName == "") {
-      alert("enter all values");
+      toast.error("Enter all values");
     } else {
       console.log("formData avatar", formData.avatar);
       // formData.append("myFile", formData.avatar, formData.avatar.name);
@@ -152,6 +154,7 @@ const Profile = () => {
       });
       console.log("APi-response new token", response.data.data.user);
       localStorage.setItem("token", response.data.data.token);
+      toast.success("Profile updated successfully");
       setEdit(false);
 
       // setTokenData(response.data.data.token);
@@ -283,7 +286,6 @@ const Profile = () => {
                     <Button
                       color="primary"
                       variant="contained"
-                      
                       type="submit"
                       sx={{ marginTop: "10px" }}
                       onClick={handleSubmit}
@@ -297,6 +299,7 @@ const Profile = () => {
           </Box>
         </Grid>
       </Grid>
+      <ToastContainer />
     </Box>
   );
 };
