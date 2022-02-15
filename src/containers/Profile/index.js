@@ -4,22 +4,45 @@ import { useFormik } from "formik";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import "./index.css";
 import * as yup from "yup";
 import ApiConfig from "../../config/ApiConfig";
 import jwtDecode from "jwt-decode";
 
 const useStyles = makeStyles(() => ({
+  mainContainer: {
+    height: "100vh",
+  },
   formLabel: {
-    marginBottom: "5px",
+    marginBottom: "5px !important",
   },
   formWrapper: {
     marginTop: "10px",
+    width: "50%",
   },
   notchedOutline: {
     borderWidth: "1px",
     borderColor: "rgba(25, 118, 210, 0.5) !important",
     color: "#ffff",
+  },
+  profileImage: {
+    position: "absolute",
+    width: "71%",
+    right: "-35%",
+    top: "28%",
+    borderRadius: "9px",
+  },
+  profileRight: {
+    backgroundColor: "#f3f3f3",
+  },
+  profileLeft: {
+    backgroundColor: "#6e6ecf",
+    position: "relative",
+  },
+  profileRight: {
+    backgroundColor: "#f3f3f3",
+    display: "flex",
+    flexDirection: "column !important",
+    justifyContent: "center",
   },
 }));
 
@@ -52,12 +75,6 @@ const validationSchema = yup.object({
 });
 
 const Profile = () => {
-  const [formData, setformData] = useState({
-    firstName: "",
-    lastName: "",
-    avatar: "",
-  });
-
   const location = useLocation();
   const token = location.state.token;
   const classes = useStyles();
@@ -68,13 +85,23 @@ const Profile = () => {
   const [image, setImage] = useState("");
   const [user, setUser] = useState({});
   const [userToken, setUserToken] = useState(localStorage.getItem("token"));
-
+  const [formData, setformData] = useState({
+    firstName: user?.firstName,
+    lastName: "",
+    avatar: "",
+  });
   useEffect(async () => {
     const response = await axios.post(
       `${ApiConfig.user.getCurrentUser}/${token._id}`
     );
     console.log("response=", response);
     setUser(response.data.data);
+    setformData({
+      ...formData,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      avatar: user?.lastName,
+    });
   }, [isEdit]);
   console.log("image", image);
 
@@ -102,9 +129,7 @@ const Profile = () => {
 
   //   console.log("New response", response);
   // };
-  useEffect(() => {
-    // Update the document title using the browser API
-  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -165,8 +190,8 @@ const Profile = () => {
 
   return (
     <Box>
-      <Grid container className="main-container">
-        <Grid item md={4}>
+      <Grid container className={classes.mainContainer}>
+        <Grid item md={4} className={classes.profileLeft}>
           <Typography
             variant="h4"
             color="white"
@@ -186,73 +211,89 @@ const Profile = () => {
           <img
             src={`http://localhost:8000${user.avatar}`}
             alt="userimg"
-            style={{ height: "100px", width: "100px" }}
+            className={classes.profileImage}
           />
         </Grid>
-        <Grid item md={8}>
-          <Box>
+        <Grid item md={8} className={classes.profileRight}>
+          <Box className="actions-container">
             {" "}
-            <Button variant="contained" onClick={edit}>
-              EDIT
-            </Button>
-            <form onSubmit={handleSubmit} className={classes.formWrapper}>
-              <Typography variant="h5" className={classes.formLabel}>
-                First Name
-              </Typography>
-              {isEdit ? (
-                <TextField
-                  fullWidth
-                  id="firstName"
-                  name="firstName"
-                  label="firstName"
-                  className="form-input"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  error={
-                    formik.touched.firstName && Boolean(formik.errors.firstName)
-                  }
-                  helperText={
-                    formik.touched.firstName && formik.errors.firstName
-                  }
-                />
-              ) : (
-                <Typography variant="body1">
-                  {user ? user.firstName : "first name"}
-                </Typography>
-              )}
-              <Typography variant="h5" className={classes.formLabel}>
-                Last Name
-              </Typography>
-              {isEdit ? (
-                <TextField
-                  fullWidth
-                  id="lastName"
-                  name="lastName"
-                  label="lastName"
-                  className="form-input"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                />
-              ) : (
-                <Typography variant="body1">
-                  {user ? user.lastName : "last name"}
-                </Typography>
-              )}
+            <Box textAlign="end" px={5}>
+              {" "}
+              <Button variant="contained" onClick={edit}>
+                EDIT
+              </Button>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              height="100%"
+            >
+              {" "}
+              <form onSubmit={handleSubmit} className={classes.formWrapper}>
+                <Box pb={3}>
+                  {" "}
+                  <Typography variant="h4" className={classes.formLabel}>
+                    First Name
+                  </Typography>
+                  {isEdit ? (
+                    <TextField
+                      fullWidth
+                      id="firstName"
+                      name="firstName"
+                      className="form-input"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      error={
+                        formik.touched.firstName &&
+                        Boolean(formik.errors.firstName)
+                      }
+                      helperText={
+                        formik.touched.firstName && formik.errors.firstName
+                      }
+                    />
+                  ) : (
+                    <Typography variant="h5">
+                      {user ? user.firstName : "first name"}
+                    </Typography>
+                  )}
+                </Box>
 
-              {isEdit ? (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  fullWidth
-                  type="submit"
-                  sx={{ marginTop: "10px" }}
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </Button>
-              ) : null}
-              <h1>{user.firstName}</h1>
-            </form>
+                <Typography variant="h4" className={classes.formLabel}>
+                  Last Name
+                </Typography>
+                {isEdit ? (
+                  <TextField
+                    fullWidth
+                    id="lastName"
+                    name="lastName"
+                    className="form-input"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <Typography variant="h5">
+                    {user ? user.lastName : "last name"}
+                  </Typography>
+                )}
+                <Box sx={{ textAlign: "center" }}>
+                  {" "}
+                  {isEdit ? (
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      
+                      type="submit"
+                      sx={{ marginTop: "10px" }}
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </Button>
+                  ) : null}
+                </Box>
+              </form>
+            </Box>
           </Box>
         </Grid>
       </Grid>
