@@ -3,7 +3,8 @@ import { Typography, Box, Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import "./index.css";
 import * as yup from "yup";
 import ApiConfig from "../../config/ApiConfig";
 import jwtDecode from "jwt-decode";
@@ -50,22 +51,30 @@ const validationSchema = yup.object({
     .required("Last Name is required"),
 });
 const Profile = () => {
-  const[profile,setProfile]=useState(false);
-  const classes = useStyles();
-  const token = localStorage.getItem("token");
-  const temp = jwtDecode(token);
-  const [isEdit, setEdit] = useState(false);
-  const [image, setImage] = useState("");
-  let user = "";
-  if (token) {
-    user = temp;
-  }
-  console.log("user", user);
   const [formData, setformData] = useState({
-    firstName: user.firstName,
-    lastName: user.lastName,
+    firstName: "",
+    lastName: "",
     avatar: "",
   });
+
+  const location = useLocation();
+  const token = location.state.token;
+  const classes = useStyles();
+  console.log("profile component is rendering");
+
+  const [isEdit, setEdit] = useState(false);
+  // const [profile, setProfile] = useState(false);
+  const [image, setImage] = useState("");
+  const [user, setUser] = useState({});
+  const [userToken, setUserToken] = useState(localStorage.getItem("token"));
+
+  useEffect(async () => {
+    const response = await axios.post(
+      `${ApiConfig.user.getCurrentUser}/${token._id}`
+    );
+    console.log("response=", response);
+    setUser(response.data.data);
+  }, [isEdit]);
   console.log("image", image);
 
   const formik = useFormik({
@@ -80,46 +89,43 @@ const Profile = () => {
     // },
   });
 
-  const submitForm = async (values) => {
-    console.log(values);
-    const token = localStorage.getItem("token");
-    const response = await axios.put(ApiConfig.auth.updateProfile, values, {
-      headers: {
-        Accept: "*/*",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  // const submitForm = async (values) => {
+  //   console.log(values);
+  //   const token = localStorage.getItem("token");
+  //   const response = await axios.put(ApiConfig.auth.updateProfile, values, {
+  //     headers: {
+  //       Accept: "*/*",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
 
-    console.log("New response", response);
-  };
+  //   console.log("New response", response);
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token")
-    console.log("form data", formData,token);
+    const token = localStorage.getItem("token");
+    console.log("initial token", token);
     if (formData.firstName == "" || formData.lastName == "") {
       alert("enter all values");
     } else {
       console.log("formData avatar", formData.avatar);
       // formData.append("myFile", formData.avatar, formData.avatar.name);
-      var data=new FormData();
-      data.append('avatar',formData.avatar);
-      data.append('firstName',formData.firstName);
-      data.append('lastName',formData.lastName);
-  
-      const response = await axios.put(
-        ApiConfig.auth.updateProfile,
-data,
-        {
-          headers: {
-            Accept: '*/*',
-            Authorization: `Bearer ${token}`,
-          },
+      var data = new FormData();
+      data.append("avatar", formData.avatar);
+      data.append("firstName", formData.firstName);
+      data.append("lastName", formData.lastName);
 
-        }
-      );
-      console.log("APi response", response);
-      localStorage.setItem("token",response.data.data.token);
-      setProfile(!profile);
+      const response = await axios.put(ApiConfig.auth.updateProfile, data, {
+        headers: {
+          Accept: "*/*",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("APi-response new token", response.data.data.token);
+      localStorage.setItem("token", response.data.data.token);
+      setEdit(false);
+
+      // setTokenData(response.data.data.token);
 
       // axios.post('my-domain.com/file-upload', formData)
     }
@@ -155,9 +161,15 @@ data,
 
   return (
     <Box>
-      <Typography vcariant="h2">My Profile</Typography>
-      <Grid container>
-        <Grid item md={6}>
+      <Grid container className="main-container">
+        <Grid item md={4}>
+          <Typography
+            variant="h4"
+            color="white"
+            sx={{ marginTop: "15px", marginLeft: "20px" }}
+          >
+            My Profile
+          </Typography>
           {isEdit ? (
             <input
               id="contained-button-file"
@@ -173,65 +185,70 @@ data,
             style={{ height: "100px", width: "100px" }}
           />
         </Grid>
-        <Grid item>
-          <Button variant="contained" onClick={edit}>
-            EDIT
-          </Button>
-          <form onSubmit={handleSubmit} className={classes.formWrapper}>
-            <Typography variant="h5" className={classes.formLabel}>
-              First Name
-            </Typography>
-            {isEdit ? (
-              <TextField
-                fullWidth
-                id="firstName"
-                name="firstName"
-                label="firstName"
-                className="form-input"
-                value={formData.firstName}
-                onChange={handleChange}
-                error={
-                  formik.touched.firstName && Boolean(formik.errors.firstName)
-                }
-                helperText={formik.touched.firstName && formik.errors.firstName}
-              />
-            ) : (
-              <Typography variant="body1">
-                {user ? user.firstName : "first name"}
+        <Grid item md={8}>
+          <Box>
+            {" "}
+            <Button variant="contained" onClick={edit}>
+              EDIT
+            </Button>
+            <form onSubmit={handleSubmit} className={classes.formWrapper}>
+              <Typography variant="h5" className={classes.formLabel}>
+                First Name
               </Typography>
-            )}
-            <Typography variant="h5" className={classes.formLabel}>
-              Last Name
-            </Typography>
-            {isEdit ? (
-              <TextField
-                fullWidth
-                id="lastName"
-                name="lastName"
-                label="lastName"
-                className="form-input"
-                value={formData.lastName}
-                onChange={handleChange}
-              />
-            ) : (
-              <Typography variant="body1">
-                {user ? user.lastName : "last name"}
+              {isEdit ? (
+                <TextField
+                  fullWidth
+                  id="firstName"
+                  name="firstName"
+                  label="firstName"
+                  className="form-input"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  error={
+                    formik.touched.firstName && Boolean(formik.errors.firstName)
+                  }
+                  helperText={
+                    formik.touched.firstName && formik.errors.firstName
+                  }
+                />
+              ) : (
+                <Typography variant="body1">
+                  {user ? user.firstName : "first name"}
+                </Typography>
+              )}
+              <Typography variant="h5" className={classes.formLabel}>
+                Last Name
               </Typography>
-            )}
+              {isEdit ? (
+                <TextField
+                  fullWidth
+                  id="lastName"
+                  name="lastName"
+                  label="lastName"
+                  className="form-input"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                />
+              ) : (
+                <Typography variant="body1">
+                  {user ? user.lastName : "last name"}
+                </Typography>
+              )}
 
-            {isEdit ? (
-              <Button
-                color="primary"
-                variant="contained"
-                fullWidth
-                type="submit"
-                sx={{ marginTop: "10px" }}
-                onClick={handleSubmit}
-              >
-                Submit
-              </Button>
-            ) : null}
-          </form>
+              {isEdit ? (
+                <Button
+                  color="primary"
+                  variant="contained"
+                  fullWidth
+                  type="submit"
+                  sx={{ marginTop: "10px" }}
+                >
+                  Submit
+                </Button>
+              ) : null}
+              <h1>{user.firstName}</h1>
+            </form>
+          </Box>
         </Grid>
       </Grid>
     </Box>

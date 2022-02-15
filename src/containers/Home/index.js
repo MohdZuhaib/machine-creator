@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import jwtDecode from "jwt-decode";
 import CustomCard from "../../components/Common/Card";
 import CustomDialog from "../../components/Common/Dialog";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
@@ -21,7 +22,9 @@ const Homepage = (theme) => {
   const [open, setOpen] = useState(false);
   const [machines, setMachines] = useState([]);
   const [isLoading, setisLoading] = useState(true);
-
+  const localToken = localStorage.getItem("token");
+  const token = jwtDecode(localToken);
+  console.log("Token", token);
   const classes = useStyles();
   const handleClickOpen = () => {
     setOpen(true);
@@ -42,7 +45,6 @@ const Homepage = (theme) => {
   };
   useEffect(() => {
     getAllMachines();
-   
   }, [open]);
 
   return (
@@ -63,13 +65,14 @@ const Homepage = (theme) => {
       >
         Add
       </Button>
-      <Link to="/profile">
+      <Link
+        to={{
+          pathname: "/profile",
+        }}
+        state={{ token: token }}
+      >
         {" "}
-        <Button
-          variant="contained"
-          style={{ marginBottom: "20px" }}
-          onClick={handleClickOpen}
-        >
+        <Button variant="contained" style={{ marginBottom: "20px" }}>
           PROFILE
         </Button>
       </Link>

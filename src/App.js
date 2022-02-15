@@ -1,7 +1,14 @@
 import Router from "./routes";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useEffect } from "react";
+import jwtDecode from "jwt-decode";
 
 function App() {
+  useEffect(()=>{
+    let user=jwtDecode(localStorage.getItem("token"));
+    console.log("booom user",user);
+
+  },[])
   const theme = createTheme({
     palette: {
       secondary: {

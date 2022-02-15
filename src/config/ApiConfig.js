@@ -10,6 +10,10 @@ const ApiConfig = {
     getAllMachines:`${url}/machine/getAllMachines`,
     createMachine: `${url}/machine/create-machine`,
   },
+  user:{
+    getCurrentUser:`${url}/user/getCurrentUser`
+
+  }
 
 };
 
