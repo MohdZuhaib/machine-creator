@@ -14,6 +14,10 @@ const useStyles = makeStyles(() => ({
   mainContainer: {
     minHeight: "100vh",
   },
+  firstName: {
+    fontWeight: "bold",
+    color: "#4a4abf",
+  },
   formLabel: {
     marginBottom: "5px !important",
   },
@@ -160,7 +164,7 @@ const Profile = () => {
             <Box textAlign="end" px={5}>
               {" "}
               <Button variant="contained" onClick={edit}>
-                EDIT
+                UPDATE
               </Button>
             </Box>
             <Box
@@ -172,48 +176,52 @@ const Profile = () => {
             >
               {" "}
               <form onSubmit={handleSubmit} className={classes.formWrapper}>
-                <Box pb={3}>
+                <Box pb={isEdit && 3}>
                   {" "}
-                  <Typography variant="h4" className={classes.formLabel}>
-                    First Name
-                  </Typography>
                   {isEdit ? (
-                    <TextField
-                      fullWidth
-                      id="firstName"
-                      name="firstName"
-                      className="form-input"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      error={
-                        formik.touched.firstName &&
-                        Boolean(formik.errors.firstName)
-                      }
-                      helperText={
-                        formik.touched.firstName && formik.errors.firstName
-                      }
-                    />
+                    <>
+                      <Typography variant="h4" className={classes.formLabel}>
+                        First Name
+                      </Typography>
+                      <TextField
+                        fullWidth
+                        id="firstName"
+                        name="firstName"
+                        className="form-input"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        error={
+                          formik.touched.firstName &&
+                          Boolean(formik.errors.firstName)
+                        }
+                        helperText={
+                          formik.touched.firstName && formik.errors.firstName
+                        }
+                      />
+                    </>
                   ) : (
-                    <Typography variant="h5">
+                    <Typography variant="h3" className={classes.firstName}>
                       {user ? user.firstName : "first name"}
                     </Typography>
                   )}
                 </Box>
 
-                <Typography variant="h4" className={classes.formLabel}>
-                  Last Name
-                </Typography>
                 {isEdit ? (
-                  <TextField
-                    fullWidth
-                    id="lastName"
-                    name="lastName"
-                    className="form-input"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                  />
+                  <>
+                    <Typography variant="h4" className={classes.formLabel}>
+                      Last Name
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      id="lastName"
+                      name="lastName"
+                      className="form-input"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                    />
+                  </>
                 ) : (
-                  <Typography variant="h5">
+                  <Typography variant="h4">
                     {user ? user.lastName : "last name"}
                   </Typography>
                 )}
