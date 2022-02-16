@@ -21,29 +21,18 @@ const LoginLayout = () => (
           >
             Welcome to{" "}
           </Typography>
-          <Box display="flex">
+          {/* <Box display="flex"> */}
             {" "}
             <Typography
               component="h1"
-              variant="h2"
-              sx={{ fontSize: "6rem", letterSpacing: "0.15em" }}
+              variant="h1"
+              sx={{  letterSpacing: "0.15em" }}
             >
-              Cyber
+              Cyber Storm
             </Typography>
-            <Typography
-              component="h1"
-              variant="h2"
-              sx={{
-                fontSize: "6rem",
-                letterSpacing: "0.15em",
-                marginLeft: "35px",
-                fontWeight: "200 !important",
-              }}
-            >
-              Storm
-            </Typography>
+          
           </Box>
-        </Box>
+        {/* </Box> */}
         <Box className="auth-left-bottom" />
       </Grid>
       <Grid item sm={6} xs={12} className="right">

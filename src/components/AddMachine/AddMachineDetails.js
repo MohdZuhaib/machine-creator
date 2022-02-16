@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Typography, TextField, Box, Button } from "@mui/material";
-
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 const fetchUrl = (e, formik, index) => {
   formik.values.url[index] = {
     ...formik.values.url[index],
@@ -47,9 +47,32 @@ export const AddMachineDetails = ({ classes, formik }) => {
 
       {links.map((link, index) => (
         <Box key={index} py={2}>
-          <Typography variant="h5">{index}</Typography>
+          <Typography variant="h4" className={classes.formMargin}>
+            {link}
+          </Typography>
           <Typography variant="h5" className={classes.formMargin}>
-            URL{link}
+            Name
+          </Typography>
+          <TextField
+            variant="outlined"
+            size="small"
+            fullWidth
+            name="name"
+            sx={{ color: "#ffff" }}
+            onChange={(e) => fetchUrl(e, formik, index)}
+            className={classes.input}
+            InputProps={{
+              className: classes.input,
+              classes: {
+                notchedOutline: classes.notchedOutline,
+                root: classes.root,
+              },
+            }}
+            error={formik.touched.url && Boolean(formik.errors.url)}
+            helperText={formik.touched.url && formik.errors.url}
+          />
+          <Typography variant="h5" className={classes.formMargin}>
+            URL
           </Typography>
           <TextField
             variant="outlined"
@@ -78,9 +101,9 @@ export const AddMachineDetails = ({ classes, formik }) => {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => setLinks([...links, `Link ${links.length + 1}`])}
+        onClick={() => setLinks([...links, `Machine ${links.length + 1}`])}
       >
-        ADD
+        <AddCircleOutlineIcon sx={{ marginRight: "5px" }} /> Link
       </Button>
       <Typography variant="h5" className={classes.formMargin}>
         {" "}

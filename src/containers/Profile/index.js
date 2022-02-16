@@ -3,12 +3,13 @@ import { Typography, Box, Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 // import { useLocation } from "react-router-dom";
 import * as yup from "yup";
 import ApiConfig from "../../config/ApiConfig";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import jwtDecode from "jwt-decode";
+// import getUser from "../../utils/getUser";
 
 const useStyles = makeStyles(() => ({
   mainContainer: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles(() => ({
     borderColor: "rgba(25, 118, 210, 0.5) !important",
     color: "#ffff",
   },
-  
+
   profileImage: {
     position: "absolute",
     width: "71%",
@@ -64,7 +65,7 @@ const validationSchema = yup.object({
 
 const Profile = () => {
   // const location = useLocation();
-  const token = jwtDecode(localStorage.getItem("token"));
+
   const classes = useStyles();
   const [formData, setformData] = useState({
     firstName: "",
@@ -74,12 +75,20 @@ const Profile = () => {
   const [isEdit, setEdit] = useState(false);
   const [image, setImage] = useState("");
   const [user, setUser] = useState({});
+  const token = jwtDecode(localStorage.getItem("token"));
   const userToken = localStorage.getItem("token");
-  useEffect(async () => {
+
+  const getUser = async () => {
     const response = await axios.post(
       `${ApiConfig.user.getCurrentUser}/${token._id}`
     );
+    console.log("getcurrentuser", response);
     setUser(response.data.data);
+  };
+
+  useEffect(async () => {
+    // console.log("user gotcjha", getUser());
+    getUser();
     setformData({
       ...formData,
       firstName: user?.firstName,

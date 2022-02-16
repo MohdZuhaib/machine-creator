@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
   input: {
     marginTop: "5px",
     marginBottom: "15px",
-    color:'#ffff!important'
+    color: "#ffff!important",
   },
   notchedOutline: {
     borderWidth: "1px",
@@ -39,9 +39,7 @@ const useStyles = makeStyles(() => ({
     color: "#ffff !important",
   },
   root: {
-    
-      color: "#ffff",
-   
+    color: "#ffff",
   },
   formMargin: {
     marginTop: "11px !important",
@@ -65,7 +63,7 @@ const CustomDailog = ({ open, handleClose }) => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      url: [{ link: "" }],
+      url: [{ name: "", link: "" }],
       description: "",
       steps: [{ title: "", description: "" }],
     },
