@@ -1,4 +1,4 @@
-const url = "http://localhost:8000";
+const url = "http://10.1.76.92:8000";
 
 const ApiConfig = {
   auth:{

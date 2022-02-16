@@ -153,7 +153,7 @@ const Profile = () => {
             />
           ) : null}
           <img
-            src={`http://localhost:8000${user.avatar}`}
+            src={`http://10.1.76.92:8000${user.avatar}`}
             alt="userimg"
             className={classes.profileImage}
           />
