@@ -30,6 +30,7 @@ const useStyles = makeStyles(() => ({
     borderColor: "rgba(25, 118, 210, 0.5) !important",
     color: "#ffff",
   },
+  
   profileImage: {
     position: "absolute",
     width: "71%",
@@ -145,12 +146,15 @@ const Profile = () => {
             My Profile
           </Typography>
           {isEdit ? (
-            <input
-              id="contained-button-file"
-              type="file"
-              name="file"
-              onChange={uploadImage}
-            />
+            <div class="upload-btn-wrapper">
+              <button class="btn">Change Image</button>
+              <input
+                id="contained-button-file"
+                type="file"
+                name="file"
+                onChange={uploadImage}
+              />
+            </div>
           ) : null}
           <img
             src={`http://10.1.76.92:8000${user.avatar}`}
@@ -163,9 +167,15 @@ const Profile = () => {
             {" "}
             <Box textAlign="end" px={5}>
               {" "}
-              <Button variant="contained" onClick={edit}>
-                UPDATE
-              </Button>
+              {isEdit ? (
+                <Button variant="contained" onClick={edit}>
+                  CANCEL
+                </Button>
+              ) : (
+                <Button variant="contained" onClick={edit}>
+                  UPDATE
+                </Button>
+              )}
             </Box>
             <Box
               display="flex"
@@ -223,6 +233,44 @@ const Profile = () => {
                 ) : (
                   <Typography variant="h4">
                     {user ? user.lastName : "last name"}
+                  </Typography>
+                )}
+                {isEdit ? (
+                  <>
+                    <Typography variant="h4" className={classes.formLabel}>
+                      D.O.B.
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      id="lastName"
+                      name="lastName"
+                      className="form-input"
+                      value={formData.dob}
+                      onChange={handleChange}
+                    />
+                  </>
+                ) : (
+                  <Typography variant="h4">
+                    {user ? "12-08-2021" : "DOB"}
+                  </Typography>
+                )}
+                {isEdit ? (
+                  <>
+                    <Typography variant="h4" className={classes.formLabel}>
+                      Contact Number
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      id="lastName"
+                      name="lastName"
+                      className="form-input"
+                      value={formData.contact}
+                      onChange={handleChange}
+                    />
+                  </>
+                ) : (
+                  <Typography variant="h4">
+                    {user ? "+917565890296" : "Contact Number"}
                   </Typography>
                 )}
                 <Box sx={{ textAlign: "center" }}>

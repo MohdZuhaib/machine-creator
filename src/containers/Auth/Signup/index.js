@@ -29,19 +29,16 @@ const validationSchema = yup.object({
     .string("Enter your email")
     .email("Enter a valid email")
     .required("Email is required"),
-  password: yup
-    .string("Enter your password")
-    .required("Password is required"),
+  password: yup.string("Enter your password").required("Password is required"),
 });
 
 const submitForm = (values) => {
-  const response = axios.post(ApiConfig.auth.signup, { values });
+  console.log("values fetched", values);
+  const response = axios.post(ApiConfig.auth.signup, values);
   console.log("API res", response);
-
 };
 
 const SignUp = () => {
-  console.log("my dsga")
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
@@ -51,14 +48,12 @@ const SignUp = () => {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      submitForm(values);
-    },
+    onSubmit: (values) => submitForm(values),
   });
   return (
     <div>
       <Typography variant="h3">Sign Up</Typography>
-      <form onSubmit={formik.onSubmit} className={classes.formWrapper}>
+      <form onSubmit={formik.handleSubmit} className={classes.formWrapper}>
         <Typography variant="h6" className={classes.formLabel}>
           First Name
         </Typography>
