@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { makeStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 import ApiConfig from "../../../config/ApiConfig";
 import "./index.css";
 import * as yup from "yup";
@@ -32,14 +33,16 @@ const validationSchema = yup.object({
   password: yup.string("Enter your password").required("Password is required"),
 });
 
-const submitForm = (values) => {
+const submitForm = (values, navigate) => {
   console.log("values fetched", values);
   const response = axios.post(ApiConfig.auth.signup, values);
+  navigate('/')
   console.log("API res", response);
 };
 
 const SignUp = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -48,7 +51,7 @@ const SignUp = () => {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => submitForm(values),
+    onSubmit: (values) => submitForm(values,navigate),
   });
   return (
     <div>
