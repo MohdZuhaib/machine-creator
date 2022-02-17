@@ -35,6 +35,9 @@ const useStyles = makeStyles({
     backgroundColor: "#171727",
     color: "#fff",
   },
+  contents: {
+    height: "70vh",
+  },
   stepsHandleContainer: {
     height: "5%",
     p: 0,
@@ -79,7 +82,7 @@ const DetailView = (props) => {
 
       <Box mt={7} mx={3}>
         <Grid container className={classes.descriptionContainer} spacing={4}>
-          <Grid item xs={0} md={4}>
+          <Grid item xs={0} md={4} className={classes.contents}>
             <Paper
               square
               elevation={0}
@@ -134,7 +137,7 @@ const DetailView = (props) => {
               }
             />
           </Grid>
-          <Grid item xs={12} md={8} className={classes.lab}>
+          <Grid item xs={12} md={8} className={classes.contents}>
             <TabContext value={value}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList
