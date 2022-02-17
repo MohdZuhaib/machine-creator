@@ -35,7 +35,7 @@ const validationSchema = yup.object({
 });
 
 const submitForm = (values) => {
-  const response = axios.post(ApiConfig.auth.signup, { values });
+  const response = axios.post(ApiConfig.auth.signup, values );
   console.log("API res", response);
 
 };
@@ -58,7 +58,7 @@ const SignUp = () => {
   return (
     <div>
       <Typography variant="h3">Sign Up</Typography>
-      <form onSubmit={formik.onSubmit} className={classes.formWrapper}>
+      <form onSubmit={formik.handleSubmit} className={classes.formWrapper}>
         <Typography variant="h6" className={classes.formLabel}>
           First Name
         </Typography>

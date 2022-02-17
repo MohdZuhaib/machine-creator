@@ -38,6 +38,14 @@ function App() {
           },
         },
       },
+      MuiButton: {
+        styleOverrides: {
+          containedPrimary: {
+            fontWeight: "bold",
+            letterSpacing: "2px",
+          },
+        },
+      },
       MuiPaper: {
         styleOverrides: {
           root: {
