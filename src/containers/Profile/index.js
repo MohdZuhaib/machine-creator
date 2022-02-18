@@ -6,7 +6,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 // import { useLocation } from "react-router-dom";
 import * as yup from "yup";
-import ApiConfig from "../../config/ApiConfig";
+import ApiConfig, { url } from "../../config/ApiConfig";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import getUser from "../../utils/getUser";
@@ -166,7 +166,7 @@ const Profile = () => {
             </div>
           ) : null}
           <img
-            src={`http://localhost:8000${user.avatar}`}
+            src={`${url}${user.avatar}`}
             alt="userimg"
             className={classes.profileImage}
           />
