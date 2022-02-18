@@ -1,11 +1,12 @@
 import { Typography, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { makeStyles } from "@mui/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ApiConfig from "../../../config/ApiConfig";
 import "./index.css";
 import * as yup from "yup";
+import { toast, ToastContainer } from "react-toastify";
 
 const useStyles = makeStyles(() => ({
   formLabel: {
@@ -29,20 +30,23 @@ const validationSchema = yup.object({
     .string("Enter your email")
     .email("Enter a valid email")
     .required("Email is required"),
-  password: yup
-    .string("Enter your password")
-    .required("Password is required"),
+  password: yup.string("Enter your password").required("Password is required"),
 });
 
-const submitForm = (values) => {
-  const response = axios.post(ApiConfig.auth.signup, values );
-  console.log("API res", response);
-
+const submitForm = async (values, navigate) => {
+  console.log("values fetched", values);
+  try {
+    await axios.post(ApiConfig.auth.signup, values);
+    toast.success("User registered uccessfully");
+    setTimeout(navigate("/"), 2000);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const SignUp = () => {
-  console.log("my dsga")
   const classes = useStyles();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -51,10 +55,9 @@ const SignUp = () => {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      submitForm(values);
-    },
+    onSubmit: (values) => submitForm(values, navigate),
   });
+
   return (
     <div>
       <Typography variant="h3">Sign Up</Typography>
@@ -127,6 +130,7 @@ const SignUp = () => {
       <Typography varioant="h6" sx={{ marginTop: "10px", textAlign: "center" }}>
         Already have an account? <Link to="/">Sign In</Link>{" "}
       </Typography>
+      <ToastContainer />
     </div>
   );
 };

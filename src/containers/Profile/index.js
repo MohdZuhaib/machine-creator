@@ -3,12 +3,13 @@ import { Typography, Box, Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 // import { useLocation } from "react-router-dom";
 import * as yup from "yup";
 import ApiConfig from "../../config/ApiConfig";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import jwtDecode from "jwt-decode";
+// import getUser from "../../utils/getUser";
 
 const useStyles = makeStyles(() => ({
   mainContainer: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles(() => ({
     borderColor: "rgba(25, 118, 210, 0.5) !important",
     color: "#ffff",
   },
+
   profileImage: {
     position: "absolute",
     width: "71%",
@@ -63,7 +65,7 @@ const validationSchema = yup.object({
 
 const Profile = () => {
   // const location = useLocation();
-  const token = jwtDecode(localStorage.getItem("token"));
+
   const classes = useStyles();
   const [formData, setformData] = useState({
     firstName: "",
@@ -73,12 +75,20 @@ const Profile = () => {
   const [isEdit, setEdit] = useState(false);
   const [image, setImage] = useState("");
   const [user, setUser] = useState({});
+  const token = jwtDecode(localStorage.getItem("token"));
   const userToken = localStorage.getItem("token");
-  useEffect(async () => {
+
+  const getUser = async () => {
     const response = await axios.post(
       `${ApiConfig.user.getCurrentUser}/${token._id}`
     );
+    console.log("getcurrentuser", response);
     setUser(response.data.data);
+  };
+
+  useEffect(async () => {
+    // console.log("user gotcjha", getUser());
+    getUser();
     setformData({
       ...formData,
       firstName: user?.firstName,
@@ -145,12 +155,15 @@ const Profile = () => {
             My Profile
           </Typography>
           {isEdit ? (
-            <input
-              id="contained-button-file"
-              type="file"
-              name="file"
-              onChange={uploadImage}
-            />
+            <div class="upload-btn-wrapper">
+              <button class="btn">Change Image</button>
+              <input
+                id="contained-button-file"
+                type="file"
+                name="file"
+                onChange={uploadImage}
+              />
+            </div>
           ) : null}
           <img
             src={`http://localhost:8000${user.avatar}`}
@@ -229,6 +242,44 @@ const Profile = () => {
                 ) : (
                   <Typography variant="h4">
                     {user ? user.lastName : "last name"}
+                  </Typography>
+                )}
+                {isEdit ? (
+                  <>
+                    <Typography variant="h4" className={classes.formLabel}>
+                      D.O.B.
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      id="lastName"
+                      name="lastName"
+                      className="form-input"
+                      value={formData.dob}
+                      onChange={handleChange}
+                    />
+                  </>
+                ) : (
+                  <Typography variant="h4">
+                    {user ? "12-08-2021" : "DOB"}
+                  </Typography>
+                )}
+                {isEdit ? (
+                  <>
+                    <Typography variant="h4" className={classes.formLabel}>
+                      Contact Number
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      id="lastName"
+                      name="lastName"
+                      className="form-input"
+                      value={formData.contact}
+                      onChange={handleChange}
+                    />
+                  </>
+                ) : (
+                  <Typography variant="h4">
+                    {user ? "+917565890296" : "Contact Number"}
                   </Typography>
                 )}
                 <Box sx={{ textAlign: "center" }}>

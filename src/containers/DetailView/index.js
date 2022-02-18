@@ -5,8 +5,11 @@ import {
   Typography,
   Button,
   Paper,
+  Tab,
   MobileStepper,
 } from "@mui/material";
+import { TabList, TabContext, TabPanel } from "@mui/lab";
+import * as React from "react";
 import { makeStyles, useTheme } from "@mui/styles";
 import { useLocation } from "react-router-dom";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
@@ -45,6 +48,13 @@ const DetailView = (props) => {
   const steps = location.state.steps;
 
   const [activeStep, setActiveStep] = useState(0);
+
+  // For MUI Tabs
+  const [value, setValue] = React.useState(1);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   const maxSteps = steps.length;
 
   const handleNext = () => {
@@ -54,12 +64,10 @@ const DetailView = (props) => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-   
 
-    useEffect(() => {
-      console.log("urls", url);
-     
-    }, []);
+  useEffect(() => {
+    console.log("urls", url);
+  }, []);
   return (
     <Box className={classes.container}>
       <Box p={2} pl={3}>
@@ -127,14 +135,30 @@ const DetailView = (props) => {
             />
           </Grid>
           <Grid item xs={12} md={8} className={classes.lab}>
-            {url.map((obj) => (
-              <iframe
-                src={obj.link}
-                title="Virtual lab"
-                width="100%"
-                height="100%"
-              ></iframe>
-            ))}
+            <TabContext value={value}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <TabList
+                  onChange={handleChange}
+                  aria-label="lab API tabs example"
+                  textColor="primary"
+                  indicatorColor="#ffff"
+                >
+                  {url.map((obj, index) => (
+                    <Tab key={index} label={obj.name} value={index + 1} />
+                  ))}
+                </TabList>
+              </Box>
+              {url.map((obj, index) => (
+                <TabPanel key={index} value={index + 1} sx={{ height: "91%" }}>
+                  <iframe
+                    src={obj.link}
+                    title="Virtual lab"
+                    width="100%"
+                    height="100%"
+                  ></iframe>
+                </TabPanel>
+              ))}
+            </TabContext>
           </Grid>
         </Grid>
       </Box>
