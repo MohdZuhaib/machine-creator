@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext, createContext } from "react";
 import {
   Box,
   Grid,
@@ -20,6 +20,7 @@ import "./index.css";
 import ApiConfig, { url } from "../../config/ApiConfig";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link, useNavigate } from "react-router-dom";
+// import ColorModeContext from "../../Theme/context";
 import Axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Homepage = (theme) => {
+  // const mode = useContext(colorMode);
+  // const colorMode = useContext(ColorModeContext);
   const [openDialog, setOpenDialog] = useState(false);
   const [machines, setMachines] = useState([]);
   const [isLoading, setisLoading] = useState(true);
@@ -99,8 +102,12 @@ const Homepage = (theme) => {
   }, [openDialog]);
 
   return (
+    // <ColorModeContext.consumer>
+    //   {({ colorMode }) => (
     <>
+      {" "}
       <AppBar position="static" color="secondary">
+        {/* <Button variant='contained' onClick={colorMode.toggleColorMode}>Mode</Button> */}
         <Toolbar>
           {/* */}
 
@@ -227,10 +234,9 @@ const Homepage = (theme) => {
         <CustomDialog open={openDialog} handleClose={closeDialog} />
       </Box>
     </>
+    //   )}
+    // </ColorModeContext.consumer>
   );
 };
-// 1 loader till pp lods basically user
-// 2 name initials in my profile also
-// 2 signout button
-// 3  route protection
+
 export default Homepage;

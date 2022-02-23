@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import Router from "./routes";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useEffect } from "react";
@@ -98,9 +99,13 @@ function App(props) {
     
     <ThemeProvider theme={theme}>
       <div className="App">
+        <Button variant="contained" onClick={toggleColorMode}> 
+          Mode
+        </Button>
         <Router />
       </div>
     </ThemeProvider>
+    // </ColorModeContext.Provider>
   );
 }
 
