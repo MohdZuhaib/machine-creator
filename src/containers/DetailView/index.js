@@ -70,6 +70,7 @@ const DetailView = (props) => {
 
   useEffect(() => {
     console.log("urls", url);
+    console.log("booom");
   }, []);
   return (
     <Box className={classes.container}>

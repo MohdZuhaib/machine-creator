@@ -57,14 +57,11 @@ const Login = (props) => {
 
   const submitForm = (values, navigate) => {
     try {
-      // const response = await axios.post(ApiConfig.auth.login, values);
-      // // console.log("API res", response.data.data.token);
-  
-      // localStorage.setItem("token", response.data.data.token);
+      
       console.log("submiting form");
-      // props.dispatch(startLogin());
+      props.dispatch(startLogin());
       props.dispatch(login(values));
-      // navigate("/dashboard");
+      console.log("comming back");
      
       
       
@@ -73,7 +70,7 @@ const Login = (props) => {
     }
   };
   
-  const naviate = useNavigate();
+  const navigate = useNavigate();
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
@@ -82,7 +79,7 @@ const Login = (props) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      submitForm(values, naviate);     
+      submitForm(values, navigate);     
     },
   });
 

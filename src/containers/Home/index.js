@@ -71,7 +71,7 @@ const Homepage = (theme) => {
   };
 
   const signout = () => {
-    localStorage.setItem("token", null);
+    localStorage.removeItem('token');
     navigate("/");
   };
   const getCurrentUser = async () => {
@@ -111,7 +111,7 @@ const Homepage = (theme) => {
         <Toolbar>
           {/* */}
 
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="h6" sx={{ flexGrow: 1 }}>
             Range Storm
           </Typography>
           <div>

@@ -27,23 +27,27 @@ export function loginFailed(errorMessage){
 
 }
 export function loginSuccess(user){
+    console.log("userrrrr",user);
     return{
         type:LOGIN_SUCCESS,
         user:user
     }
 
 }
-export function login  (values){
+export function login(values){
     console.log("calling api");
     console.log("values",values)
     return async (dispatch)=>{
       const response = await  axios.post(ApiConfig.auth.login, values);
       console.log("API res", response);
-      if(response.data.success==true){
+      console.log("api again",response.data.data.success);
+      console.log("esbar user b",response.data.data.user);
+      if(response.data.data.success==true){
         console.log("token",response.data.data.token);
-        console.log("user",response.data.user);
+        console.log("user",response.data.data.user);
         localStorage.setItem("token",response.data.data.token);
-        dispatch(loginSuccess(response.data.user));
+        console.log("login success");
+        dispatch(loginSuccess(response.data.data.user));
 
         
 
