@@ -41,6 +41,7 @@ const LoginLayout = () => (
           flexDirection="column"
           height="100%"
           alignItems="center"
+          sx={{bgcolor:'#fff'}}
           justifyContent="center"
         >
           <Outlet />

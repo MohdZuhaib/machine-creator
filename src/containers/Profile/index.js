@@ -174,11 +174,7 @@ const Profile = () => {
             </div>
           ) : null}
           <img
-<<<<<<< HEAD
-            src={`http://10.1.76.92:8000${user.avatar}`}
-=======
             src={`${url}${user.avatar}`}
->>>>>>> 024de9ffb9b231cf9f69a0995c7e71ef441553c7
             alt="userimg"
             className={classes.profileImage}
           />

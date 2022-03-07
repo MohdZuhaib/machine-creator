@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-const url = "http://10.1.76.92:8000";
-=======
-export const url = "http://localhost:8000";
->>>>>>> 024de9ffb9b231cf9f69a0995c7e71ef441553c7
+export const url = "http://10.1.76.92:8000";
 
 const ApiConfig = {
   auth: {
