@@ -26,6 +26,13 @@ function App() {
           },
         },
       },
+      MuiMenu: {
+        styleOverrides: {
+          paper: {
+            backgroundColor: "#ffff !important",
+          },
+        },
+      },
       MuiMobileStepper: {
         styleOverrides: {
           root: {
@@ -43,6 +50,23 @@ function App() {
           containedPrimary: {
             fontWeight: "bold",
             letterSpacing: "2px",
+          },
+        },
+      },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            color: "#ffff !important",
+            "&.Mui-selected": {
+              color: "#1976d2 !important",
+            },
+          },
+        },
+      },
+      MuiTabs: {
+        styleOverrides: {
+          indicator: {
+            backgroundColor: "#1976d2",
           },
         },
       },
