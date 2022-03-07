@@ -47,6 +47,7 @@ export function login(values){
         console.log("user",response.data.data.user);
         localStorage.setItem("token",response.data.data.token);
         console.log("login success");
+        
         dispatch(loginSuccess(response.data.data.user));
 
         
