@@ -26,6 +26,10 @@ const validationSchema = yup.object({
   firstName: yup
     .string("Enter your First Name")
     .required("First Name is required"),
+  dob: yup.string("Enter your Birth Date").required("Birth Date is required"),
+  contact: yup
+    .string("Enter your Contact Number")
+    .required("Contact Number is required"),
   email: yup
     .string("Enter your email")
     .email("Enter a valid email")
@@ -51,6 +55,8 @@ const SignUp = () => {
     initialValues: {
       firstName: "",
       lastName: "",
+      dob: "",
+      contact: "",
       email: "",
       password: "",
     },
@@ -116,6 +122,34 @@ const SignUp = () => {
           onChange={formik.handleChange}
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
+        />{" "}
+        <Typography variant="h6" className={classes.formLabel}>
+          DOB
+        </Typography>
+        <TextField
+          fullWidth
+          id="dob"
+          name="dob"
+          placeholder="DD-MM-YYYY"
+          className="form-input"
+          value={formik.values.dob}
+          onChange={formik.handleChange}
+          error={formik.touched.dob && Boolean(formik.errors.dob)}
+          helperText={formik.touched.dob && formik.errors.dob}
+        />{" "}
+        <Typography variant="h6" className={classes.formLabel}>
+          Contact Number
+        </Typography>
+        <TextField
+          fullWidth
+          id="contact"
+          name="contact"
+          label="contact"
+          className="form-input"
+          value={formik.values.contact}
+          onChange={formik.handleChange}
+          error={formik.touched.contact && Boolean(formik.errors.contact)}
+          helperText={formik.touched.contact && formik.errors.contact}
         />{" "}
         <Button
           color="primary"

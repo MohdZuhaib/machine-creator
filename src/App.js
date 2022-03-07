@@ -1,14 +1,33 @@
+// import { useMemo, useState } from "react";
 import Router from "./routes";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useEffect } from "react";
+import { connect } from "react-redux";
+import { startLogin,
+  authenticateUser } from "./actions/auth";
+
 import jwtDecode from "jwt-decode";
 
-function App() {
-  // useEffect(()=>{
-  //   let user=jwtDecode(localStorage.getItem("token"));
-  //   console.log("booom user",user);
+function App(props) {
+  useEffect(()=>{
 
-  // },[])
+     const token=localStorage.getItem("token");
+    console.log("token",token);
+    if(token){
+      const user = jwtDecode(token);
+
+      console.log('user', user);
+      props.dispatch(authenticateUser(user))
+
+    }
+    // else{
+    //   console.log("not the token");
+    // }
+
+
+  },[])
+  const {auth}=props
+  console.log("fulluser",auth.user,auth.isLoggedin);
   const theme = createTheme({
     palette: {
       secondary: {
@@ -80,12 +99,20 @@ function App() {
     },
   });
   return (
+    
     <ThemeProvider theme={theme}>
       <div className="App">
+       
         <Router />
       </div>
     </ThemeProvider>
+    // </ColorModeContext.Provider>
   );
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+export default connect(mapStateToProps)(App);

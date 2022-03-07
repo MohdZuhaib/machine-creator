@@ -7,7 +7,7 @@ import Profile from "./containers/Profile";
 import Homepage from "./containers/Home";
 
 const Router = () => {
-  const isAuth = localStorage.getItem("isAuthenticated");
+  const isAuth = localStorage.getItem("token");
   return useRoutes([
     {
       path: "/",
@@ -28,15 +28,15 @@ const Router = () => {
     },
     {
       path: "/dashboard",
-      element: <Homepage />,
+      element: isAuth?<Homepage />:<Navigate to="/" />,
     },
     {
       path: "/detail-view",
-      element: <DetailView />,
+      element:isAuth? <DetailView />:<Navigate to="/"/>,
     },
     {
       path: "/profile",
-      element: <Profile />,
+      element:isAuth? <Profile />:<Navigate to ="/"/>,
     },
   
 

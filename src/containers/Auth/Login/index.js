@@ -2,6 +2,10 @@ import { Typography, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
+import { connect } from "react-redux";
+import { startLogin,
+  login
+ } from "../../../actions/auth";
 import axios from "axios";
 import ApiConfig from "../../../config/ApiConfig";
 import "./index.css";
@@ -32,20 +36,41 @@ const validationSchema = yup.object({
     .required("Password is required"),
 });
 
-const submitForm = async (values, navigate) => {
-  try {
-    const response = await axios.post(ApiConfig.auth.login, values);
-    // console.log("API res", response.data.data.token);
-    localStorage.setItem("token", response.data.data.token);
-    navigate("/dashboard");
-    
-  } catch (err) {
-    console.log("error", err);
-  }
-};
+// const submitForm = async (values, navigate) => {
+//   try {
+//     const response = await axios.post(ApiConfig.auth.login, values);
+//     // console.log("API res", response.data.data.token);
 
-const Login = () => {
-  const naviate = useNavigate();
+//     localStorage.setItem("token", response.data.data.token);
+//     navigate("/dashboard");
+   
+    
+    
+//   } catch (err) {
+//     console.log("error", err);
+//   }
+// };
+
+const Login = (props) => {
+  console.log("PROPS",props)
+  
+
+  const submitForm = (values, navigate) => {
+    try {
+      
+      console.log("submiting form");
+      props.dispatch(startLogin());
+      props.dispatch(login(values));
+      console.log("comming back");
+     
+      
+      
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
+  
+  const navigate = useNavigate();
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
@@ -54,7 +79,7 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      submitForm(values, naviate);     
+      submitForm(values, navigate);     
     },
   });
 
@@ -108,4 +133,9 @@ const Login = () => {
   );
 };
 
-export default Login;
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+export default connect(mapStateToProps)(Login);

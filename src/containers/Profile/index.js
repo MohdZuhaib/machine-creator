@@ -6,7 +6,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 // import { useLocation } from "react-router-dom";
 import * as yup from "yup";
-import ApiConfig from "../../config/ApiConfig";
+import ApiConfig, { url } from "../../config/ApiConfig";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import getUser from "../../utils/getUser";
@@ -43,7 +43,7 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#f3f3f3",
   },
   profileLeft: {
-    backgroundColor: "#3e3e3e",
+    backgroundColor: "#171727",
     position: "relative",
   },
   profileRight: {
@@ -70,6 +70,8 @@ const Profile = () => {
   const [formData, setformData] = useState({
     firstName: "",
     lastName: "",
+    dob: "",
+    contact: "",
     avatar: "",
   });
   const [isEdit, setEdit] = useState(false);
@@ -93,6 +95,8 @@ const Profile = () => {
       ...formData,
       firstName: user?.firstName,
       lastName: user?.lastName,
+      dob: user?.dob,
+      contact: user?.contact,
       avatar: user?.lastName,
     });
   }, [isEdit]);
@@ -101,6 +105,8 @@ const Profile = () => {
     initialValues: {
       firstName: user.firstName,
       lastName: user.lastName,
+      dob: user.dob,
+      contact: user.contact,
       avatar: image.data,
     },
     validationSchema: validationSchema,
@@ -116,10 +122,12 @@ const Profile = () => {
       data.append("avatar", formData.avatar);
       data.append("firstName", formData.firstName);
       data.append("lastName", formData.lastName);
+      data.append("dob", formData.dob);
+      data.append("contact", formData.contact);
 
       const response = await axios.put(ApiConfig.auth.updateProfile, data, {
         headers: {
-          Accept: "*/*",
+          Accept: "/",
           Authorization: `Bearer ${userToken}`,
         },
       });
@@ -166,7 +174,11 @@ const Profile = () => {
             </div>
           ) : null}
           <img
+<<<<<<< HEAD
             src={`http://10.1.76.92:8000${user.avatar}`}
+=======
+            src={`${url}${user.avatar}`}
+>>>>>>> 024de9ffb9b231cf9f69a0995c7e71ef441553c7
             alt="userimg"
             className={classes.profileImage}
           />
@@ -251,8 +263,8 @@ const Profile = () => {
                     </Typography>
                     <TextField
                       fullWidth
-                      id="lastName"
-                      name="lastName"
+                      id="dob"
+                      name="dob"
                       className="form-input"
                       value={formData.dob}
                       onChange={handleChange}
@@ -260,7 +272,7 @@ const Profile = () => {
                   </>
                 ) : (
                   <Typography variant="h4">
-                    {user ? "12-08-2021" : "DOB"}
+                    {user ? user.dob : "DOB"}
                   </Typography>
                 )}
                 {isEdit ? (
@@ -270,8 +282,8 @@ const Profile = () => {
                     </Typography>
                     <TextField
                       fullWidth
-                      id="lastName"
-                      name="lastName"
+                      id="contact"
+                      name="contact"
                       className="form-input"
                       value={formData.contact}
                       onChange={handleChange}
@@ -279,7 +291,7 @@ const Profile = () => {
                   </>
                 ) : (
                   <Typography variant="h4">
-                    {user ? "+917565890296" : "Contact Number"}
+                    {user ? user.contact : "Contact Number"}
                   </Typography>
                 )}
                 <Box sx={{ textAlign: "center" }}>
