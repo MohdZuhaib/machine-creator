@@ -42,6 +42,7 @@ const LoginLayout = () => (
           height="100%"
           alignItems="center"
           justifyContent="center"
+          sx={{bgcolor:'#fff'}}
         >
           <Outlet />
         </Box>
