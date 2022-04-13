@@ -71,8 +71,6 @@ const DetailView = (props) => {
   };
   const [tabValue, setTabValue] = useState(1);
   const handleTabChange = (event, newValue) => {
-    console.log("tab event", event);
-    console.log("tab value", newValue);
     setTabValue(newValue);
   };
 
@@ -81,7 +79,7 @@ const DetailView = (props) => {
     const stepsResponse = await Axios.get(
       `${ApiConfig.steps.getSteps}/${machineId}`
     );
-    setSteps(stepsResponse.data.data);
+    // setSteps(stepsResponse.data.data);
     // steps = stepsResponse.data.data;
     console.log("Steps Fetched", stepsResponse.data.data);
   };
@@ -101,9 +99,15 @@ const DetailView = (props) => {
     // setOptions({ ...options,options.push [event.target.name]: event.target.checked });
     setOptions((prevOptions) => [...prevOptions, event.target.name]);
   };
-  useEffect(() => {
-   
-    getSteps();
+  useEffect(async () => {
+    // getSteps();
+    console.log('Effect  called')
+    const stepsResponse = await Axios.get(
+      `${ApiConfig.steps.getSteps}/${machineId}`
+    );
+    // setSteps(stepsResponse.data.data);
+    // steps = stepsResponse.data.data;
+    console.log("Steps Fetched", stepsResponse.data.data);
   }, []);
   return (
     // <h2>Detrail view</h2>
@@ -165,7 +169,7 @@ const DetailView = (props) => {
                                 name={steps[activeStep]?.options[0][item]}
                               />
                             }
-                            label={steps[activeStep]?.options[0][item]}
+                            label="step"
                             // label={
                             //   steps[activeStep]?.options[0][
                             //     `option${index + 1}`
