@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -7,6 +7,11 @@ import {
   Paper,
   Tab,
   MobileStepper,
+  Checkbox,
+  TextField,
+  FormControl,
+  FormGroup,
+  FormControlLabel
 } from "@mui/material";
 import { TabList, TabContext, TabPanel } from "@mui/lab";
 import * as React from "react";
@@ -14,6 +19,8 @@ import { makeStyles, useTheme } from "@mui/styles";
 import { useLocation } from "react-router-dom";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import Axios from "axios";
+import ApiConfig from "../../config/ApiConfig";
 
 const useStyles = makeStyles({
   container: {
@@ -48,16 +55,39 @@ const DetailView = (props) => {
   const theme = useTheme();
   const location = useLocation();
   const url = location.state.url;
-  const steps = location.state.steps;
+  console.log("url", url);
+  // const steps = location.state.steps;
+  const machineId = location.state.id;
 
   const [activeStep, setActiveStep] = useState(0);
+  const [steps, setSteps] = useState([]);
+  const [options, setOptions] = useState({
 
+  });
+  console.log("Stepss", steps);
   // For MUI Tabs
-  const [value, setValue] = React.useState(1);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const [checked, setChecked] = useState(true);
+
+  const handleCheck = (event) => {
+    setChecked(event.target.checked);
+  };
+  const [tabValue, setTabValue] = useState(1);
+  const handleTabChange = (event, newValue) => {
+    console.log("tab event", event);
+    console.log("tab value", newValue);
+    setTabValue(newValue);
   };
 
+  // let steps = [];
+  const getSteps = async () => {
+    const stepsResponse = await Axios.get(
+      `${ApiConfig.steps.getSteps}/${machineId}`
+    );
+    setSteps(stepsResponse.data.data);
+    // steps = stepsResponse.data.data;
+    console.log("Steps Fetched", stepsResponse.data.data);
+  };
+  // const steps = ["name"];
   const maxSteps = steps.length;
 
   const handleNext = () => {
@@ -68,11 +98,14 @@ const DetailView = (props) => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const handleOptionChange = (event) => {
+    setOptions({ ...options, [event.target.name]: event.target.checked });
+  };
   useEffect(() => {
-    console.log("urls", url);
-    console.log("booom");
+    getSteps();
   }, []);
   return (
+    // <h2>Detrail view</h2>
     <Box className={classes.container}>
       <Box p={2} pl={3}>
         {" "}
@@ -98,10 +131,53 @@ const DetailView = (props) => {
                 borderTopLeftRadius: "13px",
               }}
             >
-              <Typography variant="h5">{steps[activeStep].title}</Typography>
+              <Typography variant="h5">{steps[activeStep]?.title}</Typography>
             </Paper>
             <Box className={classes.contentContainer}>
-              {steps[activeStep].description}
+              <Typography variant="body1">
+                {steps[activeStep]?.description}
+              </Typography>
+              <Typography variant="body1">
+                {steps[activeStep]?.question}
+              </Typography>
+              {steps[activeStep]?.options.length ? (
+                <FormControl component="fieldset">
+                  {[0, 1, 2, 3].map((item) => (
+                    <>
+                      {/* <Checkbox
+                      checked={checked}
+                      onChange={handleCheck}
+                      inputProps={{ "aria-label": "controlled" }}
+                      // label={steps[activeStep]?.options[0][`option${item + 1}`]}
+                      label="step1"
+                    />
+                    {steps[activeStep]?.options[0][`option${item + 1}`]} */}
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={chocolate}
+                              onChange={handleOptionChange}
+                              name={`${}`}
+                              // name={
+                              //   steps[activeStep]?.options[0][
+                              //     `option${item + 1}`
+                              //   ]
+                              // }
+                            />
+                          }
+                          label={
+                            steps[activeStep]?.options[0][`option${item + 1}`]
+                          }
+                        />
+                      </FormGroup>
+                    </>
+                  ))}
+
+                </FormControl>
+              ) : (
+                <TextField />
+              )}
             </Box>
             <MobileStepper
               variant="text"
@@ -139,10 +215,10 @@ const DetailView = (props) => {
             />
           </Grid>
           <Grid item xs={12} md={8} className={classes.contents}>
-            <TabContext value={value}>
+            <TabContext value={tabValue}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList
-                  onChange={handleChange}
+                  onChange={handleTabChange}
                   aria-label="lab API tabs example"
                   textColor="primary"
                   indicatorColor="#ffff"
