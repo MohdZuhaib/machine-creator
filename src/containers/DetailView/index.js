@@ -11,7 +11,7 @@ import {
   TextField,
   FormControl,
   FormGroup,
-  FormControlLabel
+  FormControlLabel,
 } from "@mui/material";
 import { TabList, TabContext, TabPanel } from "@mui/lab";
 import * as React from "react";
@@ -61,9 +61,7 @@ const DetailView = (props) => {
 
   const [activeStep, setActiveStep] = useState(0);
   const [steps, setSteps] = useState([]);
-  const [options, setOptions] = useState({
-
-  });
+  const [options, setOptions] = useState([]);
   console.log("Stepss", steps);
   // For MUI Tabs
   const [checked, setChecked] = useState(true);
@@ -91,6 +89,7 @@ const DetailView = (props) => {
   const maxSteps = steps.length;
 
   const handleNext = () => {
+    console.log("Options", options);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -99,9 +98,11 @@ const DetailView = (props) => {
   };
 
   const handleOptionChange = (event) => {
-    setOptions({ ...options, [event.target.name]: event.target.checked });
+    // setOptions({ ...options,options.push [event.target.name]: event.target.checked });
+    setOptions((prevOptions) => [...prevOptions, event.target.name]);
   };
   useEffect(() => {
+   
     getSteps();
   }, []);
   return (
@@ -142,9 +143,11 @@ const DetailView = (props) => {
               </Typography>
               {steps[activeStep]?.options.length ? (
                 <FormControl component="fieldset">
-                  {[0, 1, 2, 3].map((item) => (
-                    <>
-                      {/* <Checkbox
+                  <FormGroup>
+                    {["option1", "option2", "option3", "option4"].map(
+                      (item) => (
+                        <>
+                          {/* <Checkbox
                       checked={checked}
                       onChange={handleCheck}
                       inputProps={{ "aria-label": "controlled" }}
@@ -152,28 +155,27 @@ const DetailView = (props) => {
                       label="step1"
                     />
                     {steps[activeStep]?.options[0][`option${item + 1}`]} */}
-                      <FormGroup>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              // checked={chocolate}
-                              onChange={handleOptionChange}
-                              name={`${}`}
-                              // name={
-                              //   steps[activeStep]?.options[0][
-                              //     `option${item + 1}`
-                              //   ]
-                              // }
-                            />
-                          }
-                          label={
-                            steps[activeStep]?.options[0][`option${item + 1}`]
-                          }
-                        />
-                      </FormGroup>
-                    </>
-                  ))}
 
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                // checked={chocolate}
+                                onChange={handleOptionChange}
+                                // name={`${item}`}
+                                name={steps[activeStep]?.options[0][item]}
+                              />
+                            }
+                            label={steps[activeStep]?.options[0][item]}
+                            // label={
+                            //   steps[activeStep]?.options[0][
+                            //     `option${index + 1}`
+                            //   ]
+                            // }
+                          />
+                        </>
+                      )
+                    )}
+                  </FormGroup>
                 </FormControl>
               ) : (
                 <TextField />
