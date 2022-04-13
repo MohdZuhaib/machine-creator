@@ -65,7 +65,9 @@ const CustomDailog = ({ open, handleClose }) => {
       name: "",
       url: [{ name: "", link: "" }],
       description: "",
-      steps: [{ title: "", description: "" }],
+      steps: [
+        { title: "", description: "", question: "", answer: "" },
+      ],
     },
     validationSchema,
     onSubmit: (values) => {
@@ -116,7 +118,7 @@ const CustomDailog = ({ open, handleClose }) => {
                 type="submit"
                 // disabled={activeStep === maxSteps - 1}
               >
-                {activeStep === maxSteps - 1 ? "ADD" : "NEXT"}
+                {activeStep === maxSteps - 1 ? "Submit" : "NEXT"}
               </Button>
             }
             backButton={

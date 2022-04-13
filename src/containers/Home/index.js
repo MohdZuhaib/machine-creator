@@ -182,7 +182,7 @@ const Homepage = (theme) => {
           style={{ marginBottom: "20px" }}
           onClick={handleClickOpen}
         >
-          Add
+          Create Lab
         </Button>
 
         <Grid container spacing={4}>
