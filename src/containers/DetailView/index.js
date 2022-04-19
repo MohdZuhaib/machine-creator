@@ -239,20 +239,25 @@ const DetailView = (props) => {
 
     console.log("Data to send", options);
 
-    const checkAnswer = await Axios.post(
-      `${ApiConfig.steps.checkAnswer}/${id}`,
-      {
-        isMcq: Mcq,
-        answer: data,
+    try {
+      const checkAnswer = await Axios.post(
+        `${ApiConfig.steps.checkAnswer}/${id}`,
+        {
+          isMcq: Mcq,
+          answer: data,
+        }
+      );
+      console.log("Answer checked", checkAnswer);
+      if (checkAnswer.data.success) {
+        setValidated(true);
+        toast.success(checkAnswer.data.message);
+        activeStep === maxSteps - 1 && setCongrats(true);
+      } else {
+        toast.error(checkAnswer.data.message);
       }
-    );
-    console.log("Answer checked", checkAnswer);
-    if (checkAnswer.data.data) {
-      setValidated(true);
-      toast.success("Correct Answer");
-      activeStep === maxSteps - 1 && setCongrats(true);
-    } else {
-      toast.error("Wrong Answer");
+    } catch (err) {
+      console.log("api error", err.response);
+      toast.error(err.response.data.message);
     }
   };
   const handleNext = () => {
