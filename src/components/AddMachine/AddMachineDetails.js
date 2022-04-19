@@ -31,9 +31,9 @@ const Mcq = ({ handleOptions, classes, index }) => (
       <Typography varuant="h2">Options</Typography>
     </Grid>
     <Grid item xs={12} md={6}>
-      <Typography variant="body1">Option 1</Typography>
+      <Typography variant="body1">A</Typography>
       <TextField
-        name="option1"
+        name="a"
         onChange={(event) => handleOptions(index, event)}
         className={classes.input}
         InputProps={{
@@ -46,9 +46,9 @@ const Mcq = ({ handleOptions, classes, index }) => (
       />
     </Grid>
     <Grid item xs={12} md={6}>
-      <Typography variant="body1">Option 2</Typography>
+      <Typography variant="body1">B</Typography>
       <TextField
-        name="option2"
+        name="b"
         onChange={(event) => handleOptions(index, event)}
         className={classes.input}
         InputProps={{
@@ -61,9 +61,9 @@ const Mcq = ({ handleOptions, classes, index }) => (
       />
     </Grid>
     <Grid item xs={12} md={6}>
-      <Typography variant="body1">Option 3</Typography>
+      <Typography variant="body1">C</Typography>
       <TextField
-        name="option3"
+        name="c"
         onChange={(event) => handleOptions(index, event)}
         className={classes.input}
         InputProps={{
@@ -76,9 +76,9 @@ const Mcq = ({ handleOptions, classes, index }) => (
       />
     </Grid>
     <Grid item xs={12} md={6}>
-      <Typography variant="body1">Option 4</Typography>
+      <Typography variant="body1">D</Typography>
       <TextField
-        name="option4"
+        name="d"
         onChange={(event) => handleOptions(index, event)}
         className={classes.input}
         InputProps={{
@@ -230,7 +230,7 @@ export const AddMachineSteps = ({ classes, formik }) => {
     formik.values.steps[index] = {
       ...formik.values.steps[index],
       options: {
-        ... formik.values.steps[index].options,
+        ...formik.values.steps[index].options,
         [event.target.name]: event.target.value,
       },
     };
@@ -318,30 +318,49 @@ export const AddMachineSteps = ({ classes, formik }) => {
               <FormControlLabel value="mcq" control={<Radio />} label="MCQ" />
             </RadioGroup>
           </FormControl>
-          {answerType[index] === "mcq" && (
-            <Mcq
-              classes={classes}
-              handleOptions={handleOptions}
-              index={index}
-            />
+          {answerType[index] === "mcq" ? (
+            <>
+              <Mcq
+                classes={classes}
+                handleOptions={handleOptions}
+                index={index}
+              />
+              <TextField
+                variant="outlined"
+                fullWidth
+                className={classes.input}
+                InputProps={{
+                  className: classes.input,
+                  classes: {
+                    notchedOutline: classes.notchedOutline,
+                    root: classes.root,
+                  },
+                }}
+                name="optionsAns"
+                onChange={(e) => fetchSteps(e, formik, index)}
+              />
+            </>
+          ) : (
+            <>
+              <Typography sx={{ marginTop: "10px", marginBottom: "5px" }}>
+                Answer
+              </Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                className={classes.input}
+                InputProps={{
+                  className: classes.input,
+                  classes: {
+                    notchedOutline: classes.notchedOutline,
+                    root: classes.root,
+                  },
+                }}
+                name="answer"
+                onChange={(e) => fetchSteps(e, formik, index)}
+              />
+            </>
           )}
-          <Typography sx={{ marginTop: "10px", marginBottom: "5px" }}>
-            Answer
-          </Typography>
-          <TextField
-            variant="outlined"
-            fullWidth
-            className={classes.input}
-            InputProps={{
-              className: classes.input,
-              classes: {
-                notchedOutline: classes.notchedOutline,
-                root: classes.root,
-              },
-            }}
-            name="answer"
-            onChange={(e) => fetchSteps(e, formik, index)}
-          />
 
           {index > 0 && index === steps.length - 1 ? (
             <Button onClick={deleteStep}>remove</Button>

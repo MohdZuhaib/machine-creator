@@ -13,6 +13,7 @@ const ApiConfig = {
   steps: {
     createSteps: `${url}/steps/createSteps`,
     getSteps: `${url}/steps/getSteps`,
+    checkAnswer: `${url}/steps/checkAns`,
   },
   user: {
     getCurrentUser: `${url}/user/getCurrentUser`,

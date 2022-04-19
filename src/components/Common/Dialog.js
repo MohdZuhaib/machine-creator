@@ -66,7 +66,13 @@ const CustomDailog = ({ open, handleClose }) => {
       url: [{ name: "", link: "" }],
       description: "",
       steps: [
-        { title: "", description: "", question: "", answer: "" },
+        {
+          title: "",
+          description: "",
+          question: "",
+          answer: "",
+          optionsAns: "",
+        },
       ],
     },
     validationSchema,
