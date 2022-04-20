@@ -48,7 +48,8 @@ const Homepage = (theme) => {
   const navigate = useNavigate();
   const localToken = localStorage.getItem("token");
   const token = jwtDecode(localToken);
-  // console.log("Token", token);
+  const userRole = token.role;
+  console.log("Token", token);
 
   // dropdown data
   const [anchorEl, setAnchorEl] = useState(null);
@@ -71,7 +72,7 @@ const Homepage = (theme) => {
   };
 
   const signout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     navigate("/");
   };
   const getCurrentUser = async () => {
@@ -177,13 +178,15 @@ const Homepage = (theme) => {
             Link and visit the virtual machines on a click of a button!
           </Typography>
         </Box>
-        <Button
-          variant="contained"
-          style={{ marginBottom: "20px" }}
-          onClick={handleClickOpen}
-        >
-          Create Lab
-        </Button>
+        {userRole === "admin" && (
+          <Button
+            variant="contained"
+            style={{ marginBottom: "20px" }}
+            onClick={handleClickOpen}
+          >
+            Create Lab
+          </Button>
+        )}
 
         <Grid container spacing={4}>
           {isLoading ? (
