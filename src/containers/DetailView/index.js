@@ -31,7 +31,7 @@ import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ApiConfig from "../../config/ApiConfig";
-import congratulations from "../../assets/congratulations.gif";
+import congratulations from "../../assets/congratulations2.gif";
 
 const useStyles = makeStyles({
   container: {
@@ -402,7 +402,6 @@ const DetailView = (props) => {
                   </Button>
                 </Box>
               </Box>
-              {}
               {url.map((obj, index) => (
                 <TabPanel key={index} value={index + 1} sx={{ height: "91%" }}>
                   <iframe
@@ -448,12 +447,24 @@ const DetailView = (props) => {
 
       <ToastContainer />
       <Dialog open={congrats}>
-        <DialogContent onClose={closeCongrats}>
-          <img src={congratulations} alt="congrats" width="100%" />
+        <DialogContent onClose={closeCongrats} sx={{ p: 0 }}>
+          <Box>
+            {" "}
+            <img
+              src={congratulations}
+              alt="congrats"
+              width="100%"
+              height="100%"
+            />
+          </Box>
+
+          <Box textAlign="end" sx={{ backgroundColor: "secondary.main" }} p={1}>
+            {" "}
+            <Button onClick={closeCongrats} variant="contained">
+              Ok
+            </Button>
+          </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={closeCongrats}>Ok</Button>
-        </DialogActions>
       </Dialog>
     </Box>
   );
