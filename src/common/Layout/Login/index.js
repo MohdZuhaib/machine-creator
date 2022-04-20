@@ -28,7 +28,7 @@ const LoginLayout = () => (
               variant="h1"
               sx={{  letterSpacing: "0.15em" }}
             >
-              Cyber Storm
+              Range Storm
             </Typography>
           
           </Box>
