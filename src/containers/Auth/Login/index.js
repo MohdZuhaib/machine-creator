@@ -3,11 +3,9 @@ import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import { connect } from "react-redux";
-import { startLogin,
-  login
- } from "../../../actions/auth";
-import axios from "axios";
-import ApiConfig from "../../../config/ApiConfig";
+import { startLogin, login } from "../../../actions/auth";
+// import axios from "axios";
+// import ApiConfig from "../../../config/ApiConfig";
 import "./index.css";
 import * as yup from "yup";
 
@@ -43,34 +41,27 @@ const validationSchema = yup.object({
 
 //     localStorage.setItem("token", response.data.data.token);
 //     navigate("/dashboard");
-   
-    
-    
+
 //   } catch (err) {
 //     console.log("error", err);
 //   }
 // };
 
 const Login = (props) => {
-  console.log("PROPS",props)
-  
+  console.log("PROPS", props);
+  const navigate = useNavigate();
 
   const submitForm = (values, navigate) => {
     try {
-      
       console.log("submiting form");
       props.dispatch(startLogin());
-      props.dispatch(login(values));
+      props.dispatch(login(values, navigate));
       console.log("comming back");
-     
-      
-      
     } catch (err) {
       console.log("error", err);
     }
   };
-  
-  const navigate = useNavigate();
+
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
@@ -79,7 +70,7 @@ const Login = (props) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      submitForm(values, navigate);     
+      submitForm(values, navigate);
     },
   });
 

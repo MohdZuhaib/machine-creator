@@ -10,6 +10,11 @@ const ApiConfig = {
     getAllMachines: `${url}/machine/getAllMachines`,
     createMachine: `${url}/machine/create-machine`,
   },
+  steps: {
+    createSteps: `${url}/steps/createSteps`,
+    getSteps: `${url}/steps/getSteps`,
+    checkAnswer: `${url}/steps/checkAns`,
+  },
   user: {
     getCurrentUser: `${url}/user/getCurrentUser`,
   },
