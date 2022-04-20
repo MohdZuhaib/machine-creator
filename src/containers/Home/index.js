@@ -14,6 +14,7 @@ import { makeStyles } from "@mui/styles";
 import { FlashOn, Logout, PermIdentity } from "@mui/icons-material";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import logo from "../../assets/logo.svg";
 import CustomCard from "../../components/Common/Card";
 import CustomDialog from "../../components/Common/Dialog";
 import "./index.css";
@@ -112,9 +113,13 @@ const Homepage = (theme) => {
         <Toolbar>
           {/* */}
 
-          <Typography variant="h6" component="h6" sx={{ flexGrow: 1 }}>
+          {/* <Typography variant="h6" component="h6" sx={{ flexGrow: 1 }}>
             Range Storm
-          </Typography>
+          </Typography> */}
+          <Box sx={{ flexGrow: 1 }}>
+            <img src={logo} alt="logo" />
+          </Box>
+
           <div>
             <IconButton
               size="large"
