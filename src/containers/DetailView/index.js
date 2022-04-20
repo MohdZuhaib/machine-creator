@@ -174,6 +174,7 @@ const DetailView = (props) => {
   const theme = useTheme();
   const location = useLocation();
   const url = location.state.url;
+  const machineName = location.state.machineName;
   console.log("url", url);
   // const steps = location.state.steps;
   const machineId = location.state.id;
@@ -326,7 +327,7 @@ const DetailView = (props) => {
       <Box p={2} pl={3}>
         {" "}
         <Typography variant="h3" color="white">
-          Threat debugging
+          {machineName}
         </Typography>
       </Box>
       <Box mt={7} mx={3}>

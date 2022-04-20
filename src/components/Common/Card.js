@@ -51,7 +51,12 @@ const CustomCard = ({ data }) => {
             to={{
               pathname: "/detail-view",
             }}
-            state={{ url: data.url, steps: data.steps,id: data._id  }}
+            state={{
+              url: data.url,
+              steps: data.steps,
+              id: data._id,
+              machineName: data.machineName,
+            }}
           >
             <Button variant="outlined">Start</Button>
           </Link>
