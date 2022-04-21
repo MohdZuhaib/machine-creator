@@ -14,6 +14,7 @@ import { makeStyles } from "@mui/styles";
 import { FlashOn, Logout, PermIdentity } from "@mui/icons-material";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import logo from "../../assets/logo.svg";
 import CustomCard from "../../components/Common/Card";
 import CustomDialog from "../../components/Common/Dialog";
 import "./index.css";
@@ -48,10 +49,12 @@ const Homepage = (theme) => {
   const navigate = useNavigate();
   const localToken = localStorage.getItem("token");
   const token = jwtDecode(localToken);
-  // console.log("Token", token);
+  const userRole = token.role;
+  console.log("Token", token);
 
   // dropdown data
   const [anchorEl, setAnchorEl] = useState(null);
+  const [fake,setFake]=useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -71,7 +74,7 @@ const Homepage = (theme) => {
   };
 
   const signout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     navigate("/");
   };
   const getCurrentUser = async () => {
@@ -111,9 +114,13 @@ const Homepage = (theme) => {
         <Toolbar>
           {/* */}
 
-          <Typography variant="h6" component="h6" sx={{ flexGrow: 1 }}>
+          {/* <Typography variant="h6" component="h6" sx={{ flexGrow: 1 }}>
             Range Storm
-          </Typography>
+          </Typography> */}
+          <Box sx={{ flexGrow: 1 }}>
+            <img src={logo} alt="logo" />
+          </Box>
+
           <div>
             <IconButton
               size="large"
@@ -177,13 +184,15 @@ const Homepage = (theme) => {
             Link and visit the virtual machines on a click of a button!
           </Typography>
         </Box>
-        <Button
-          variant="contained"
-          style={{ marginBottom: "20px" }}
-          onClick={handleClickOpen}
-        >
-          Add
-        </Button>
+        {userRole === "admin" && (
+          <Button
+            variant="contained"
+            style={{ marginBottom: "20px" }}
+            onClick={handleClickOpen}
+          >
+            Create Lab
+          </Button>
+        )}
 
         <Grid container spacing={4}>
           {isLoading ? (
@@ -212,6 +221,7 @@ const Homepage = (theme) => {
                 md={4}
                 lg={3}
                 key={machine._id}
+
                 sx={{
                   position: "relative",
                 }}
@@ -226,7 +236,7 @@ const Homepage = (theme) => {
                     fontSize: 44,
                   }}
                 />
-                <CustomCard data={machine} />
+                <CustomCard data={machine} fun={getAllMachines}  />
               </Grid>
             ))
           )}
