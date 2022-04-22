@@ -1,4 +1,5 @@
 import { Card, CardContent, Typography, Button, Box } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 
@@ -18,6 +19,14 @@ const useStyles = makeStyles({
 
 const CustomCard = ({ data }) => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Card
       sx={{
@@ -30,7 +39,16 @@ const CustomCard = ({ data }) => {
       }}
     >
       <CardContent>
-        <Typography variant="h5">{data.machineName}</Typography>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Typography variant="h5">{data.machineName}</Typography>
+          <MoreVertIcon
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          />
+        </Box>
+
         <Typography variant="body2" className={classes.dateCreated}>
           {data.createdAt}
         </Typography>
@@ -61,6 +79,19 @@ const CustomCard = ({ data }) => {
             <Button variant="outlined">Start</Button>
           </Link>
         </Box>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={handleClose}>Profile</MenuItem>
+          <MenuItem onClick={handleClose}>My account</MenuItem>
+          <MenuItem onClick={handleClose}>Logout</MenuItem>
+        </Menu>
       </CardContent>
     </Card>
   );
