@@ -68,7 +68,9 @@ const Homepage = (theme) => {
     setOpenDialog(true);
   };
 
-  const closeDialog = () => {
+  const closeDialog = (event, reason) => {
+    console.log(event);
+    if (reason && reason == "backdropClick") return;
     setOpenDialog(false);
   };
 

@@ -411,6 +411,7 @@ const DetailView = (props) => {
                     // left: 0;
                     // top: 0;
                     // height: 100vh;
+                    // style={"-webkit-transform:scale(0.5);-moz-transform-scale(0.5);"}
                     src={obj.link}
                     title="Virtual lab"
                     width="100%"
