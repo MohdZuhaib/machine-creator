@@ -18,7 +18,7 @@ import { createMachine } from "../../utils/helper/createMachine";
 import { useFormik } from "formik";
 //import CircularProgress from "@mui/material/CircularProgress";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(() => ({
   dialog: {
     width: "20vw",
     borderRadius: 22,
@@ -31,22 +31,21 @@ const useStyles = makeStyles({
   input: {
     marginTop: "5px",
     marginBottom: "15px",
+    color: "#ffff!important",
   },
   notchedOutline: {
     borderWidth: "1px",
     borderColor: "rgba(25, 118, 210, 0.5) !important",
-    color: "#ffff",
+    color: "#ffff !important",
   },
   root: {
-    "MuiOutlinedInput-input": {
-      color: "#ffff",
-    },
+    color: "#ffff",
   },
   formMargin: {
     marginTop: "11px !important",
     marginBottom: "5px !important",
   },
-});
+}));
 
 const CustomDailog = ({ open, handleClose }) => {
   const classes = useStyles();
@@ -64,9 +63,17 @@ const CustomDailog = ({ open, handleClose }) => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      url: "",
+      url: [{ name: "", link: "" }],
       description: "",
-      steps: [{ title: "", description: "" }],
+      steps: [
+        {
+          title: "",
+          description: "",
+          question: "",
+          answer: "",
+          optionsAns: "",
+        },
+      ],
     },
     validationSchema,
     onSubmit: (values) => {
@@ -117,7 +124,7 @@ const CustomDailog = ({ open, handleClose }) => {
                 type="submit"
                 // disabled={activeStep === maxSteps - 1}
               >
-                {activeStep === maxSteps - 1 ? "ADD" : "NEXT"}
+                {activeStep === maxSteps - 1 ? "Submit" : "NEXT"}
               </Button>
             }
             backButton={

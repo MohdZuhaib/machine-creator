@@ -1,6 +1,25 @@
-import { Card, CardContent, Typography, Button, Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+  MenuItem,
+} from "@mui/material";
+import { MoreVert, Menu } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
+import jwtDecode from "jwt-decode";
+import DeleteIcon from "@mui/icons-material/Delete";
+import axios from "axios";
+import ApiConfig from "../../config/ApiConfig";
+
+// const localToken = localStorage.getItem("token");
+// const token = jwtDecode(localToken);
+// console.log("token ki detail", token);
+// const userRole = token.role;
+// console.log("Token", token.role);
 
 const useStyles = makeStyles({
   dateCreated: {
@@ -15,9 +34,33 @@ const useStyles = makeStyles({
     width: "100%",
   },
 });
+const CustomCard = ({ data, fun }) => {
+  const [userRole, setUserRole] = useState();
+  useEffect(() => {
+    const localToken = localStorage.getItem("token");
+    const token = jwtDecode(localToken);
+    console.log("token ki detail", token);
+    console.log("Token", token.role);
+    setUserRole(token.role);
+  }, []);
+  const handleDelete = async (data) => {
+    let response = await axios.delete(
+      `${ApiConfig.machines.deleteMachine}/${data._id}`
+    );
 
-const CustomCard = ({ data }) => {
+    // console.log("response",response.data)
+    fun();
+  };
+
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Card
       sx={{
@@ -30,7 +73,27 @@ const CustomCard = ({ data }) => {
       }}
     >
       <CardContent>
-        <Typography variant="h5">{data.machineName}</Typography>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          {/* <Typography variant="h5">{data.machineName}</Typography>
+          <MoreVert
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          /> */}
+        </Box>
+        <Typography variant="h5">{data.machineName} </Typography>
+        {userRole === "admin" && (
+          <Box sx={{ position: "relative" }}>
+            <DeleteIcon
+              onClick={() => {
+                handleDelete(data);
+              }}
+              sx={{ position: "absolute", left: "95%", bottom: "90%" }}
+            ></DeleteIcon>
+          </Box>
+        )}
+
         <Typography variant="body2" className={classes.dateCreated}>
           {data.createdAt}
         </Typography>
@@ -51,11 +114,29 @@ const CustomCard = ({ data }) => {
             to={{
               pathname: "/detail-view",
             }}
-            state={{ url: data.url, steps: data.steps }}
+            state={{
+              url: data.url,
+              steps: data.steps,
+              id: data._id,
+              machineName: data.machineName,
+            }}
           >
             <Button variant="outlined">Start</Button>
           </Link>
         </Box>
+        {/* <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={handleClose}>Profile</MenuItem>
+          <MenuItem onClick={handleClose}>My account</MenuItem>
+          <MenuItem onClick={handleClose}>Logout</MenuItem>
+        </Menu> */}
       </CardContent>
     </Card>
   );

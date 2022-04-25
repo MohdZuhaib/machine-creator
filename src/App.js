@@ -1,21 +1,54 @@
-import Homepage from "./containers/Home";
-import DetailView from "./containers/Detail-view";
-import { Routes, Route } from "react-router-dom";
+// import { useMemo, useState } from "react";
+import Router from "./routes";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useEffect } from "react";
+import { connect } from "react-redux";
+import { startLogin,
+  authenticateUser } from "./actions/auth";
 
-function App() {
+import jwtDecode from "jwt-decode";
+
+function App(props) {
+  useEffect(()=>{
+
+     const token=localStorage.getItem("token");
+    console.log("token",token);
+    if(token){
+      const user = jwtDecode(token);
+
+      console.log('user', user);
+      props.dispatch(authenticateUser(user))
+
+    }
+    // else{
+    //   console.log("not the token");
+    // }
+
+
+  },[])
+  const {auth}=props
+  console.log("fulluser",auth.user,auth.isLoggedin);
   const theme = createTheme({
-    components: {
-      MuiOutlinedInput: {
-        styleOverrides: {
-          root: { color: "#ffff" },
-        },
+    palette: {
+      secondary: {
+        main: "#0D0D20",
+        light: "#171727",
+        contrastText: "#ffff",
       },
+    },
+    components: {
       MuiFormHelperText: {
         styleOverrides: {
           root: {
             marginLeft: "3px",
             color: "#ff7d56 !important",
+          },
+        },
+      },
+      MuiMenu: {
+        styleOverrides: {
+          paper: {
+            backgroundColor: "#ffff !important",
           },
         },
       },
@@ -31,6 +64,31 @@ function App() {
           },
         },
       },
+      MuiButton: {
+        styleOverrides: {
+          containedPrimary: {
+            fontWeight: "bold",
+            letterSpacing: "2px",
+          },
+        },
+      },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            color: "#ffff !important",
+            "&.Mui-selected": {
+              color: "#1976d2 !important",
+            },
+          },
+        },
+      },
+      MuiTabs: {
+        styleOverrides: {
+          indicator: {
+            backgroundColor: "#1976d2",
+          },
+        },
+      },
       MuiPaper: {
         styleOverrides: {
           root: {
@@ -39,23 +97,22 @@ function App() {
         },
       },
     },
-
-    palette: {
-      secondary: {
-        main: "#0D0D20",
-      },
-    },
   });
   return (
+    
     <ThemeProvider theme={theme}>
       <div className="App">
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/detail-view" element={<DetailView />} />
-        </Routes>
+       
+        <Router />
       </div>
     </ThemeProvider>
+    // </ColorModeContext.Provider>
   );
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+export default connect(mapStateToProps)(App);

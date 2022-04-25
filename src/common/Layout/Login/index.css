@@ -1,0 +1,46 @@
+.authLayout-wrapper {
+  min-height: 100vh;
+}
+.static-container {
+  background-image: url("../../../assets/loginBg.jpg");
+  background-size: cover;
+  position: relative;
+  background-color: aliceblue;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: #00000061;
+  z-index: 2;
+}
+.auth-left-top {
+  z-index: 3;
+  color: #f7f7f7;
+}
+
+@media only screen and (max-width: 600px) {
+  .static-container {
+    display: none;
+  }
+  .right {
+    background-image: url("../../../assets/loginBg.jpg");
+    background-size: cover;
+    position: relative;
+    color: aliceblue;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+@media only screen and (max-width: 1100px) {
+  h1 {
+    font-size: 4rem !important;
+  }
+}
