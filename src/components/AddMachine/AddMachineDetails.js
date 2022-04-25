@@ -129,7 +129,7 @@ export const AddMachineSteps = ({ classes, formik }) => {
         color="primary"
         onClick={() => setSteps([...steps, `Step ${steps.length + 1}`])}
       >
-        ADDs
+        ADD
       </Button>
     </>
   );
