@@ -28,7 +28,7 @@ const Router = () => {
     },
     {
       path: "/dashboard",
-      element: isAuth?<Homepage />:<Navigate to="/" />,
+      element: isAuth?<Homepage />:<Navigate to="/"/>,
     },
     {
       path: "/detail-view",
@@ -38,6 +38,7 @@ const Router = () => {
       path: "/profile",
       element:isAuth? <Profile />:<Navigate to ="/"/>,
     },
+    
   
 
     { path: "*", element: <Navigate to="/404" replace /> },

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Box,
   Grid,
@@ -321,6 +321,28 @@ const DetailView = (props) => {
       );
     }
   };
+
+  // const RenderFrame = useMemo(
+  //   (link, dummy) => {
+  //     console.log(dummy, "Static");
+  //     return (
+  //       <iframe
+  //         // width: 100vw;
+  //         // position: absolute;
+  //         // left: 0;
+  //         // top: 0;
+  //         // height: 100vh;
+  //         deny
+  //         src={link}
+  //         title="Virtual lab"
+  //         width="100%"
+  //         height="100%"
+  //       ></iframe>
+  //     );
+  //   },
+
+  //   []
+  // );
   return (
     // <h2>Detrail view</h2>
     <Box className={classes.container}>
@@ -403,21 +425,30 @@ const DetailView = (props) => {
                   </Button>
                 </Box>
               </Box>
+
               {url.map((obj, index) => (
-                <TabPanel key={index} value={index + 1} sx={{ height: "91%" }}>
+                <>
+                  <TabPanel
+                    key={index}
+                    value={index + 1}
+                    sx={{ height: "91%" }}
+                  > 
+                  {/* {/* {tabValue===index?} */}
                   <iframe
                     // width: 100vw;
                     // position: absolute;
                     // left: 0;
                     // top: 0;
                     // height: 100vh;
-                    // style={"-webkit-transform:scale(0.5);-moz-transform-scale(0.5);"}
+                    deny
                     src={obj.link}
                     title="Virtual lab"
+                    // style={{ display: tabValue === index + 1 || "none" }}
                     width="100%"
                     height="100%"
                   ></iframe>
-                </TabPanel>
+                  </TabPanel>
+                </>
               ))}
             </TabContext>
           </Grid>

@@ -9,7 +9,7 @@ const ApiConfig = {
   machines: {
     getAllMachines: `${url}/machine/getAllMachines`,
     createMachine: `${url}/machine/create-machine`,
-    deleteMachine: `${url}/machine/deleteMachine`,
+    deleteMachine:`${url}/machine/deleteMachine`
   },
   steps: {
     createSteps: `${url}/steps/createSteps`,
