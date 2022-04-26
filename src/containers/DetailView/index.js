@@ -428,11 +428,11 @@ const DetailView = (props) => {
 
               {url.map((obj, index) => (
                 <>
-                  <TabPanel
+                  {/* <TabPanel
                     key={index}
                     value={index + 1}
                     sx={{ height: "91%" }}
-                  > 
+                  >  */}
                   {/* {/* {tabValue===index?} */}
                   <iframe
                     // width: 100vw;
@@ -443,11 +443,11 @@ const DetailView = (props) => {
                     deny
                     src={obj.link}
                     title="Virtual lab"
-                    // style={{ display: tabValue === index + 1 || "none" }}
+                    style={{ display: tabValue === index + 1 || "none" }}
                     width="100%"
                     height="100%"
                   ></iframe>
-                  </TabPanel>
+                  {/* </TabPanel> */}
                 </>
               ))}
             </TabContext>
