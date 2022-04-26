@@ -54,7 +54,7 @@ const Homepage = (theme) => {
 
   // dropdown data
   const [anchorEl, setAnchorEl] = useState(null);
-  const [fake,setFake]=useState(false);
+  const [fake, setFake] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -180,10 +180,10 @@ const Homepage = (theme) => {
         <Box textAlign="center" mb={4}>
           {" "}
           <Typography variant="h3" sx={{ color: "#ffff" }}>
-            Cyber Storm
+            Range Storm
           </Typography>
           <Typography variant="h5" sx={{ color: "#f3f3f3", marginTop: "10px" }}>
-            Link and visit the virtual machines on a click of a button!
+            Welcome to Cyber Range platform
           </Typography>
         </Box>
         {userRole === "admin" && (
@@ -223,7 +223,6 @@ const Homepage = (theme) => {
                 md={4}
                 lg={3}
                 key={machine._id}
-
                 sx={{
                   position: "relative",
                 }}
@@ -238,7 +237,7 @@ const Homepage = (theme) => {
                     fontSize: 44,
                   }}
                 />
-                <CustomCard data={machine} fun={getAllMachines}  />
+                <CustomCard data={machine} fun={getAllMachines} />
               </Grid>
             ))
           )}
