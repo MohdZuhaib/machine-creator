@@ -411,6 +411,7 @@ const DetailView = (props) => {
                     // left: 0;
                     // top: 0;
                     // height: 100vh;
+                    DENY
                     src={obj.link}
                     title="Virtual lab"
                     width="100%"

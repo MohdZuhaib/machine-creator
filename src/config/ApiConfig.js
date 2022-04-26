@@ -1,4 +1,4 @@
-export const url = "http://10.1.76.92:8000";
+export const url = "http://10.1.76.92:9000";
 
 const ApiConfig = {
   auth: {
@@ -9,6 +9,7 @@ const ApiConfig = {
   machines: {
     getAllMachines: `${url}/machine/getAllMachines`,
     createMachine: `${url}/machine/create-machine`,
+    deleteMachine:`${url}/machine/deleteMachine`
   },
   steps: {
     createSteps: `${url}/steps/createSteps`,
