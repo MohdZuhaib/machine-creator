@@ -6,6 +6,7 @@ import {
   Button,
   Box,
   MenuItem,
+  CardHeader,
 } from "@mui/material";
 import { MoreVert, Menu } from "@mui/icons-material";
 import { Link } from "react-router-dom";
@@ -28,10 +29,10 @@ const useStyles = makeStyles({
     marginTop: "5px",
   },
   createButton: {
-    position: "absolute",
-    bottom: 20,
-    left: 0,
-    width: "100%",
+    // position: "absolute",
+    // bottom: 20,
+    // left: 0,
+    // width: "100%",
   },
 });
 const CustomCard = ({ data, fun }) => {
@@ -72,6 +73,33 @@ const CustomCard = ({ data, fun }) => {
         color: "#ffff",
       }}
     >
+      <CardHeader
+        title={data.machineName}
+        // subheader={data.createdAt}
+        sx={{
+          "&css-nrdprl-MuiTypography-root": {
+            "&root": {
+              color: "#ffff !important",
+            },
+          },
+        }}
+        action={
+          userRole === "admin" && (
+            <Box sx={{ position: "relative" }}>
+              <DeleteIcon
+                onClick={() => {
+                  handleDelete(data);
+                }}
+              ></DeleteIcon>
+            </Box>
+          )
+        }
+        // sx={{ color: "#ffff" }}
+      />
+      <Typography variant='body1'>
+        {data.createdAt}
+      </Typography>
+
       <CardContent>
         <Box display="flex" alignItems="center" justifyContent="space-between">
           {/* <Typography variant="h5">{data.machineName}</Typography>
@@ -82,21 +110,7 @@ const CustomCard = ({ data, fun }) => {
             onClick={handleClick}
           /> */}
         </Box>
-        <Typography variant="h5">{data.machineName} </Typography>
-        {userRole === "admin" && (
-          <Box sx={{ position: "relative" }}>
-            <DeleteIcon
-              onClick={() => {
-                handleDelete(data);
-              }}
-              sx={{ position: "absolute", left: "95%", bottom: "90%" }}
-            ></DeleteIcon>
-          </Box>
-        )}
 
-        <Typography variant="body2" className={classes.dateCreated}>
-          {data.createdAt}
-        </Typography>
         <Typography variant="body1" sx={{ marginTop: "20px" }}>
           {data.description}
         </Typography>
@@ -119,6 +133,7 @@ const CustomCard = ({ data, fun }) => {
               steps: data.steps,
               id: data._id,
               machineName: data.machineName,
+              extLink: data.extLink,
             }}
           >
             <Button variant="outlined">Start</Button>

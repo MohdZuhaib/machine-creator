@@ -15,8 +15,9 @@ import {
   SwipeableDrawer,
   Dialog,
   DialogContent,
+  Link,
   DialogActions,
-  Link
+  
 } from "@mui/material";
 import { TabList, TabContext, TabPanel } from "@mui/lab";
 import * as React from "react";
@@ -175,6 +176,7 @@ const DetailView = (props) => {
   const theme = useTheme();
   const location = useLocation();
   const url = location.state.url;
+  const extLink = location.state.extLink;
   const machineName = location.state.machineName;
   console.log("url", url);
   // const steps = location.state.steps;
@@ -184,7 +186,7 @@ const DetailView = (props) => {
   const [steps, setSteps] = useState([]);
   const [options, setOptions] = useState([]);
   const [Mcq, setMcq] = useState(false);
-  console.log("Stepss", steps);
+  console.log("url", url);
   // For MUI Tabs
   const [checked, setChecked] = useState(true);
 
@@ -355,11 +357,7 @@ const DetailView = (props) => {
         </Typography>
       </Box>
       <Box mt={7} mx={3}>
-        <Grid
-          container
-          className={classes.descriptionContainer}
-        // spacing={isFull || 4}
-        >
+        <Grid container className={classes.descriptionContainer} spacing={4}>
           <Grid item xs={0} md={4} className={classes.contents}>
             <LeftPanel
               steps={steps}
@@ -421,44 +419,51 @@ const DetailView = (props) => {
                       <Tab key={index} label={obj.name} value={index + 1} />
                     ))}
                   </TabList>
+                  {extLink.map((link) => (
+                    <Link href={link.url} target="_blank">
+                      <Button>{link.name}</Button>
+                    </Link>
+                  ))}
                 </Box>
 
                 <Box textAlign="end">
-                  <Link href={url[tabValue - 1].link} target="#">
+                  <a href={url[tabValue - 1].link} target="_blank">
                     {/* <Button onClick={handleFull}> */}
                     <Fullscreen />
+                    </a>
                     {/* </Button> */}
-                  </Link>
+                  
                 </Box>
               </Box>
 
               {url.map((obj, index) => (
                 <>
-                  <TabPanel
+                  {/* <TabPanel
                     key={index}
                     value={index + 1}
                     sx={{ height: "91%" }}
                   >
                     {/* {/* {tabValue===index?} */}
-                    <iframe
-                      // width: 100vw;
-                      // position: absolute;
-                      // left: 0;
-                      // top: 0;
-                      // height: 100vh;
-                      deny
-                      src={obj.link}
-                      title="Virtual lab"
-                      // style={{ display: tabValue === index + 1 || "none" }}
-                      width="100%"
-                      height="100%"
-                    ></iframe>
-                  </TabPanel>
+                  <iframe
+                    // width: 100vw;
+                    // position: absolute;
+                    // left: 0;
+                    // top: 0;
+                    // height: 100vh;
+                    deny
+                    src={obj.link}
+                    title="Virtual lab"
+                    style={{ display: tabValue === index + 1 || "none" }}
+                    width="100%"
+                    height="100%"
+                  ></iframe>
+                  {/* </TabPanel> */}
                 </>
               ))}
             </TabContext>
           </Grid>
         </Grid>
+
         <SwipeableDrawer
           anchor="left"
           open={drawerOpen}
