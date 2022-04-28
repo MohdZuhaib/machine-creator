@@ -8,13 +8,13 @@ export const createMachine = async (values, handleClose, setActiveStep) => {
       machineName: values.name,
       description: values.description,
       url: values.url,
+      extLink: values.extLink,
       question: values.question,
       answer: values.answer,
-     
     });
     console.log("Machine Created", machineResponse.data.data);
     const machineId = machineResponse.data.data._id;
-    console.log('Steps Options',values.step)
+    console.log("Steps Options", values.step);
     values.steps.map((step) =>
       Axios.post(`${ApiConfig.steps.createSteps}/${machineId}`, {
         title: step.title,
@@ -22,7 +22,7 @@ export const createMachine = async (values, handleClose, setActiveStep) => {
         question: step.question,
         answer: step.answer,
         options: step.options,
-        optionsAns:step.optionsAns
+        optionsAns: step.optionsAns,
       })
     );
     // const stepsResponse =
