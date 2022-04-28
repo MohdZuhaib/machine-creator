@@ -3,6 +3,8 @@ import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import { connect } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { startLogin, login } from "../../../actions/auth";
 // import axios from "axios";
 // import ApiConfig from "../../../config/ApiConfig";
@@ -120,6 +122,7 @@ const Login = (props) => {
       <Typography varioant="h6" sx={{ marginTop: "10px", textAlign: "center" }}>
         Don`t have an account? <Link to="/Signup">Signup</Link>{" "}
       </Typography>
+      <ToastContainer />
     </div>
   );
 };

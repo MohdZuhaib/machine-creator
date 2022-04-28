@@ -16,6 +16,7 @@ import {
   Dialog,
   DialogContent,
   DialogActions,
+  Link
 } from "@mui/material";
 import { TabList, TabContext, TabPanel } from "@mui/lab";
 import * as React from "react";
@@ -213,14 +214,14 @@ const DetailView = (props) => {
   // const steps = ["name"];
   const [oneAnswer, setOne] = useState();
   const [validated, setValidated] = useState();
-  const [isFull, setFull] = useState(false);
+  // const [isFull, setFull] = useState(false);
   const [hide, setHide] = useState(false);
   const [drawerOpen, setDrawer] = useState(false);
   const [congrats, setCongrats] = useState(false);
-  const handleFull = () => {
-    isFull && setHide(false);
-    setFull(!isFull);
-  };
+  // const handleFull = () => {
+  //   isFull && setHide(false);
+  //   setFull(!isFull);
+  // };
   const storeAnswer = (e) => {
     setOne(e.target.value);
   };
@@ -290,17 +291,17 @@ const DetailView = (props) => {
     console.log("Effect  called");
   }, [Mcq, drawerOpen]);
 
-  const handleHover = (e) => {
-    if (isFull) {
-      if (e.pageY < 10) {
-        setHide(false);
-        // setTimeout(setHide(true),3000)
-      }
-    }
+  // const handleHover = (e) => {
+  //   if (isFull) {
+  //     if (e.pageY < 10) {
+  //       setHide(false);
+  //       // setTimeout(setHide(true),3000)
+  //     }
+  //   }
 
-    // ssetHide(true);
-    // setTimeout(setHide(true), 300);
-  };
+  //   // ssetHide(true);
+  //   // setTimeout(setHide(true), 300);
+  // };
 
   const onLeave = () => {
     setHide(true);
@@ -343,6 +344,7 @@ const DetailView = (props) => {
 
   //   []
   // );
+  console.log("activeUrl", url[tabValue - 1]);
   return (
     // <h2>Detrail view</h2>
     <Box className={classes.container}>
@@ -356,7 +358,7 @@ const DetailView = (props) => {
         <Grid
           container
           className={classes.descriptionContainer}
-          spacing={isFull || 4}
+        // spacing={isFull || 4}
         >
           <Grid item xs={0} md={4} className={classes.contents}>
             <LeftPanel
@@ -376,25 +378,27 @@ const DetailView = (props) => {
           <Grid
             item
             xs={12}
-            md={isFull ? 12 : 8}
-            className={isFull ? classes.fullScreen : classes.contents}
+            // md={isFull ? 12 : 8}
+            md={8}
+            className={classes.contents}
+            // className={isFull ? classes.fullScreen : classes.contents}
             sx={{ backgroundColor: "secondary.main" }}
-            onMouseEnter={isFull && handleHover}
-            // sx={
-            //   isFull
-            //     ? {
-            //         left: 0,
-            //         right: 0,
-            //         top: 0,
-            //         position: "absolute",
-            //         height: "100%",
-            //         width: "100vw",
-            //         paddingTop: 0,
-            //       }
-            //     : {
-            //         height: "57vh",
-            //       }
-            // }
+          // onMouseEnter={isFull && handleHover}
+          // sx={
+          //   isFull
+          //     ? {
+          //         left: 0,
+          //         right: 0,
+          //         top: 0,
+          //         position: "absolute",
+          //         height: "100%",
+          //         width: "100vw",
+          //         paddingTop: 0,
+          //       }
+          //     : {
+          //         height: "57vh",
+          //       }
+          // }
           >
             <TabContext value={tabValue}>
               <Box
@@ -403,10 +407,10 @@ const DetailView = (props) => {
                 justifyContent="space-between"
                 alignItems="center"
                 sx={hide && { display: "none" }}
-                onMouseLeave={isFull && onLeave}
+              // onMouseLeave={isFull && onLeave}
               >
                 <Box display="flex" alignItems="center">
-                  <Button onClick={openDrawer}>{isFull && <Menu />}</Button>
+                  {/* <Button onClick={openDrawer}>{isFull && <Menu />}</Button> */}
                   <TabList
                     onChange={handleTabChange}
                     aria-label="lab API tabs example"
@@ -420,9 +424,11 @@ const DetailView = (props) => {
                 </Box>
 
                 <Box textAlign="end">
-                  <Button onClick={handleFull}>
+                  <Link href={url[tabValue - 1].link} target="#">
+                    {/* <Button onClick={handleFull}> */}
                     <Fullscreen />
-                  </Button>
+                    {/* </Button> */}
+                  </Link>
                 </Box>
               </Box>
 
@@ -432,21 +438,21 @@ const DetailView = (props) => {
                     key={index}
                     value={index + 1}
                     sx={{ height: "91%" }}
-                  > 
-                  {/* {/* {tabValue===index?} */}
-                  <iframe
-                    // width: 100vw;
-                    // position: absolute;
-                    // left: 0;
-                    // top: 0;
-                    // height: 100vh;
-                    deny
-                    src={obj.link}
-                    title="Virtual lab"
-                    // style={{ display: tabValue === index + 1 || "none" }}
-                    width="100%"
-                    height="100%"
-                  ></iframe>
+                  >
+                    {/* {/* {tabValue===index?} */}
+                    <iframe
+                      // width: 100vw;
+                      // position: absolute;
+                      // left: 0;
+                      // top: 0;
+                      // height: 100vh;
+                      deny
+                      src={obj.link}
+                      title="Virtual lab"
+                      // style={{ display: tabValue === index + 1 || "none" }}
+                      width="100%"
+                      height="100%"
+                    ></iframe>
                   </TabPanel>
                 </>
               ))}
