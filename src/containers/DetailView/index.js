@@ -15,6 +15,7 @@ import {
   SwipeableDrawer,
   Dialog,
   DialogContent,
+  Link,
   DialogActions,
 } from "@mui/material";
 import { TabList, TabContext, TabPanel } from "@mui/lab";
@@ -174,6 +175,7 @@ const DetailView = (props) => {
   const theme = useTheme();
   const location = useLocation();
   const url = location.state.url;
+  const extLink = location.state.extLink;
   const machineName = location.state.machineName;
   console.log("url", url);
   // const steps = location.state.steps;
@@ -354,11 +356,7 @@ const DetailView = (props) => {
         </Typography>
       </Box>
       <Box mt={7} mx={3}>
-        <Grid
-          container
-          className={classes.descriptionContainer}
-          // spacing={isFull || 4}
-        >
+        <Grid container className={classes.descriptionContainer} spacing={4}>
           <Grid item xs={0} md={4} className={classes.contents}>
             <LeftPanel
               steps={steps}
@@ -420,10 +418,15 @@ const DetailView = (props) => {
                       <Tab key={index} label={obj.name} value={index + 1} />
                     ))}
                   </TabList>
+                  {extLink.map((link) => (
+                    <Link href={link.url} target="_blank">
+                      <Button>{link.name}</Button>
+                    </Link>
+                  ))}
                 </Box>
 
                 <Box textAlign="end">
-                  <a href={url[tabValue - 1].link} target="#">
+                  <a href={url[tabValue - 1].link} target="_blank">
                     {/* <Button onClick={handleFull}> */}
                     <Fullscreen />
                     {/* </Button> */}
@@ -458,6 +461,7 @@ const DetailView = (props) => {
             </TabContext>
           </Grid>
         </Grid>
+
         <SwipeableDrawer
           anchor="left"
           open={drawerOpen}

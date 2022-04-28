@@ -12,11 +12,18 @@ import {
   FormLabel,
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-const fetchUrl = (e, formik, index) => {
-  formik.values.url[index] = {
-    ...formik.values.url[index],
-    [e.target.name]: e.target.value,
-  };
+const fetchUrl = (e, formik, index, ext) => {
+  if (ext) {
+    formik.values.extLink[index] = {
+      ...formik.values.extLink[index],
+      [e.target.name]: e.target.value,
+    };
+  } else {
+    formik.values.url[index] = {
+      ...formik.values.url[index],
+      [e.target.name]: e.target.value,
+    };
+  }
 };
 
 const fetchSteps = (e, formik, index) =>
@@ -94,10 +101,16 @@ const Mcq = ({ handleOptions, classes, index }) => (
 );
 export const AddMachineDetails = ({ classes, formik }) => {
   const [links, setLinks] = useState([]);
+  const [extLink, setExt] = useState([]);
 
-  const deleteLinks = () => {
-    links.pop();
-    setLinks([...links]);
+  const deleteLinks = (e,params) => {
+    if (params) {
+      extLink.pop();
+      setExt([...extLink]);
+    } else {
+      links.pop();
+      setLinks([...links]);
+    }
   };
   return (
     <>
@@ -146,6 +159,66 @@ export const AddMachineDetails = ({ classes, formik }) => {
         error={formik.touched.description && Boolean(formik.errors.description)}
         helperText={formik.touched.description && formik.errors.description}
       />
+
+      {extLink.map((link, index) => (
+        <>
+          <Typography variant="h5" className={classes.formMargin}>
+            External Links {index + 1}
+          </Typography>
+          <Typography variant="h5" className={classes.formMargin}>
+            Name
+          </Typography>
+          <TextField
+            variant="outlined"
+            size="small"
+            fullWidth
+            name="name"
+            sx={{ color: "#ffff" }}
+            onChange={(e) => fetchUrl(e, formik, index, "ext")}
+            className={classes.input}
+            InputProps={{
+              className: classes.input,
+              classes: {
+                notchedOutline: classes.notchedOutline,
+                root: classes.root,
+              },
+            }}
+            error={formik.touched.url && Boolean(formik.errors.url)}
+            helperText={formik.touched.url && formik.errors.url}
+          />
+          <Typography variant="h5" className={classes.formMargin}>
+            Url
+          </Typography>
+          <TextField
+            variant="outlined"
+            size="small"
+            fullWidth
+            name="url"
+            sx={{ color: "#ffff" }}
+            onChange={(e) => fetchUrl(e, formik, index, "ext")}
+            className={classes.input}
+            InputProps={{
+              className: classes.input,
+              classes: {
+                notchedOutline: classes.notchedOutline,
+                root: classes.root,
+              },
+            }}
+            error={formik.touched.url && Boolean(formik.errors.url)}
+            helperText={formik.touched.url && formik.errors.url}
+          />
+          {index > 0 && index === extLink.length - 1 ? (
+            <Button onClick={(e) => deleteLinks(e,"ext")}>remove</Button>
+          ) : null}
+        </>
+      ))}
+        <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => setExt([...extLink, `Link ${extLink.length + 1}`])}
+      >
+        <AddCircleOutlineIcon sx={{ marginRight: "5px" }} /> External Link
+      </Button>
 
       {links.map((link, index) => (
         <Box key={index} py={2}>
@@ -208,6 +281,7 @@ export const AddMachineDetails = ({ classes, formik }) => {
       >
         <AddCircleOutlineIcon sx={{ marginRight: "5px" }} /> Machine
       </Button>
+    
     </>
   );
 };

@@ -63,7 +63,8 @@ const CustomDailog = ({ open, handleClose }) => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      url: [{ name: "", link: "" }],
+      url: [{ name: "", link: "", extUrl: "" }],
+      extLink: [{ name: "", url: "" }],
       description: "",
       steps: [
         {
@@ -138,6 +139,7 @@ const CustomDailog = ({ open, handleClose }) => {
             }
           />
         </form>
+        <Button onClick={handleClose}>Cancel</Button>
       </DialogContent>
     </Dialog>
   );
