@@ -25,7 +25,7 @@
   width: 300px;
   padding-top: 20px;
   padding-bottom: 20px;
-    height: 200px;
+  height: 200px;
   transition: 0.4s;
 }
 
@@ -45,8 +45,9 @@
   border-top-right-radius: 13px;
   border-top-left-radius: 13px;
   box-shadow: inset 0 0 60px #111111, inset 20px 0 80px #380138,
-    inset -20px 0 80px #2f6666, inset 20px 0 300px #0b34a7, inset -20px 0 300px #14e7e7,
-    0 0 50px #fff, -10px 0 80px #3b6ad0, 10px 0 80px #fff;
+    inset -20px 0 80px #2f6666, inset 20px 0 300px #0b34a7,
+    inset -20px 0 300px #14e7e7, 0 0 50px #fff, -10px 0 80px #3b6ad0,
+    10px 0 80px #fff;
 }
 
 .container .card .face.face1 .content {
@@ -65,7 +66,7 @@
   display: inline-block;
 }
 
-.container .card .face.face1 .content  {
+.container .card .face.face1 .content {
   font-size: 1em;
   color: white;
   text-align: center;
@@ -92,8 +93,11 @@
 .container .card:hover .face.face2 {
   transform: translateY(0);
   /* position: absolute; */
+  padding-left: 20px;
+  padding-right: 20px;
+
   opacity: 1;
-  height: 80%;
+  height: 65%;
 }
 
 .container .card .face.face2 .content p,
