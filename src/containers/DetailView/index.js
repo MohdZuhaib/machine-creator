@@ -185,7 +185,7 @@ const DetailView = (props) => {
   const [steps, setSteps] = useState([]);
   const [options, setOptions] = useState([]);
   const [Mcq, setMcq] = useState(false);
-  console.log("Stepss", steps);
+  console.log("url", url);
   // For MUI Tabs
   const [checked, setChecked] = useState(true);
 
