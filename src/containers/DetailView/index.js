@@ -17,6 +17,7 @@ import {
   DialogContent,
   Link,
   DialogActions,
+  
 } from "@mui/material";
 import { TabList, TabContext, TabPanel } from "@mui/lab";
 import * as React from "react";
@@ -380,22 +381,22 @@ const DetailView = (props) => {
             className={classes.contents}
             // className={isFull ? classes.fullScreen : classes.contents}
             sx={{ backgroundColor: "secondary.main" }}
-            // onMouseEnter={isFull && handleHover}
-            // sx={
-            //   isFull
-            //     ? {
-            //         left: 0,
-            //         right: 0,
-            //         top: 0,
-            //         position: "absolute",
-            //         height: "100%",
-            //         width: "100vw",
-            //         paddingTop: 0,
-            //       }
-            //     : {
-            //         height: "57vh",
-            //       }
-            // }
+          // onMouseEnter={isFull && handleHover}
+          // sx={
+          //   isFull
+          //     ? {
+          //         left: 0,
+          //         right: 0,
+          //         top: 0,
+          //         position: "absolute",
+          //         height: "100%",
+          //         width: "100vw",
+          //         paddingTop: 0,
+          //       }
+          //     : {
+          //         height: "57vh",
+          //       }
+          // }
           >
             <TabContext value={tabValue}>
               <Box
@@ -404,7 +405,7 @@ const DetailView = (props) => {
                 justifyContent="space-between"
                 alignItems="center"
                 sx={hide && { display: "none" }}
-                // onMouseLeave={isFull && onLeave}
+              // onMouseLeave={isFull && onLeave}
               >
                 <Box display="flex" alignItems="center">
                   {/* <Button onClick={openDrawer}>{isFull && <Menu />}</Button> */}
@@ -429,8 +430,9 @@ const DetailView = (props) => {
                   <a href={url[tabValue - 1].link} target="_blank">
                     {/* <Button onClick={handleFull}> */}
                     <Fullscreen />
+                    </a>
                     {/* </Button> */}
-                  </a>
+                  
                 </Box>
               </Box>
 
