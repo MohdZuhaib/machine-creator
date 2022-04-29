@@ -1,11 +1,33 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Box } from "@mui/material";
-import { FlashOn } from "@mui/icons-material";
+import { FlashOn, Delete } from "@mui/icons-material";
+import jwtDecode from "jwt-decode";
+import axios from "axios";
+import ApiConfig from "../../config/ApiConfig";
+
 // import { motion } from "framer-motion";
 import "./index.css";
 
-const Animated = ({ data }) => (
-  <div className="container">
+const Animated = ({ data, fun }) => {
+  const [userRole, setUserRole] = useState();
+  console.log(userRole)
+  useEffect(() => {
+    const localToken = localStorage.getItem("token");
+    const token = jwtDecode(localToken);
+    console.log("token ki detail", token);
+    console.log("Token", token.role);
+    setUserRole(token.role);
+  }, []);
+  const handleDelete = async (data) => {
+    let response = await axios.delete(
+      `${ApiConfig.machines.deleteMachine}/${data._id}`
+    );
+
+    // console.log("response",response.data)
+    fun();
+  };
+  return <div className="container">
     <div className="card">
       <div className="face face1">
         <FlashOn
@@ -25,17 +47,17 @@ const Animated = ({ data }) => (
       </div>
       <div
         className="face face2"
-        // initial={{ y: "-100px" }}
-        // animate={{ y: "100px" }}
-        // whileHover={{
-        //   transition: { type: "spring", delay: 0.5 },
-        //   transform: "translateY(100px)",
-        // }}
-        // transition={{ type: "spring", stiffness: 120 }}
+      // initial={{ y: "-100px" }}
+      // animate={{ y: "100px" }}
+      // whileHover={{
+      //   transition: { type: "spring", delay: 0.5 },
+      //   transform: "translateY(100px)",
+      // }}
+      // transition={{ type: "spring", stiffness: 120 }}
       >
         <div className="content">
-          <p>{data.description}</p>
-          <Box pt={2} textAlign="center">
+          <h6>{data.description}</h6>
+          <Box pt={2} display='flex' justifyContent="center">
             <Link
               to={{
                 pathname: "/detail-view",
@@ -49,12 +71,17 @@ const Animated = ({ data }) => (
               }}
             >
               <Button variant="contained">Start</Button>
+
             </Link>
+            {userRole === 'admin' && <Button variant="contained" color='error' sx={{ ml: 2 }} onClick={() =>
+              handleDelete(data)
+            }><Delete /> Delete</Button>}
+
           </Box>
         </div>
       </div>
     </div>
-  </div>
-);
+  </div >
+}
 
 export default Animated;
