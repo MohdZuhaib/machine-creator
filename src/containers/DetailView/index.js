@@ -32,7 +32,7 @@ import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ApiConfig from "../../config/ApiConfig";
-import congratulations from "../../assets/congratulations2.gif";
+import congratulations from "../../assets/congratulations.jpeg";
 
 const useStyles = makeStyles({
   container: {
@@ -415,11 +415,11 @@ const DetailView = (props) => {
                     textColor="primary"
                     indicatorColor="#ffff"
                   >
-                    {url.map((obj, index) => (
+                    {url?.map((obj, index) => (
                       <Tab key={index} label={obj.name} value={index + 1} />
                     ))}
                   </TabList>
-                  {extLink.map((link) => (
+                  {extLink?.map((link) => (
                     <Link
                       href={link.url}
                       target="_blank"
@@ -439,7 +439,7 @@ const DetailView = (props) => {
                 </Box>
               </Box>
 
-              {url.map((obj, index) => (
+              {url?.map((obj, index) => (
                 <>
                   {/* <TabPanel
                     key={index}

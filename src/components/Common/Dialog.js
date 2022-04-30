@@ -55,11 +55,6 @@ const CustomDailog = ({ open, handleClose }) => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleNext = (values) => {
-    if (values.name === "" || values.url === "" || values.description === "") {
-      return;
-    } else setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -84,6 +79,12 @@ const CustomDailog = ({ open, handleClose }) => {
     },
   });
 
+  const handleNext = (values) => {
+    formik.validateField("name");
+    if (values.name === "" || values.url === "" || values.description === "") {
+      return;
+    } else setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
   const handleChange = formik.handleChange;
   const steps = [
     <AddMachineDetails
