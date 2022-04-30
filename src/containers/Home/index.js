@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     // backgroundColor: theme.palette.secondary.main,
     minHeight: "100vh",
+    padding: 0,
   },
   avatar: {
     width: "45px",
@@ -92,7 +93,6 @@ const Homepage = (theme) => {
     if (reason && reason == "backdropClick") return;
     setOpenDialog(false);
   };
-
 
   const signout = () => {
     localStorage.removeItem("token");
@@ -349,127 +349,140 @@ const Homepage = (theme) => {
           </div>
         </Toolbar>
       </AppBar>
-      <Box sx={{position:"relative"}}>
-      <Particles
-      id="tsparticles"
-      init={particlesInit}
-      loaded={particlesLoaded}
-      options={{
-        background: {
-          color: {
-            value: "black",
-          },
-        },
-        fpsLimit: 120,
-        interactivity: {
-          events: {
-            onClick: {
-              enable: true,
-              mode: "push",
+      <Box sx={{ position: "relative" }}>
+        <Particles
+          id="tsparticles"
+          init={particlesInit}
+          loaded={particlesLoaded}
+          options={{
+            background: {
+              color: {
+                value: "black",
+              },
             },
-            onHover: {
-              enable: true,
-              mode: "repulse",
+            fpsLimit: 120,
+            interactivity: {
+              events: {
+                onClick: {
+                  enable: true,
+                  mode: "push",
+                },
+                onHover: {
+                  enable: true,
+                  mode: "repulse",
+                },
+                resize: true,
+              },
+              modes: {
+                push: {
+                  quantity: 4,
+                },
+                repulse: {
+                  distance: 200,
+                  duration: 0.4,
+                },
+              },
             },
-            resize: true,
-          },
-          modes: {
-            push: {
-              quantity: 4,
+            particles: {
+              color: {
+                value: "FF7700",
+              },
+              links: {
+                color: "7FB5FF",
+                distance: 150,
+                enable: true,
+                opacity: 0.5,
+                width: 1,
+              },
+              collisions: {
+                enable: true,
+              },
+              move: {
+                direction: "none",
+                enable: true,
+                outModes: {
+                  default: "bounce",
+                },
+                random: false,
+                speed: 2,
+                straight: false,
+              },
+              number: {
+                density: {
+                  enable: true,
+                  area: 800,
+                },
+                value: 80,
+              },
+              opacity: {
+                value: 0.5,
+              },
+              shape: {
+                type: "circle",
+              },
+              size: {
+                value: { min: 1, max: 5 },
+              },
             },
-            repulse: {
-              distance: 200,
-              duration: 0.4,
-            },
-          },
-        },
-        particles: {
-          color: {
-            value: "FF7700",
-          },
-          links: {
-            color: "7FB5FF",
-            distance: 150,
-            enable: true,
-            opacity: 0.5,
-            width: 1,
-          },
-          collisions: {
-            enable: true,
-          },
-          move: {
-            direction: "none",
-            enable: true,
-            outModes: {
-              default: "bounce",
-            },
-            random: false,
-            speed: 2,
-            straight: false,
-          },
-          number: {
-            density: {
-              enable: true,
-              area: 800,
-            },
-            value: 80,
-          },
-          opacity: {
-            value: 0.5,
-          },
-          shape: {
-            type: "circle",
-          },
-          size: {
-            value: { min: 1, max: 5 },
-          },
-        },
-        detectRetina: true,
-      }}
-    />
-      
-      <Box p={8} className={classes.container} sx={{ height:"inherit",width:"inherit",position:"absolute",top:"0",background:"transparent"}}>
-        <Box textAlign="center" mb={4}>
-          {" "}
-          <Typography variant="h3" sx={{ color: "#ffff" }}>
-            Range Storm
-          </Typography>
-          <Typography variant="h5" sx={{ color: "#f3f3f3", marginTop: "10px" }}>
-            Welcome to Cyber Range platform
-          </Typography>
-        </Box>
-        {userRole === "admin" && (
-          <Button
-            variant="contained"
-            style={{ marginBottom: "20px" }}
-            onClick={handleClickOpen}
-          >
-            Create Lab
-          </Button>
-        )}
+            detectRetina: true,
+          }}
+        />
 
-        <Grid container spacing={4}>
-          {isLoading ? (
-            <CircularProgress
-              sx={{
-                color: "#ffff",
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-              }}
-              fontSize="large"
-            />
-          ) : machines.length < 1 ? (
-            <Grid item sm={12} md={4} xl={3}>
-              {" "}
-              <Typography variant="h4" sx={{ color: "#ffff" }}>
-                No Data found!
-              </Typography>
-            </Grid>
-          ) : (
-            machines.map((machine) => (
-              <>
-                {/* <Grid
+        <Box
+          p={8}
+          className={classes.container}
+          sx={{
+            height: "inherit",
+            width: "100%",
+            position: "absolute",
+            top: "0",
+            background: "transparent",
+          }}
+        >
+          <Box textAlign="center" mb={4}>
+            {" "}
+            <Typography variant="h3" sx={{ color: "#ffff" }}>
+              Range Storm
+            </Typography>
+            <Typography
+              variant="h5"
+              sx={{ color: "#f3f3f3", marginTop: "10px" }}
+            >
+              Welcome to Cyber Range platform
+            </Typography>
+          </Box>
+          {userRole === "admin" && (
+            <Button
+              variant="contained"
+              style={{ marginBottom: "20px" }}
+              onClick={handleClickOpen}
+            >
+              Create Lab
+            </Button>
+          )}
+
+          <Grid container spacing={4}>
+            {isLoading ? (
+              <CircularProgress
+                sx={{
+                  color: "#ffff",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                }}
+                fontSize="large"
+              />
+            ) : machines.length < 1 ? (
+              <Grid item sm={12} md={4} xl={3}>
+                {" "}
+                <Typography variant="h4" sx={{ color: "#ffff" }}>
+                  No Data found!
+                </Typography>
+              </Grid>
+            ) : (
+              machines.map((machine) => (
+                <>
+                  {/* <Grid
                   item
                   xs={12}
                   sm={6}
@@ -483,22 +496,21 @@ const Homepage = (theme) => {
                
                   <CustomCard data={machine} fun={getAllMachines} />
                 </Grid> */}
-                <Grid item xs={12} sm={6} md={4} lg={3} key={machine._id}>
-                  <Animated
-                    data={machine}
-                    fun={getAllMachines}
-                    // handleClickConfirm={handleClickConfirm}
-                  />
-                </Grid>
-              </>
-            ))
-          )}
-        </Grid>
-        {/* <Particles options={options} /> */}
+                  <Grid item xs={12} sm={6} md={4} lg={3} key={machine._id}>
+                    <Animated
+                      data={machine}
+                      fun={getAllMachines}
+                      // handleClickConfirm={handleClickConfirm}
+                    />
+                  </Grid>
+                </>
+              ))
+            )}
+          </Grid>
+          {/* <Particles options={options} /> */}
 
-        <CustomDialog open={openDialog} handleClose={closeDialog} />
-      
-      </Box>
+          <CustomDialog open={openDialog} handleClose={closeDialog} />
+        </Box>
       </Box>
     </>
     //   )}
