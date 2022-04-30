@@ -100,10 +100,17 @@ const Mcq = ({ handleOptions, classes, index }) => (
   </Grid>
 );
 export const AddMachineDetails = ({ classes, formik }) => {
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState(["Machine 1"]);
   const [extLink, setExt] = useState([]);
 
-  const deleteLinks = (e,params) => {
+  function validateMachineName(value) {
+    let error;
+    if (value === "") {
+      error = "Enter Machine Name";
+    }
+    return error;
+  }
+  const deleteLinks = (e, params) => {
     if (params) {
       extLink.pop();
       setExt([...extLink]);
@@ -208,11 +215,11 @@ export const AddMachineDetails = ({ classes, formik }) => {
             helperText={formik.touched.url && formik.errors.url}
           />
           {index > 0 && index === extLink.length - 1 ? (
-            <Button onClick={(e) => deleteLinks(e,"ext")}>remove</Button>
+            <Button onClick={(e) => deleteLinks(e, "ext")}>remove</Button>
           ) : null}
         </>
       ))}
-        <Button
+      <Button
         variant="outlined"
         color="primary"
         onClick={() => setExt([...extLink, `Link ${extLink.length + 1}`])}
@@ -234,6 +241,7 @@ export const AddMachineDetails = ({ classes, formik }) => {
             size="small"
             fullWidth
             name="name"
+            validate={validateMachineName}
             sx={{ color: "#ffff" }}
             onChange={(e) => fetchUrl(e, formik, index)}
             className={classes.input}
@@ -247,6 +255,7 @@ export const AddMachineDetails = ({ classes, formik }) => {
             error={formik.touched.url && Boolean(formik.errors.url)}
             helperText={formik.touched.url && formik.errors.url}
           />
+          {/* {formik.errors.url && formik.touched.url && <div>{formik.errors.url}</div>} */}
           <Typography variant="h5" className={classes.formMargin}>
             URL
           </Typography>
@@ -281,7 +290,6 @@ export const AddMachineDetails = ({ classes, formik }) => {
       >
         <AddCircleOutlineIcon sx={{ marginRight: "5px" }} /> Machine
       </Button>
-    
     </>
   );
 };

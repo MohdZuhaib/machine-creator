@@ -32,7 +32,7 @@ import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ApiConfig from "../../config/ApiConfig";
-import congratulations from "../../assets/congratulations2.gif";
+import congratulations from "../../assets/congratulations.jpeg";
 
 const useStyles = makeStyles({
   container: {
