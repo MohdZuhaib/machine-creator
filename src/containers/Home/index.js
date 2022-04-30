@@ -284,7 +284,7 @@ const Homepage = (theme) => {
     //   {({ colorMode }) => (
     <>
       {" "}
-      <AppBar position="static" color="secondary">
+      <AppBar position="static" color="secondary" sx={{ boxShadow: "none" }}>
         {/* <Button variant='contained' onClick={colorMode.toggleColorMode}>Mode</Button> */}
         <Toolbar>
           {/* */}
