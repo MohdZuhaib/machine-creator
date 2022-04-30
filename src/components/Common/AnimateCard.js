@@ -69,7 +69,7 @@ const Animated = ({ data, fun }) => {
           // transition={{ type: "spring", stiffness: 120 }}
         >
           <div className="content">
-            <h6>{data.description}</h6>
+            <h5>{data.description}</h5>
             <Box pt={2} display="flex" justifyContent="center">
               <Link
                 to={{
