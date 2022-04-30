@@ -108,7 +108,7 @@ const LeftPanel = ({
       {steps[activeStep]?.options.length ? (
         <FormControl component="fieldset">
           <FormGroup>
-            {steps[activeStep]?.options.map((option) => (
+            {steps[activeStep]?.options?.map((option) => (
               <>{renderLabel(option)}</>
             ))}
           </FormGroup>
@@ -415,11 +415,11 @@ const DetailView = (props) => {
                     textColor="primary"
                     indicatorColor="#ffff"
                   >
-                    {url.map((obj, index) => (
+                    {url?.map((obj, index) => (
                       <Tab key={index} label={obj.name} value={index + 1} />
                     ))}
                   </TabList>
-                  {extLink.map((link) => (
+                  {extLink?.map((link) => (
                     <Link
                       href={link.url}
                       target="_blank"
@@ -439,7 +439,7 @@ const DetailView = (props) => {
                 </Box>
               </Box>
 
-              {url.map((obj, index) => (
+              {url?.map((obj, index) => (
                 <>
                   {/* <TabPanel
                     key={index}
