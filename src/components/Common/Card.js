@@ -111,7 +111,7 @@ const CustomCard = ({ data, fun }) => {
           /> */}
         </Box>
 
-        <Typography variant="body1" sx={{ marginTop: "20px" }}>
+        <Typography variant="h6" sx={{ marginTop: "20px" }}>
           {data.description}
         </Typography>
         <Box

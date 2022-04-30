@@ -23,6 +23,7 @@ import jwtDecode from "jwt-decode";
 import logo from "../../assets/logo.svg";
 // import CustomCard from "../../components/Common/Card";
 import CustomDialog from "../../components/Common/Dialog";
+import Confirmation from "../../components/Common/Confirmation";
 import Animated from "../../components/Common/AnimateCard";
 import "./index.css";
 import ApiConfig, { url } from "../../config/ApiConfig";
@@ -78,21 +79,20 @@ const Homepage = (theme) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   // general data
   const classes = useStyles();
   const handleClickOpen = () => {
     setOpenDialog(true);
   };
+  const handleClose = () => setAnchorEl(null);
 
   const closeDialog = (event, reason) => {
     console.log(event);
     if (reason && reason == "backdropClick") return;
     setOpenDialog(false);
   };
+
 
   const signout = () => {
     localStorage.removeItem("token");
@@ -484,15 +484,20 @@ const Homepage = (theme) => {
                   <CustomCard data={machine} fun={getAllMachines} />
                 </Grid> */}
                 <Grid item xs={12} sm={6} md={4} lg={3} key={machine._id}>
-                  <Animated data={machine} fun={getAllMachines} />
+                  <Animated
+                    data={machine}
+                    fun={getAllMachines}
+                    // handleClickConfirm={handleClickConfirm}
+                  />
                 </Grid>
               </>
             ))
           )}
         </Grid>
         {/* <Particles options={options} /> */}
-        
+
         <CustomDialog open={openDialog} handleClose={closeDialog} />
+      
       </Box>
       </Box>
     </>

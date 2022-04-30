@@ -28,7 +28,7 @@ const LoginLayout = () => (
               variant="h1"
               sx={{  letterSpacing: "0.15em" }}
             >
-              Cyber Storm
+              Range Storm
             </Typography>
           
           </Box>
@@ -41,6 +41,7 @@ const LoginLayout = () => (
           flexDirection="column"
           height="100%"
           alignItems="center"
+          sx={{bgcolor:'#fff'}}
           justifyContent="center"
           sx={{bgcolor:'#fff'}}
         >
