@@ -415,9 +415,13 @@ const DetailView = (props) => {
                     textColor="primary"
                     indicatorColor="#ffff"
                   >
-                    {url?.map((obj, index) => (
-                      <Tab key={index} label={obj.name} value={index + 1} />
-                    ))}
+                    {url.length !== 0 ? (
+                      url.map((obj, index) => (
+                        <Tab key={index} label={obj.name} value={index + 1} />
+                      ))
+                    ) : (
+                      <Typography variant="h1">Nothing to show</Typography>
+                    )}
                   </TabList>
                   {extLink?.map((link) => (
                     <Link
@@ -439,30 +443,34 @@ const DetailView = (props) => {
                 </Box>
               </Box>
 
-              {url?.map((obj, index) => (
-                <>
-                  {/* <TabPanel
+              {url.length !== 0 ? (
+                url?.map((obj, index) => (
+                  <>
+                    {/* <TabPanel
                     key={index}
                     value={index + 1}
                     sx={{ height: "91%" }}
                   >
                     {/* {/* {tabValue===index?} */}
-                  <iframe
-                    // width: 100vw;
-                    // position: absolute;
-                    // left: 0;
-                    // top: 0;
-                    // height: 100vh;
-                    deny
-                    src={obj.link}
-                    title="Virtual lab"
-                    style={{ display: tabValue === index + 1 || "none" }}
-                    width="100%"
-                    height="100%"
-                  ></iframe>
-                  {/* </TabPanel> */}
-                </>
-              ))}
+                    <iframe
+                      // width: 100vw;
+                      // position: absolute;
+                      // left: 0;
+                      // top: 0;
+                      // height: 100vh;
+                      deny
+                      src={obj.link}
+                      title="Virtual lab"
+                      style={{ display: tabValue === index + 1 || "none" }}
+                      width="100%"
+                      height="100%"
+                    ></iframe>
+                    {/* </TabPanel> */}
+                  </>
+                ))
+              ) : (
+                <Typography variant="h1">Nothing to show</Typography>
+              )}
             </TabContext>
           </Grid>
         </Grid>
