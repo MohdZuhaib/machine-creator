@@ -429,14 +429,14 @@ const Homepage = (theme) => {
         />
 
         <Box
-          p={8}
+          pl={8}
           className={classes.container}
           sx={{
-            height: "inherit",
-            width: "100%",
-            position: "absolute",
-            top: "0",
-            background: "transparent",
+            // height: "inherit",
+            // width: "100%",
+            // position: "absolute",
+            // top: "0",
+            // background: "transparent",
           }}
         >
           <Box textAlign="center" mb={4}>
