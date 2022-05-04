@@ -106,9 +106,7 @@ const Homepage = (theme) => {
     const profilePicture = response.data.data.avatar;
     const Initials = `${response.data.data.firstName[0]}${response.data.data.lastName[0]}`;
     console.log("initials", initials);
-    if (profilePicture) {
-      setAvatar(profilePicture);
-    } else setInitials(Initials);
+    setInitials(Initials);
   };
   const getAllMachines = async () => {
     try {
@@ -306,17 +304,9 @@ const Homepage = (theme) => {
               sx={{ mr: 2 }}
               onClick={handleClick}
             >
-              {avatar ? (
-                <img
-                  src={`${url}${avatar}`}
-                  alt="avatar"
-                  className={classes.avatar}
-                />
-              ) : (
-                <Typography variant="h6" sx={{ letterSpacing: "0.15em" }}>
-                  {initials}
-                </Typography>
-              )}
+              <Typography variant="h6" sx={{ letterSpacing: "0.15em" }}>
+                {initials}
+              </Typography>
             </IconButton>
 
             <Menu
@@ -360,7 +350,7 @@ const Homepage = (theme) => {
                 value: "black",
               },
             },
-            fpsLimit: 120,
+            fpsLimit: 60,
             interactivity: {
               events: {
                 onClick: {
@@ -380,6 +370,9 @@ const Homepage = (theme) => {
                 repulse: {
                   distance: 200,
                   duration: 0.4,
+                },
+                sloe: {
+                  factor: 3,
                 },
               },
             },

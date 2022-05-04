@@ -100,7 +100,7 @@ const Mcq = ({ handleOptions, classes, index }) => (
   </Grid>
 );
 export const AddMachineDetails = ({ classes, formik }) => {
-  const [links, setLinks] = useState(["Machine 1"]);
+  const [links, setLinks] = useState([]);
   const [extLink, setExt] = useState([]);
 
   function validateMachineName(value) {
