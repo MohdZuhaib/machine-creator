@@ -60,6 +60,13 @@ const CustomDailog = ({ open, handleClose }) => {
       name: "",
       url: [{ name: "", link: "", extUrl: "" }],
       extLink: [{ name: "", url: "" }],
+      traffic: [
+        {
+          trafficProfile: "",
+          description: "",
+          ping: "",
+        },
+      ],
       description: "",
       steps: [
         {
@@ -73,6 +80,7 @@ const CustomDailog = ({ open, handleClose }) => {
     },
     validationSchema,
     onSubmit: (values) => {
+      console.log("Form Values", values);
       activeStep === maxSteps - 1
         ? createMachine(values, handleClose, setActiveStep)
         : handleNext(values);
