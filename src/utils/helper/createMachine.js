@@ -8,6 +8,7 @@ export const createMachine = async (values, handleClose, setActiveStep) => {
       machineName: values.name,
       description: values.description,
       url: values.url,
+      traffic: values.traffic,
       extLink: values.extLink,
       question: values.question,
       answer: values.answer,

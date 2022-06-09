@@ -16,11 +16,14 @@ import {
   Dialog,
   DialogContent,
   Link,
+  Card,
+  CardContent,
   DialogActions,
 } from "@mui/material";
 import { TabList, TabContext, TabPanel } from "@mui/lab";
 import * as React from "react";
 import { makeStyles, useTheme } from "@mui/styles";
+import { FiberManualRecord } from "@mui/icons-material";
 import { useLocation } from "react-router-dom";
 import {
   KeyboardArrowLeft,
@@ -103,7 +106,10 @@ const LeftPanel = ({
     </Paper>
     <Box className={classes.contentContainer} sx={{ position: "relative" }}>
       <Typography variant="body1">{steps[activeStep]?.description}</Typography>
-      <Typography variant="body1">{steps[activeStep]?.question}</Typography>
+      <Box>
+        <Typography variant="h4">Question</Typography>
+        <Typography variant="body1">{steps[activeStep]?.question}</Typography>
+      </Box>
 
       {steps[activeStep]?.options.length ? (
         <FormControl component="fieldset">
@@ -174,12 +180,13 @@ const DetailView = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const location = useLocation();
-  const url = location.state.url;
-  const extLink = location.state.extLink;
-  const machineName = location.state.machineName;
-  console.log("url", url);
+  const url = location?.state?.url;
+  const extLink = location?.state?.extLink;
+  const machineName = location?.state?.machineName;
+  const traffic = location?.state?.traffic;
+  console.log("location", location);
   // const steps = location.state.steps;
-  const machineId = location.state.id;
+  const machineId = location?.state?.id;
 
   const [activeStep, setActiveStep] = useState(0);
   const [steps, setSteps] = useState([]);
@@ -193,9 +200,7 @@ const DetailView = (props) => {
     setChecked(event.target.checked);
   };
   const [tabValue, setTabValue] = useState(1);
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-  };
+
   const closeCongrats = () => {
     setCongrats(false);
   };
@@ -217,8 +222,10 @@ const DetailView = (props) => {
   const [validated, setValidated] = useState();
   // const [isFull, setFull] = useState(false);
   const [hide, setHide] = useState(false);
+  const [trafficView, setTraffic] = useState();
   const [drawerOpen, setDrawer] = useState(false);
   const [congrats, setCongrats] = useState(false);
+  const [start, setStart] = useState(false);
   // const handleFull = () => {
   //   isFull && setHide(false);
   //   setFull(!isFull);
@@ -232,7 +239,10 @@ const DetailView = (props) => {
   const closeDrawer = () => {
     setDrawer(false);
   };
-
+  const handleTabChange = (event, newValue) => {
+    setTraffic(false);
+    setTabValue(newValue);
+  };
   const maxSteps = steps.length;
   const checkAnswer = async (id) => {
     // options
@@ -291,7 +301,7 @@ const DetailView = (props) => {
   useEffect(async () => {
     getSteps();
     console.log("Effect  called");
-  }, [Mcq, drawerOpen]);
+  }, [Mcq, drawerOpen, trafficView]);
 
   // const handleHover = (e) => {
   //   if (isFull) {
@@ -307,6 +317,19 @@ const DetailView = (props) => {
 
   const onLeave = () => {
     setHide(true);
+  };
+  const toggleTraffic = (event, action, index) => {
+    console.log("Index", index);
+    action === "start"
+      ? setStart({ ...start, [event.target.name]: true })
+      : setStart({ ...start, [event.target.name]: false });
+  };
+
+  const showTraffic = () => {
+    setTraffic(true);
+  };
+  const hideTraffic = () => {
+    setTraffic(false);
   };
   const renderLabel = (obj) => {
     for (var key in obj) {
@@ -408,11 +431,20 @@ const DetailView = (props) => {
                 // onMouseLeave={isFull && onLeave}
               >
                 <Box display="flex" alignItems="center">
+                  {/* {traffic.length > 0 &&
+                    traffic.map((obj) => (
+                      <>
+                        <Typography variant="h1" color="#fff">
+                          {obj.trafficProfile}
+                        </Typography>
+                      </>
+                    ))} */}
                   {/* <Button onClick={openDrawer}>{isFull && <Menu />}</Button> */}
                   <TabList
                     onChange={handleTabChange}
+                    onClick={hideTraffic}
                     aria-label="lab API tabs example"
-                    textColor="primary"
+                    textColor="primary.light"
                     indicatorColor="#ffff"
                   >
                     {url.length !== 0 ? (
@@ -432,6 +464,13 @@ const DetailView = (props) => {
                       <Button>{link.name}</Button>
                     </Link>
                   ))}
+                  {traffic?.length > 0 && (
+                    <>
+                      <Button color="primary" onClick={showTraffic}>
+                        Traffic
+                      </Button>
+                    </>
+                  )}
                 </Box>
 
                 <Box textAlign="end">
@@ -452,19 +491,98 @@ const DetailView = (props) => {
                     sx={{ height: "91%" }}
                   >
                     {/* {/* {tabValue===index?} */}
-                    <iframe
-                      // width: 100vw;
-                      // position: absolute;
-                      // left: 0;
-                      // top: 0;
-                      // height: 100vh;
-                      deny
-                      src={obj.link}
-                      title="Virtual lab"
-                      style={{ display: tabValue === index + 1 || "none" }}
-                      width="100%"
-                      height="100%"
-                    ></iframe>
+                    {trafficView ? (
+                      traffic.length > 0 && (
+                        <Card
+                          sx={{
+                            // display: "flex",
+                            alignItems: "center",
+                            height: "95%",
+                            pl: 2,
+                            mt: 2,
+                            bgcolor: "#171727",
+                            color: "#fff",
+                            borderTopRightRadius: "13px",
+                            borderTopLeftRadius: "13px",
+                          }}
+                        >
+                          <CardContent>
+                            <Grid container spacing={2}>
+                              {traffic.map((obj, index) => (
+                                <Grid item xs={12} md={6}>
+                                  <Card
+                                    sx={{ bgcolor: "#ebedee", height: "170px" }}
+                                  >
+                                    <CardContent sx={{ height: "100%" }}>
+                                      <Box
+                                        display="flex"
+                                        justifyContent="space-between"
+                                      >
+                                        <Typography variant="h5">
+                                          {obj.trafficProfile}
+                                        </Typography>
+                                        <FiberManualRecord
+                                          fontSize="12px"
+                                          color={
+                                            start.index ? "success" : "error"
+                                          }
+                                        />
+                                      </Box>
+
+                                      <Typography
+                                        variant="body1"
+                                        sx={{ height: "43%" }}
+                                      >
+                                        {obj.description}
+                                      </Typography>
+                                      <Box
+                                        display="flex"
+                                        justifyContent="space-between"
+                                      >
+                                        <Button
+                                          onClick={(event) =>
+                                            toggleTraffic(event, "start", index)
+                                          }
+                                          variant="contained"
+                                          name={index}
+                                        >
+                                          Start
+                                        </Button>
+                                        <Button
+                                          variant="contained"
+                                          color="error"
+                                          name={index}
+                                          onClick={(event) =>
+                                            toggleTraffic(event, "stop", index)
+                                          }
+                                        >
+                                          Stop
+                                        </Button>
+                                      </Box>
+                                    </CardContent>
+                                  </Card>
+                                </Grid>
+                              ))}
+                            </Grid>
+                          </CardContent>
+                        </Card>
+                      )
+                    ) : (
+                      <iframe
+                        // width: 100vw;
+                        // position: absolute;
+                        // left: 0;
+                        // top: 0;
+                        // height: 100vh;
+                        deny
+                        src={obj.link}
+                        title="Virtual lab"
+                        style={{ display: tabValue === index + 1 || "none" }}
+                        width="100%"
+                        height="100%"
+                      ></iframe>
+                    )}
+
                     {/* </TabPanel> */}
                   </>
                 ))

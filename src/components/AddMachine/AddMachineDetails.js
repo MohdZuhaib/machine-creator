@@ -10,17 +10,23 @@ import {
   FormControlLabel,
   FormControl,
   FormLabel,
+  Divider,
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 const fetchUrl = (e, formik, index, ext) => {
-  if (ext) {
+  if (ext === "ext") {
     formik.values.extLink[index] = {
       ...formik.values.extLink[index],
       [e.target.name]: e.target.value,
     };
-  } else {
+  } else if (ext === "url") {
     formik.values.url[index] = {
       ...formik.values.url[index],
+      [e.target.name]: e.target.value,
+    };
+  } else if (ext === "traffic") {
+    formik.values.traffic[index] = {
+      ...formik.values.traffic[index],
       [e.target.name]: e.target.value,
     };
   }
@@ -102,6 +108,7 @@ const Mcq = ({ handleOptions, classes, index }) => (
 export const AddMachineDetails = ({ classes, formik }) => {
   const [links, setLinks] = useState([]);
   const [extLink, setExt] = useState([]);
+  const [traffic, setTraffic] = useState([]);
 
   function validateMachineName(value) {
     let error;
@@ -121,7 +128,7 @@ export const AddMachineDetails = ({ classes, formik }) => {
   };
   return (
     <>
-      <Typography variant="h3">Lab </Typography>
+      <Typography variant="h3">Lab</Typography>
       <Typography variant="h5" className={classes.formMargin}>
         {" "}
         Name
@@ -219,6 +226,81 @@ export const AddMachineDetails = ({ classes, formik }) => {
           ) : null}
         </>
       ))}
+
+      {traffic.map((traff, index) => (
+        <>
+          <Typography variant="h5">Traffic Generator</Typography>
+          <Divider />
+          <Typography variant="h5" className={classes.formMargin}>
+            Profile Name
+          </Typography>
+          <TextField
+            variant="outlined"
+            size="small"
+            fullWidth
+            name="trafficProfile"
+            // validate={validateMachineName}s
+            sx={{ color: "#ffff" }}
+            onChange={(e) => fetchUrl(e, formik, index, "traffic")}
+            className={classes.input}
+            InputProps={{
+              className: classes.input,
+              classes: {
+                notchedOutline: classes.notchedOutline,
+                root: classes.root,
+              },
+            }}
+            // error={formik.touched.url && Boolean(formik.errors.url)}
+            // helperText={formik.touched.url && formik.errors.url}
+          />
+          <Typography variant="h5" className={classes.formMargin}>
+            Description
+          </Typography>
+          <TextField
+            variant="outlined"
+            size="small"
+            fullWidth
+            name="description"
+            // validate={validateMachineName}s
+            sx={{ color: "#ffff" }}
+            onChange={(e) => fetchUrl(e, formik, index, "traffic")}
+            className={classes.input}
+            InputProps={{
+              className: classes.input,
+              classes: {
+                notchedOutline: classes.notchedOutline,
+                root: classes.root,
+              },
+            }}
+          />
+          <Typography variant="h5" className={classes.formMargin}>
+            Ping
+          </Typography>
+          <TextField
+            variant="outlined"
+            size="small"
+            fullWidth
+            name="ping"
+            sx={{ color: "#ffff" }}
+            onChange={(e) => fetchUrl(e, formik, index, "traffic")}
+            className={classes.input}
+            InputProps={{
+              className: classes.input,
+              classes: {
+                notchedOutline: classes.notchedOutline,
+                root: classes.root,
+              },
+            }}
+          />
+        </>
+      ))}
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => setTraffic([...traffic, `Link ${traffic.length + 1}`])}
+      >
+        <AddCircleOutlineIcon sx={{ marginRight: "5px" }} /> Traffic Generator
+      </Button>
       <Button
         variant="outlined"
         color="primary"
@@ -243,7 +325,7 @@ export const AddMachineDetails = ({ classes, formik }) => {
             name="name"
             validate={validateMachineName}
             sx={{ color: "#ffff" }}
-            onChange={(e) => fetchUrl(e, formik, index)}
+            onChange={(e) => fetchUrl(e, formik, index, "url")}
             className={classes.input}
             InputProps={{
               className: classes.input,

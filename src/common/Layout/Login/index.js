@@ -21,17 +21,15 @@ const LoginLayout = () => (
           >
             Welcome to{" "}
           </Typography>
-          {/* <Box display="flex"> */}
-            {" "}
-            <Typography
-              component="h1"
-              variant="h1"
-              sx={{  letterSpacing: "0.15em" }}
-            >
-              Range Storm
-            </Typography>
-          
-          </Box>
+          {/* <Box display="flex"> */}{" "}
+          <Typography
+            component="h1"
+            variant="h1"
+            sx={{ letterSpacing: "0.15em" }}
+          >
+            Range Storm
+          </Typography>
+        </Box>
         {/* </Box> */}
         <Box className="auth-left-bottom" />
       </Grid>
@@ -41,9 +39,8 @@ const LoginLayout = () => (
           flexDirection="column"
           height="100%"
           alignItems="center"
-          sx={{bgcolor:'#fff'}}
+          sx={{ bgcolor: "#fff" }}
           justifyContent="center"
-          sx={{bgcolor:'#fff'}}
         >
           <Outlet />
         </Box>

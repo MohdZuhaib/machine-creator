@@ -81,6 +81,7 @@ const Animated = ({ data, fun }) => {
                   id: data._id,
                   machineName: data.machineName,
                   extLink: data.extLink,
+                  traffic: data.traffic,
                 }}
               >
                 <Button variant="contained">Start</Button>
